@@ -40,13 +40,20 @@ final class SubjectSystemViewModel: ObservableObject {
                 self.appState?.navigate(to: .home, withToast: LocalizedStringKey("currently_not_a_course_selection_time"))
             }
         }
+        webProvider.onProgressChanged = { [weak self] progress in
+            guard let self = self else { return }
+            Task { @MainActor in
+                // self.overlayText = LocalizedStringKey("loading")
+                // self.webProvider.setVisible(false)
+                if progress < 1.0 {
+                    self.isWebVisible = false
+                    self.isOverlayVisible = true
+                } else {
+                    self.showPage()
+                }
+            }
+        }
     }
-    
-    // --- 初始化狀態 ---
-    /*
-    func InitialSettings() {
-        isWebVisible = false
-    }*/
     
     // --- 顯示畫面（模仿 Android 的 hideProgressOverlay + setVisibility） ---
     private func showPage() {

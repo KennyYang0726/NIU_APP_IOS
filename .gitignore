@@ -1,0 +1,44 @@
+# === macOS ===
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+__MACOSX/
+
+# === Xcode ===
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# === Swift / Obj-C ===
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# === Swift Package Manager ===
+.build/
+
+# === Other temporary or editor files ===
+*.swp
+*.lock
+*.bak
+*.tmp
+*.orig
+*.xcworkspace/xcuserdata
+
+# === Private Certified files ===
+*.p8
+*.cer

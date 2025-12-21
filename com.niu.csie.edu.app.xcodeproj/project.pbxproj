@@ -1,0 +1,556 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		104F326C2EACB90000C1B28D /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 104F326B2EACB90000C1B28D /* DeviceKit */; };
+		1050E1852EA240AF00120A06 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1050E1832EA240AF00120A06 /* InfoPlist.strings */; };
+		105928182EB5DE0B00D5FA03 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 105928172EB5DE0B00D5FA03 /* SwiftSoup */; };
+		10702B2C2E9E010500136301 /* PDFViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 10702B2B2E9E010500136301 /* PDFViewer */; };
+		108474CC2E9A8A2000CEB37C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 108474CB2E9A8A2000CEB37C /* FirebaseDatabase */; };
+		108474CE2E9A8A3600CEB37C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 108474CD2E9A8A3600CEB37C /* FirebaseMessaging */; };
+		108474D02E9A8C7F00CEB37C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 108474CF2E9A8C7F00CEB37C /* FirebaseAuth */; };
+		10B53FD82EE1DA980018BCE4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10B53FD62EE1DA980018BCE4 /* Localizable.strings */; };
+		10C1AC2D2EE905AF0031211B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */; };
+		1AA990812C8351D200819A69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AA990802C8351D200819A69 /* Assets.xcassets */; };
+		1AA990842C8351D200819A69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AA990832C8351D200819A69 /* Preview Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1050E1842EA240AF00120A06 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		1050E1862EA240C600120A06 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		10A150EE2E8E560200A1592A /* com-niu-csie-edu-app-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "com-niu-csie-edu-app-Info.plist"; sourceTree = SOURCE_ROOT; };
+		10B53FD72EE1DA980018BCE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		10B53FD92EE1DB3A0018BCE4 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
+		10C1A8072EE810460031211B /* com.niu.csie.edu.app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = com.niu.csie.edu.app.entitlements; sourceTree = "<group>"; };
+		10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1AA990792C8351CD00819A69 /* com.niu.csie.edu.app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = com.niu.csie.edu.app.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AA990802C8351D200819A69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1AA990832C8351D200819A69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		10702B092E9D0DA200136301 /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		10702B142E9D0E7F00136301 /* App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = App;
+			sourceTree = "<group>";
+		};
+		10A150EB2E8E50B300A1592A /* Fonts */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		10C8A19F2E93B5F20091B96F /* Common */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Common;
+			sourceTree = "<group>";
+		};
+		1AD8AA292E8B6D7D00A2D2E6 /* Features */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Features;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1AA990762C8351CD00819A69 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				108474CE2E9A8A3600CEB37C /* FirebaseMessaging in Frameworks */,
+				104F326C2EACB90000C1B28D /* DeviceKit in Frameworks */,
+				10702B2C2E9E010500136301 /* PDFViewer in Frameworks */,
+				108474D02E9A8C7F00CEB37C /* FirebaseAuth in Frameworks */,
+				108474CC2E9A8A2000CEB37C /* FirebaseDatabase in Frameworks */,
+				105928182EB5DE0B00D5FA03 /* SwiftSoup in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		108474CA2E9A8A2000CEB37C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1A66F72D2C88C29400C64130 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				10A150EB2E8E50B300A1592A /* Fonts */,
+				1AA990802C8351D200819A69 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1AA990702C8351CD00819A69 = {
+			isa = PBXGroup;
+			children = (
+				1AA9907B2C8351CD00819A69 /* com.niu.csie.edu.app */,
+				108474CA2E9A8A2000CEB37C /* Frameworks */,
+				1AA9907A2C8351CD00819A69 /* Products */,
+				10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */,
+			);
+			sourceTree = "<group>";
+		};
+		1AA9907A2C8351CD00819A69 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1AA990792C8351CD00819A69 /* com.niu.csie.edu.app.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1AA9907B2C8351CD00819A69 /* com.niu.csie.edu.app */ = {
+			isa = PBXGroup;
+			children = (
+				10C1A8072EE810460031211B /* com.niu.csie.edu.app.entitlements */,
+				10A150EE2E8E560200A1592A /* com-niu-csie-edu-app-Info.plist */,
+				1AD8AA292E8B6D7D00A2D2E6 /* Features */,
+				10C8A19F2E93B5F20091B96F /* Common */,
+				10702B092E9D0DA200136301 /* Services */,
+				10702B142E9D0E7F00136301 /* App */,
+				1A66F72D2C88C29400C64130 /* Resources */,
+				1AA990822C8351D200819A69 /* Preview Content */,
+				1050E1832EA240AF00120A06 /* InfoPlist.strings */,
+				10B53FD62EE1DA980018BCE4 /* Localizable.strings */,
+			);
+			path = com.niu.csie.edu.app;
+			sourceTree = "<group>";
+		};
+		1AA990822C8351D200819A69 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1AA990832C8351D200819A69 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1AA990782C8351CD00819A69 /* com.niu.csie.edu.app */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AA990872C8351D200819A69 /* Build configuration list for PBXNativeTarget "com.niu.csie.edu.app" */;
+			buildPhases = (
+				1AA990752C8351CD00819A69 /* Sources */,
+				1AA990762C8351CD00819A69 /* Frameworks */,
+				1AA990772C8351CD00819A69 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				10702B092E9D0DA200136301 /* Services */,
+				10702B142E9D0E7F00136301 /* App */,
+				10A150EB2E8E50B300A1592A /* Fonts */,
+				10C8A19F2E93B5F20091B96F /* Common */,
+				1AD8AA292E8B6D7D00A2D2E6 /* Features */,
+			);
+			name = com.niu.csie.edu.app;
+			productName = com.niu.csie.edu.app;
+			productReference = 1AA990792C8351CD00819A69 /* com.niu.csie.edu.app.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1AA990712C8351CD00819A69 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					1AA990782C8351CD00819A69 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = 1AA990742C8351CD00819A69 /* Build configuration list for PBXProject "com.niu.csie.edu.app" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				"zh-Hant",
+			);
+			mainGroup = 1AA990702C8351CD00819A69;
+			packageReferences = (
+				108474C92E9A8A0E00CEB37C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				10702B2A2E9E010500136301 /* XCRemoteSwiftPackageReference "PDFViewer" */,
+				104F326A2EACB90000C1B28D /* XCRemoteSwiftPackageReference "DeviceKit" */,
+				105928162EB5DE0B00D5FA03 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1AA9907A2C8351CD00819A69 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1AA990782C8351CD00819A69 /* com.niu.csie.edu.app */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AA990772C8351CD00819A69 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1050E1852EA240AF00120A06 /* InfoPlist.strings in Resources */,
+				1AA990842C8351D200819A69 /* Preview Assets.xcassets in Resources */,
+				10B53FD82EE1DA980018BCE4 /* Localizable.strings in Resources */,
+				1AA990812C8351D200819A69 /* Assets.xcassets in Resources */,
+				10C1AC2D2EE905AF0031211B /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1AA990752C8351CD00819A69 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1050E1832EA240AF00120A06 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1050E1842EA240AF00120A06 /* en */,
+				1050E1862EA240C600120A06 /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		10B53FD62EE1DA980018BCE4 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				10B53FD72EE1DA980018BCE4 /* en */,
+				10B53FD92EE1DB3A0018BCE4 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1AA990852C8351D200819A69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = BWSZ53MRGH;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1AA990862C8351D200819A69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = BWSZ53MRGH;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1AA990882C8351D200819A69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 21;
+				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "com-niu-csie-edu-app-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "用於拍攝照片或錄影以上傳資料或完成系統功能。";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我們需要使用您的位置，以提供 Zuvio GPS 點名與成就功能。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用於選取照片或影片以上傳資料或完成系統功能。";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
+				NEW_SETTING1 = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.niu.csie.edu.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1AA990892C8351D200819A69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 21;
+				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "com-niu-csie-edu-app-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSCameraUsageDescription = "用於拍攝照片或錄影以上傳資料或完成系統功能。";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我們需要使用您的位置，以提供 Zuvio GPS 點名與成就功能。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用於選取照片或影片以上傳資料或完成系統功能。";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				NEW_SETTING = "";
+				NEW_SETTING1 = "";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.niu.csie.edu.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1AA990742C8351CD00819A69 /* Build configuration list for PBXProject "com.niu.csie.edu.app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AA990852C8351D200819A69 /* Debug */,
+				1AA990862C8351D200819A69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AA990872C8351D200819A69 /* Build configuration list for PBXNativeTarget "com.niu.csie.edu.app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AA990882C8351D200819A69 /* Debug */,
+				1AA990892C8351D200819A69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		104F326A2EACB90000C1B28D /* XCRemoteSwiftPackageReference "DeviceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devicekit/DeviceKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.0;
+			};
+		};
+		105928162EB5DE0B00D5FA03 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = exactVersion;
+				version = 2.11.1;
+			};
+		};
+		10702B2A2E9E010500136301 /* XCRemoteSwiftPackageReference "PDFViewer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rajubd49/PDFViewer.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.0.2;
+			};
+		};
+		108474C92E9A8A0E00CEB37C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		104F326B2EACB90000C1B28D /* DeviceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 104F326A2EACB90000C1B28D /* XCRemoteSwiftPackageReference "DeviceKit" */;
+			productName = DeviceKit;
+		};
+		105928172EB5DE0B00D5FA03 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 105928162EB5DE0B00D5FA03 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		10702B2B2E9E010500136301 /* PDFViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 10702B2A2E9E010500136301 /* XCRemoteSwiftPackageReference "PDFViewer" */;
+			productName = PDFViewer;
+		};
+		108474CB2E9A8A2000CEB37C /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 108474C92E9A8A0E00CEB37C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		108474CD2E9A8A3600CEB37C /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 108474C92E9A8A0E00CEB37C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		108474CF2E9A8C7F00CEB37C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 108474C92E9A8A0E00CEB37C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 1AA990712C8351CD00819A69 /* Project object */;
+}

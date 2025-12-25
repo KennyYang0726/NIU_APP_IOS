@@ -278,3 +278,16 @@
 "Credit_Course_None" = "尚未選擇";
 // 選課系統
 "currently_not_a_course_selection_time" = "目前非選課時間！";
+// Zuvio
+"Map_Choosing_Title" = "位置選擇";
+"Toast_Entry_Map_Choosing" = "點擊想要的位置\n即使用該經緯度";
+"Toast_Choosed_Map_Location" = "緯度：%@\n經度：%@";
+"Toast_Choosed_Location_MenuItem" = "使用位置\n「%@」";
+"EECS_Building" = "電資大樓";
+"Engineering_Building" = "工學院";
+"Bioresources_Building" = "生資院";
+"HaM_Building" = "人管院";
+"Jiaose_Building" = "教穡大樓";
+"Comprehensive_Building" = "綜合大樓";
+"Guishan" = "龜山島";
+"Cancel_Mock" = "恢復真實位置";

@@ -32,6 +32,8 @@ struct ClassScheduleView: View {
                 // 初始化狀態
                 vm.InitialSettings()
                 vm.colorScheme = colorScheme
+                // 註冊 alert handler（ViewModel 已自動處理）
+                vm.appState = appState
             }
         }
     }

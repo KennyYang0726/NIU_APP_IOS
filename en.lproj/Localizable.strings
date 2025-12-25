@@ -278,3 +278,16 @@
 "Credit_Course_None" = "None";
 // 選課系統
 "currently_not_a_course_selection_time" = "not in selection time！";
+// Zuvio
+"Map_Choosing_Title" = "Select Location";
+"Toast_Entry_Map_Choosing" = "Tap a location\nto use its coordinates";
+"Toast_Choosed_Map_Location" = "Latitude: %@\nLongitude: %@";
+"Toast_Choosed_Location_MenuItem" = "Use location\n“%@”";
+"EECS_Building" = "EECS Building";
+"Engineering_Building" = "Engineering Building";
+"Bioresources_Building" = "Biology Building";
+"HMC_Building" = "HMC Building";
+"Jiaose_Building" = "Jiao Se Building";
+"Comprehensive_Building" = "Complex Building";
+"Guishan" = "Guishan Island";
+"Cancel_Mock" = "Use Real Location";

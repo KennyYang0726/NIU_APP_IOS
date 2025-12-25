@@ -12,7 +12,13 @@ final class ClassScheduleViewModel: ObservableObject {
     let webProvider: WebView_Provider
     private let jsClickElements = "document.querySelector('input#QUERY_BTN3').click();"
     
+    private var canContinueQuery = true // 篩選不開放時間，接收到 jsAlert -> false
+    
     private let sso = SSOIDSettings.shared
+    
+    // --- 用於處理全域狀態導向 ---
+    weak var appState: AppState?
+    
     // --- 紀錄系統是否為深色模式 ---
     var colorScheme: ColorScheme = .light
 
@@ -28,6 +34,16 @@ final class ClassScheduleViewModel: ObservableObject {
     
     // --- 綁定 WebView 回呼事件 ---
     private func setupCallbacks() {
+        // 註冊 alert handler
+        webProvider.onJsAlert = { [weak self] message in
+            guard let self = self else { return }
+            if message.contains("不開放") {
+                print("onAlert 收到：\(message)")
+                self.canContinueQuery = false
+                // 導回首頁並顯示提示
+                self.appState?.navigate(to: .home, withToast: LocalizedStringKey(message))
+            }
+        }
         webProvider.onPageFinished = { [weak self] url in
             guard let self = self else { return }
             Task { @MainActor in
@@ -75,6 +91,12 @@ final class ClassScheduleViewModel: ObservableObject {
     private func waitForTable2() async {
         // print("開始等待 table2...")
         for _ in 0..<100 { // 最多等 100 次（約 30 秒）
+            
+            if !canContinueQuery { // 若不可查詢 -> 中斷
+                print("canContinueQuery = false，停止查詢流程")
+                return
+            }
+            
             try? await Task.sleep(nanoseconds: 300_000_000) // 每 300ms 檢查一次
             let html = await evaluateTable2Html()
             guard let html = html else { continue }

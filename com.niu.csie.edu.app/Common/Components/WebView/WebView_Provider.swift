@@ -38,6 +38,7 @@ class WebView_Provider: ObservableObject {
     public var onPageFinished: ((String?) -> Void)?
     public var onProgressChanged: ((Double) -> Void)?
     public var onJsAlert: ((String) -> Void)?
+    public var onJsAlertWithCompletion: ((String, @escaping () -> Void) -> Void)?
     /// 佇列動作全部完成、準備好顯示時呼叫
     public var onPrepared: (() -> Void)?
 
@@ -300,11 +301,95 @@ fileprivate class WebViewDelegate: NSObject, WKNavigationDelegate, WKUIDelegate,
     }
 
     func webView(_ webView: WKWebView,
-                 runJavaScriptAlertPanelWithMessage message: String,
-                 initiatedByFrame frame: WKFrameInfo,
-                 completionHandler: @escaping () -> Void) {
+        runJavaScriptAlertPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping () -> Void) {
+        // １ 如果有「新版 alert（會等使用者確認）」，優先使用
+        if let handler = owner?.onJsAlertWithCompletion {
+            handler(message) {
+                // 使用者按下「確定」後，才讓 JS 繼續
+                completionHandler()
+            }
+            return
+        }
+        // ２ 舊版 alert（相容模式）：只通知，不等使用者
         owner?.onJsAlert?(message)
-        completionHandler()
+        // ３ 沒有任何自訂顯示時，顯示預設單按鈕 alert
+        presentDefaultAlert(message: message, completionHandler: completionHandler)
+    }
+    
+    func webView(_ webView: WKWebView,
+        runJavaScriptConfirmPanelWithMessage message: String,
+        initiatedByFrame frame: WKFrameInfo,
+        completionHandler: @escaping (Bool) -> Void) {
+        // 這是給 退選課程 Alert 雙按鈕的
+        presentDefaultConfirmDialog(
+            message: message,
+            completionHandler: completionHandler
+        )
+    }
+
+    /// 顯示預設 JS alert（單按鈕）
+    /// 一定要等使用者按下「確定」後，才呼叫 completionHandler，
+    /// 否則 JS alert 的同步語意會被破壞。
+    private func presentDefaultAlert(message: String, completionHandler: @escaping () -> Void) {
+        guard
+            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let rootVC = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController
+        else {
+            // 找不到 UI 可以呈現時，保守放行，避免 JS 永久卡死
+            completionHandler()
+            return
+        }
+        let alert = UIAlertController(
+            title: nil,
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(title: NSLocalizedString("Dialog_OK", comment: ""), style: .default) { _ in
+                completionHandler()
+            }
+        )
+        rootVC.present(alert, animated: true)
+    }
+
+    /// 顯示 JavaScript confirm() 對應的 iOS 內建 UIAlert
+    /// - 「確定」  → completionHandler(true)
+    /// - 「取消」  → completionHandler(false)
+    /// - 一定要等使用者點擊後才呼叫 completionHandler，
+    ///   否則 JS 的同步語意會被破壞
+    private func presentDefaultConfirmDialog(
+        message: String,
+        completionHandler: @escaping (Bool) -> Void
+    ) {
+        guard
+            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let rootVC = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController
+        else {
+            // 找不到可以顯示 UI 的情況下，為了避免 JS 永遠卡住
+            // 保守回傳 false（等同使用者按「取消」）
+            completionHandler(false)
+            return
+        }
+        let alert = UIAlertController(
+            title: nil,
+            message: message,
+            preferredStyle: .alert
+        )
+        // 取消 → JS 收到 false
+        alert.addAction(
+            UIAlertAction(title: NSLocalizedString("Dialog_Cancel", comment: ""), style: .cancel) { _ in
+                completionHandler(false)
+            }
+        )
+        // 確定 → JS 收到 true
+        alert.addAction(
+            UIAlertAction(title: NSLocalizedString("Dialog_OK", comment: ""), style: .default) { _ in
+                completionHandler(true)
+            }
+        )
+        rootVC.present(alert, animated: true)
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {}

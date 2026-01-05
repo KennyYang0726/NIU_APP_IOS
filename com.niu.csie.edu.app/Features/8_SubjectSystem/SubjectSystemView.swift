@@ -22,8 +22,9 @@ struct SubjectSystemView: View {
             .background(
                 NavigationSwipeHijacker(
                     handleSwipe: {
-                        if vm.webProvider.webView.canGoBack {
-                            vm.webProvider.goBack()
+                        if !vm.isAtSubjectHome {
+                            // vm.webProvider.goBack() // 系統不能讓你直接返回
+                            vm.reloadSubjectSystemHome()
                             return true    // 攔截 pop
                         } else {
                             appState.navigate(to: .home)

@@ -179,7 +179,7 @@ struct LoginView: View {
                                     vm.openSSOPasswordChange()
                                 },
                                 secondaryButton: .cancel(Text(LocalizedStringKey("Dialog_ChangePWDLater"))) {
-                                    vm.resumeSSOAfterClosingSweetAlert?()
+                                    vm.userChoseLaterForPasswordExpiring()
                                 })
             case .ssoPasswordExpired(let message):
                 return Alert(title: Text(LocalizedStringKey("Dialog_PWD_expired_Title")),
@@ -215,19 +215,15 @@ struct LoginView: View {
             }
         }
         // 等兩邊流程都「完成」再判斷是否雙成功，成功才跳頁
-        .onChange(of: vm.loginFinished) { finished in
-            guard finished else { return }
-            if vm.zuvioLoginSuccess && vm.ssoLoginSuccess {
-                // 檢查版本
-                vm.checkAppVersionThenProceed {
-                    // 只有「沒有新版本」才會跑到這
-                    drawerVM.currentPage = .home
-                    drawerVM.isDrawerOpen = false
-                    appState.navigate(
-                        to: .home,
-                        withToast: LocalizedStringKey("login_success")
-                    )
-                }
+        .onChange(of: vm.proceedToHomeToken) { _ in
+            // 這裡被觸發時，代表 VM 已經判定「可以導頁」
+            vm.checkAppVersionThenProceed {
+                drawerVM.currentPage = .home
+                drawerVM.isDrawerOpen = false
+                appState.navigate(
+                    to: .home,
+                    withToast: LocalizedStringKey("login_success")
+                )
             }
         }
     }

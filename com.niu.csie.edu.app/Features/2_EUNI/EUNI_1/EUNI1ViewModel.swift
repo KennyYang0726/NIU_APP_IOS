@@ -39,19 +39,17 @@ final class EUNI1ViewModel: ObservableObject {
     // --- JS (這裡先用 __SEMESTER__ 佔位，後續由真實學年度取代) ---
     private let jsGetCourse = """
         (function() {
-            var elements = document.querySelectorAll('i.fa.fa-graduation-cap');
+            const Semester = '__SEMESTER__';
             var result = [];
-            elements.forEach(function(element) {
-                var parent = element.closest('a');
-                const Semester = '__SEMESTER__';
-                if (parent) {
-                    var title = parent.textContent.trim();
-                    if (title.includes(Semester)) {
-                        result.push({
-                            title: title,
-                            href: parent.href
-                        });
-                    }
+            var elements = document.querySelectorAll('.course-card a.coursename');
+            elements.forEach(function(a) {
+                var title = a.querySelector('span.multiline')
+                             ?.getAttribute('title') || '';
+                if (title.includes(Semester)) {
+                    result.push({
+                        title: title,
+                        href: a.href
+                    });
                 }
             });
             return JSON.stringify(result);
@@ -60,7 +58,7 @@ final class EUNI1ViewModel: ObservableObject {
     
     private let jsGetAnnouncementID = """
         (function() {
-            var links = document.querySelectorAll('.activityinstance a');
+            var links = document.querySelectorAll('.activityname a');
             var pattern = /https:\\/\\/euni\\.niu\\.edu\\.tw\\/mod\\/forum\\/view\\.php\\?id=\\d+/;
             for (var i = 0; i < links.length; i++) {
                 if (pattern.test(links[i].href)) {
@@ -116,22 +114,33 @@ final class EUNI1ViewModel: ObservableObject {
     private func handlePageFinished(url: String?) {
         // print("頁面載入完成: \(url ?? "未知網址")")
         let dontHasCourseData = EUNIcourseData.string(forKey: "課程_0_名稱") == nil
-        // 若手動 reload，強制重新抓資料
-        if isManualReload {
-            isManualReload = false
-            fetchCourseData()
-            return
+        switch url {
+        case "https://euni.niu.edu.tw/my/":
+            // Step 1: 跳轉到我的課程
+            webProvider.load(
+                url: "https://euni.niu.edu.tw/my/courses.php"
+            )
+        case "https://euni.niu.edu.tw/my/courses.php":
+            // 若手動 reload，強制重新抓資料
+            if isManualReload {
+                isManualReload = false
+                waitForCoursesAndFetch()
+                return
+            }
+            // 若無資料，進行第一次抓取
+            if dontHasCourseData {
+                waitForCoursesAndFetch()
+            }
+        default:
+            // 若網址包含 "course/view.php?id=" ，代表要來爬取公告ID
+            if (url!.contains("course/view.php?id=")) {
+                isGettingAnnouncement = false
+                fetchAnnouncementID(courseIndex: selectIndex, courseName: selectName)
+            } else {
+                isOverlayVisible = false
+            }
+            break
         }
-        // 若無資料，進行第一次抓取
-        if dontHasCourseData {
-            fetchCourseData()
-        }
-        // 若網址包含 "course/view.php?id=" ，代表要來爬取公告ID
-        if (url!.contains("course/view.php?id=")) {
-            isGettingAnnouncement = false
-            fetchAnnouncementID(courseIndex: selectIndex, courseName: selectName)
-        }
-        
     }
     
     // --- 從外部觸發的手動重新載入 ---
@@ -140,6 +149,27 @@ final class EUNI1ViewModel: ObservableObject {
         shouldSkipOverlay = false
         isOverlayVisible = true
         webProvider.reload()  // 重新載入 WebView 頁面
+    }
+    
+    // 課程卡片為 DOM 動態插入，這邊要先等待直到有卡片才執行 fetchCourseData
+    private func waitForCoursesAndFetch(retry: Int = 0) {
+        let probe = "document.querySelectorAll('.course-card a.coursename').length"
+        webProvider.evaluateJS(probe) { [weak self] result in
+            guard let self = self else { return }
+            let count = Int(result ?? "") ?? 0
+            if count > 0 {
+                self.fetchCourseData()
+                return
+            }
+            if retry >= 25 {
+                print("⚠️ timeout, force fetch")
+                self.fetchCourseData()
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.waitForCoursesAndFetch(retry: retry + 1)
+            }
+        }
     }
     
     private func fetchCourseData() {
@@ -253,35 +283,12 @@ final class EUNI1ViewModel: ObservableObject {
                         
         let urlDomain = "https://euni.niu.edu.tw/"
         let courseID = course.id
-        var courseName = course.name
+        let courseName = course.name
         
         var urlString: String = ""
         var subItemKey: String = ""   // 用來組 title
-        
-        // 第一段：嘗試以 "_" 分割並取第二段
-        if courseName.contains("_") {
-            let parts = courseName.split(separator: "_")
-            if parts.count > 1 {
-                courseName = String(parts[1])
-            }
-        } else {
-            // 備援：使用正規表達式找出「4 位數字後面的字串」
-            let pattern = "\\d{4}(.*)"
-            if let regex = try? NSRegularExpression(pattern: pattern) {
-                let range = NSRange(location: 0, length: courseName.utf16.count)
-                if let match = regex.firstMatch(in: courseName, range: range),
-                   let resultRange = Range(match.range(at: 1), in: courseName) {
-                    courseName = String(courseName[resultRange])
-                }
-            }
-        }
-        // 第二段：遇到 "(" 就取前段
-        if let range = courseName.range(of: "(") {
-            courseName = String(courseName[..<range.lowerBound])
-        }
-        // 最後 .trim()
-        courseName = courseName.trimmingCharacters(in: .whitespacesAndNewlines)
-        selectName = courseName
+
+        selectName = courseName.components(separatedBy: "(").first ?? courseName
         
         switch subItem {
         case "EUNI_Sub_Item1": // 公告
@@ -303,11 +310,11 @@ final class EUNI1ViewModel: ObservableObject {
             subItemKey = "EUNI_Sub_Item2"
         case "EUNI_Sub_Item3": //
             // 課程資源
-            urlString = urlDomain + "course/resources.php?id=" + courseID
+            urlString = urlDomain + "course/overview.php?id=" + courseID + "&expand[]=resource"
             subItemKey = "EUNI_Sub_Item3"
         case "EUNI_Sub_Item4": //
             // 作業
-            urlString = urlDomain + "mod/assign/index.php?id=" + courseID
+            urlString = urlDomain + "course/overview.php?id=" + courseID + "&expand[]=assign"
             subItemKey = "EUNI_Sub_Item4"
             print(urlString)
         case "EUNI_Sub_Item5": //
@@ -322,12 +329,9 @@ final class EUNI1ViewModel: ObservableObject {
             return
         }
         
-        // Title = CourseName + "-" + Choose（照你 Android 的做法）
-        let subTitle = NSLocalizedString(subItemKey, comment: "")
-        let fullTitle = "\(courseName)-\(subTitle)"
-
         // 將參數寫到 EUNI2 的啟動設定裡
-        EUNI2LaunchConfig.fullTitle = fullTitle
+        EUNI2LaunchConfig.courseName = selectName
+        EUNI2LaunchConfig.subItemKey = subItemKey
         EUNI2LaunchConfig.url = url
         self.appState?.navigate(to: .EUNI2)
     }
@@ -351,8 +355,8 @@ final class EUNI1ViewModel: ObservableObject {
                 // 存進 UserDefaults
                 EUNIcourseData.set(announcementID, forKey: "課程_\(courseIndex)_公告ID")
                 // 將參數寫到 EUNI2 的啟動設定裡，截取完成，存入完成，直接跳轉
-                let subTitle = NSLocalizedString("EUNI_Sub_Item1", comment: "")
-                EUNI2LaunchConfig.fullTitle = "\(selectName)-\(subTitle)"
+                EUNI2LaunchConfig.courseName = selectName
+                EUNI2LaunchConfig.subItemKey = "EUNI_Sub_Item1"
                 EUNI2LaunchConfig.url = URL(string: value)!
                 self.appState?.navigate(to: .EUNI2)
             } else {
@@ -361,6 +365,4 @@ final class EUNI1ViewModel: ObservableObject {
             }
         }
     }
-
-    
 }

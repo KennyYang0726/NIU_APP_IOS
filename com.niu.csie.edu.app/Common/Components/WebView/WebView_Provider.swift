@@ -77,7 +77,9 @@ class WebView_Provider: ObservableObject {
         self.webView.scrollView.contentInsetAdjustmentBehavior = .never
         self.webView.scrollView.contentInset = .zero
         self.webView.scrollView.scrollIndicatorInsets = .zero
-
+            if #available(iOS 16.4, *) {
+                self.webView.isInspectable = true
+            }
         self.delegate = WebViewDelegate()
         self.delegate.owner = self
         self.webView.navigationDelegate = self.delegate

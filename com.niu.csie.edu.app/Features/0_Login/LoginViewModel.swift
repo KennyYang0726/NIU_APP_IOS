@@ -54,29 +54,22 @@ final class LoginViewModel: ObservableObject {
 
     @Published var zuvioLoginSuccess = false
     @Published var ssoLoginSuccess = false
-    @Published var loginFinished = false
+    // 這個代表「兩邊流程都結束了」
+    @Published var loginFinishedToken: Int = 0
+    // 這個代表「已經允許導頁到 Home」才會觸發
+    @Published var proceedToHomeToken: Int = 0
 
     // progress overlay
     @Published var showOverlay: Bool = false
     @Published var overlayText: LocalizedStringKey = "logining"
     
+    // 密碼即將到期：需要使用者按「稍後再說」才可導頁
+    private var waitingForPasswordExpiringDecision: Bool = false
+    
     // MARK: - Network & Timeout
     private let loginTimeoutInterval: TimeInterval = 17
     private var loginTimeoutWorkItem: DispatchWorkItem?
     
-    // SweetAlert 關閉後續（由 WebView 帶回）
-    var resumeSSOAfterClosingSweetAlert: (() -> Void)?
-
-    init() {
-        // 預設行為：稍後再說 → 0.5 秒後重新開始 SSO 登入流程
-        self.resumeSSOAfterClosingSweetAlert = { [weak self] in
-            guard let self = self else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.startSSOLoginProcess = true
-            }
-        }
-    }
-
     // MARK: - 衍生屬性
     var zuvioLoginEmail: String {
         let idPart = account.split(separator: "@").first ?? ""
@@ -104,7 +97,6 @@ final class LoginViewModel: ObservableObject {
         showOverlay = true
         zuvioLoginSuccess = false
         ssoLoginSuccess = false
-        loginFinished = false
         startZuvioLoginProcess = true
         startSSOLoginProcess = true
         // 超時檢測開始
@@ -126,7 +118,6 @@ final class LoginViewModel: ObservableObject {
             showOverlay = true
             zuvioLoginSuccess = false
             ssoLoginSuccess = false
-            loginFinished = false
             startZuvioLoginProcess = true
             startSSOLoginProcess = true
             // 超時檢測開始
@@ -153,7 +144,9 @@ final class LoginViewModel: ObservableObject {
             checkLoginResult()
         case .passwordExpiring(let message):
             startSSOLoginProcess = false
-            ssoLoginSuccess = false
+            ssoLoginSuccess = true
+            // 要卡住導頁，等使用者按「稍後再說」
+            waitingForPasswordExpiringDecision = true
             LoginActiveAlert = .ssoPasswordExpiring(message: message)
             checkLoginResult()
         case .passwordExpired(let message):
@@ -179,33 +172,57 @@ final class LoginViewModel: ObservableObject {
         }
     }
 
-
     private func checkLoginResult() {
         // 當兩邊都完成才收斂
         guard !startZuvioLoginProcess, !startSSOLoginProcess else { return }
         // 超時檢測結束
         loginTimeoutWorkItem?.cancel()
-        // 改變狀態旗標
+        loginTimeoutWorkItem = nil
+        // UI 收斂
         showOverlay = false
-        loginFinished = true
+        // 這裡代表「本次登入嘗試已完成」
+        loginFinishedToken += 1
 
-        if zuvioLoginSuccess && ssoLoginSuccess {
-            // 記錄帳密 (強制轉大寫)
+        let allSuccess = (zuvioLoginSuccess && ssoLoginSuccess)
+        if allSuccess {
+            // 成功才存帳密
             repository.saveCredentials(username: account.uppercased(), password: password)
+            // 如果正在等「密碼即將到期」使用者選擇，就先不要導頁
+            if !waitingForPasswordExpiringDecision {
+                proceedToHomeToken += 1
+            }
         } else {
-            // 清除帳密記錄
-            repository.clearCredentials()
-            // 只有在沒有其他 Alert 顯示時才顯示登入失敗
-            // (不會觸發，因為SSO帳密錯誤或到期必定跳Dialog，以 sso dialog 為主)
-            /*
-            if LoginActiveAlert == nil {
-                LoginActiveAlert = .loginFailed
-            }*/
+            // 只有「帳密錯誤」或「密碼已到期（強制）」才清帳密
+            if shouldClearCredentialsForThisFailure() {
+                repository.clearCredentials()
+            }
+        }
+    }
+
+    private func shouldClearCredentialsForThisFailure() -> Bool {
+        guard let alert = LoginActiveAlert else { return false }
+        switch alert {
+        case .ssoCredentialsFailed:
+            return true
+        case .ssoPasswordExpired:
+            return true
+        default:
+            return false
         }
     }
 
     func togglePasswordVisible() {
         isPasswordVisible.toggle()
+    }
+    
+    // MARK: - 密碼即將到期-稍後再說
+    func userChoseLaterForPasswordExpiring() {
+        waitingForPasswordExpiringDecision = false
+
+        // 只有在兩邊都已成功時，才觸發導頁
+        if zuvioLoginSuccess && ssoLoginSuccess {
+            proceedToHomeToken += 1
+        }
     }
 
     // MARK: - 開啟修改密碼頁
@@ -213,18 +230,7 @@ final class LoginViewModel: ObservableObject {
         guard let url = URL(string: "https://ccsys.niu.edu.tw/SSO/Teac_Secret.aspx") else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
         startSSOLoginProcess = false
-        /*
-        // 延遲一點點後結束 App（避免使用者還沒切出去就被關掉）
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.terminateApp()
-        }*/
     }
-    /*
-    private func terminateApp() {
-        // ⚠️ Apple 不建議直接關閉 App，但技術上可以這樣做：
-        // apple 人工審查階段可能被拒
-        exit(0)
-    }*/
     
     func checkAppVersionThenProceed(onProceed: @escaping () -> Void) {
         versionManager.checkNewVersion { [weak self] canProceed, remoteVersion in
@@ -256,7 +262,7 @@ final class LoginViewModel: ObservableObject {
                 self.startZuvioLoginProcess = false
                 self.startSSOLoginProcess = false
                 self.showOverlay = false
-                self.loginFinished = true
+                self.loginFinishedToken += 1
 
                 // 根據卡住的來源顯示不同訊息
                 if zuvioPending && ssoPending {
@@ -295,7 +301,9 @@ extension LoginViewModel {
         showOverlay = false
         zuvioLoginSuccess = false
         ssoLoginSuccess = false
-        loginFinished = false
+        loginFinishedToken = 0
+        proceedToHomeToken = 0
+        waitingForPasswordExpiringDecision = false
         startZuvioLoginProcess = false
         startSSOLoginProcess = false
         LoginActiveAlert = nil

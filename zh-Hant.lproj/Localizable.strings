@@ -192,6 +192,14 @@
 "EUNI_First_Loading_Tip" = "首次加載公告時間較長\n請耐心等候";
 "EUNI_Load_Announcement_Failed" = "無法進入該公告\n請稍後再試一次";
 "ThisCourseDoesNotHaveAny" = "空空如也   ̄_(ツ)_/ ̄";
+"EUNI_Participants" = "成員";
+"EUNI_Activities" = "活動";
+"EUNI_Competencies" = "能力";
+"EUNI_Settings" = "設定";
+"EUNI_Advanced_Rating" = "進階評分";
+"EUNI_Subscribe" = "訂閱";
+"EUNI_Report" = "報表";
+"EUNI_More" = "更多";
 // 成績查詢
 "scoreInquiry_tab_mid_term_results" = "期中成績";
 "scoreInquiry_tab_final_term_results" = "期末成績";

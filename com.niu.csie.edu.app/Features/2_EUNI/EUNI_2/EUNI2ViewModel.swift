@@ -31,42 +31,27 @@ final class EUNI2ViewModel: ObservableObject {
     // --- JS：隱藏多餘元素 ---
     let jsHideElements = """
     // 移除上方 navBarTop
-    var navBarTop = document.querySelector('.navbar.fixed-top.bg-body.navbar-expand.border-bottom.px-2');
+    var navBarTop = document.querySelector('.fixed-top.navbar.navbar-bootswatch.navbar-expand.moodle-has-zindex');
     if (navBarTop) {
       navBarTop.style.display = 'none';
       // 移除為 fixed navbar 預留的補位
       document.body.style.paddingTop = '0';
-      // 修 secondary navigation 的 top
-      var secondaryNav = document.querySelector('.secondary-navigation');
-      if (secondaryNav) {
-        secondaryNav.style.top = '0';
-      }
     }
     // 移除下方 pageFooter
     var pageFooter = document.getElementById('page-footer');
     pageFooter && (pageFooter.style.display = 'none');
-    // 移除左上 課程索引
-    var drawer_left_toggler = document.querySelector('.drawer-toggler.drawer-left-toggle.open-nav.d-print-none');
-    drawer_left_toggler && (drawer_left_toggler.style.display = 'none');
-    // 移除左側已展開 drawer
-    const drawer = document.getElementById('theme_boost-drawers-courseindex');
-    if (drawer) {
-        drawer.remove();
-    }
-    // 移除右上 區塊抽屜 (某些頁面沒有)
-    var drawer_right_toggler = document.querySelector('.drawer-toggler.drawer-right-toggle.ms-auto.d-print-none');
-    drawer_right_toggler && (drawer_right_toggler.style.display = 'none');
-    // 移除右側已展開 drawer
-    const drawer_right = document.getElementById('theme_boost-drawers-blocks');
-    if (drawer_right) {
-        drawer_right.remove();
-    }
-    // 調整右側主內容填滿剩餘寬度
-    const mainWrapper = document.getElementById('page');
-    if (mainWrapper) {
-        mainWrapper.style.marginLeft = '0';       // 移除左側抽屜預留空間
-        mainWrapper.style.width = '100%';         // 填滿全寬
-        mainWrapper.style.transition = 'none';    // 避免動畫閃爍
+    // classic 版需移除區域
+    var column_left = document.querySelector('.columnleft.blockcolumn.has-blocks');
+        column_left && (column_left.style.display = 'none');
+    var column_right = document.querySelector('.columnright.blockcolumn.has-blocks');
+        column_right && (column_right.style.display = 'none');
+    // 調整主內容填滿剩餘寬度
+    const regionMain = document.querySelector(
+        '#page-content.blocks-pre.blocks-post .region-main'
+    );
+    if (regionMain) {
+        regionMain.style.setProperty('flex', '0 0 100%', 'important');
+        regionMain.style.setProperty('max-width', '100%', 'important');
     }
     // 移除可跳轉的 page-navbar 區塊
     var page_navbar = document.getElementById('page-navbar');
@@ -101,10 +86,10 @@ final class EUNI2ViewModel: ObservableObject {
     init() {
         // 初始化 WebView
         self.webProvider = WebView_Provider(
-            initialURL: EUNI2LaunchConfig.url.absoluteString,
+            initialURL: EUNI2LaunchConfig.url.absoluteString+"&theme=classic",
             userAgent: .mobile
         )
-        setupCallbacks()
+        setupCallbacks() 
     }
     
     // --- 綁定 WebView 回呼事件 ---

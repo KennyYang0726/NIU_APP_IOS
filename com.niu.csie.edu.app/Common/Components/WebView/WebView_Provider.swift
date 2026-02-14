@@ -12,8 +12,10 @@ enum WebViewUserAgent {
 
 // MARK: - WebView Provider
 class WebView_Provider: ObservableObject {
-    // 可選單例
-    static let shared = WebView_Provider()
+    // 單例
+    static var shared: WebView_Provider = {
+        return WebView_Provider()
+    }()
 
     // 對外提供的 webView 實例
     private(set) public var webView: WKWebView
@@ -95,7 +97,8 @@ class WebView_Provider: ObservableObject {
 
         // 自動載入 initialURL（若有傳入）
         if let urlStr = initialURL, let url = URL(string: urlStr) {
-            self.webView.load(URLRequest(url: url))
+            // self.webView.load(URLRequest(url: url))
+            syncCookiesThenLoad(URLRequest(url: url))
         }
     }
 
@@ -113,11 +116,32 @@ class WebView_Provider: ObservableObject {
         config.websiteDataStore = .default()
         return config
     }
+    
+    // 先同步 cookie 再 load
+    private func syncCookiesThenLoad(_ request: URLRequest) {
+        let cookieStore = webView.configuration.websiteDataStore.httpCookieStore
+        let cookies = HTTPCookieStorage.shared.cookies ?? []
+        guard !cookies.isEmpty else {
+            webView.load(request)
+            return
+        }
+        let group = DispatchGroup()
+        for cookie in cookies {
+            group.enter()
+            cookieStore.setCookie(cookie) {
+                group.leave()
+            }
+        }
+        group.notify(queue: .main) { [weak self] in
+            self?.webView.load(request)
+        }
+    }
 
     // MARK: - 一般操作
     public func load(url: String) {
         guard let u = URL(string: url) else { return }
-        webView.load(URLRequest(url: u))
+        // webView.load(URLRequest(url: u))
+        syncCookiesThenLoad(URLRequest(url: u))
     }
     
     // 帶 header 的，校務行政子頁面
@@ -187,6 +211,117 @@ class WebView_Provider: ObservableObject {
                 }
             }
         }
+    }
+    
+    // MARK: - 下載檔案
+    func downloadFile(url: URL) {
+        let store = webView.configuration.websiteDataStore.httpCookieStore
+
+        store.getAllCookies { cookies in
+            let config = URLSessionConfiguration.default
+            config.httpCookieStorage = HTTPCookieStorage.shared
+
+            cookies.forEach {
+                config.httpCookieStorage?.setCookie($0)
+            }
+
+            let session = URLSession(configuration: config)
+
+            let task = session.downloadTask(with: url) { tempURL, response, error in
+                guard let tempURL = tempURL,
+                      let httpResponse = response as? HTTPURLResponse else { return }
+
+                // 安全抓 header（大小寫不固定）
+                let disposition = httpResponse.allHeaderFields.first {
+                    ($0.key as? String)?.lowercased() == "content-disposition"
+                }?.value as? String
+
+                var filename = "download"
+
+                if let disposition {
+                    filename = Self.extractFilename(from: disposition) ?? filename
+                } else {
+                    filename = Self.decodeFilenameCandidate(url.lastPathComponent)
+                }
+
+                if filename.isEmpty {
+                    filename = "download"
+                }
+
+                let newURL = FileManager.default.temporaryDirectory
+                    .appendingPathComponent(filename)
+
+                try? FileManager.default.removeItem(at: newURL)
+                try? FileManager.default.moveItem(at: tempURL, to: newURL)
+
+                DispatchQueue.main.async {
+                    self.presentDocumentPicker(fileURL: newURL)
+                }
+            }
+
+            task.resume()
+        }
+    }
+
+    // MARK: - 解析檔名
+    private static func extractFilename(from disposition: String) -> String? {
+        // filename="xxx"
+        if let range = disposition.range(of: #"filename="([^"]+)""#, options: .regularExpression) {
+            let match = String(disposition[range])
+                .replacingOccurrences(of: #"filename=""#, with: "")
+                .replacingOccurrences(of: #"""#, with: "")
+            let decoded = Self.decodeFilenameCandidate(match)
+            return decoded.isEmpty ? nil : decoded
+        }
+
+        // filename*=UTF-8''xxx
+        if let range = disposition.range(of: #"filename\*=UTF-8''([^;]+)"#, options: .regularExpression) {
+            let match = String(disposition[range])
+                .replacingOccurrences(of: "filename*=UTF-8''", with: "")
+            let decoded = Self.decodeFilenameCandidate(match)
+            return decoded.isEmpty ? nil : decoded
+        }
+
+        return nil
+    }
+
+    // MARK: - 解碼檔名（支援中文 % 編碼）
+    private static func decodeFilenameCandidate(_ s: String) -> String {
+        var t = s.trimmingCharacters(in: .whitespacesAndNewlines)
+        t = t.trimmingCharacters(in: CharacterSet(charactersIn: "\"'"))
+        // + → 空白（保險）
+        t = t.replacingOccurrences(of: "+", with: "%20")
+        // Step 1: % 解碼
+        if t.contains("%"),
+           let decoded = t.removingPercentEncoding,
+           !decoded.isEmpty {
+            t = decoded
+        }
+        // Step 2: 修復 mojibake（Latin-1 → UTF-8）
+        if let latinData = t.data(using: .isoLatin1),
+           let fixed = String(data: latinData, encoding: .utf8),
+           !fixed.isEmpty {
+            t = fixed
+        }
+        // 安全檔名
+        t = t.replacingOccurrences(of: "/", with: "_")
+        t = t.replacingOccurrences(of: ":", with: "_")
+
+        return t
+    }
+
+
+    // MARK: - 儲存 UI
+    func presentDocumentPicker(fileURL: URL) {
+        let picker = UIDocumentPickerViewController(
+            forExporting: [fileURL],
+            asCopy: true
+        )
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let root = scene.windows.first?.rootViewController else {
+            return
+        }
+        root.present(picker, animated: true)
     }
     
     // MARK: - 清除緩存資訊(會導致登出)
@@ -300,6 +435,41 @@ fileprivate class WebViewDelegate: NSObject, WKNavigationDelegate, WKUIDelegate,
             webView.load(navigationAction.request)
         }
         return nil
+    }
+    
+    // 攔截附件
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationResponse: WKNavigationResponse,
+        decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void
+    ) {
+        guard let response = navigationResponse.response as? HTTPURLResponse,
+              let url = response.url else {
+            decisionHandler(.allow)
+            return
+        }
+        let disposition = response.allHeaderFields["Content-Disposition"] as? String ?? ""
+        let mime = response.mimeType ?? ""
+        let shouldDownload =
+            disposition.contains("attachment") ||
+            mime == "application/zip" ||
+            mime == "application/x-rar-compressed" ||
+            mime == "application/octet-stream" ||
+            mime == "application/pdf" ||
+            mime.contains("msword") ||
+            mime.contains("officedocument")
+        if shouldDownload {
+            decisionHandler(.cancel)
+            // 讓 WebView 回到上一頁，避免 loading 卡住
+            DispatchQueue.main.async {
+                if webView.canGoBack {
+                    webView.goBack()
+                }
+            }
+            owner?.downloadFile(url: url)
+        } else {
+            decisionHandler(.allow)
+        }
     }
 
     func webView(_ webView: WKWebView,

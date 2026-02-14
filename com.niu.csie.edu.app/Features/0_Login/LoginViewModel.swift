@@ -54,7 +54,7 @@ final class LoginViewModel: ObservableObject {
 
     @Published var zuvioLoginSuccess = false
     @Published var ssoLoginSuccess = false
-    // 這個代表「兩邊流程都結束了」
+    // 這個代表「流程都結束了」
     @Published var loginFinishedToken: Int = 0
     // 這個代表「已經允許導頁到 Home」才會觸發
     @Published var proceedToHomeToken: Int = 0

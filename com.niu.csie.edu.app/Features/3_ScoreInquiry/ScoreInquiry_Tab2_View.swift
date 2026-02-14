@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-// 我的報名
+
 struct ScoreInquiry_Tab2_View: View {
     
     @ObservedObject var vm = ScoreInquiry_Tab2_ViewModel()

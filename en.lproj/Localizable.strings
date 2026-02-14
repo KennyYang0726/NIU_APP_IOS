@@ -118,6 +118,8 @@
 "Score_Inquiry_Page_0_1_Message" = "Once instructors upload grades to the academic system, your midterm results will appear here.\nUse the tabs above to switch between Midterm and Final Grades.";
 "Score_Inquiry_Page_1_1_Title" = "Final Grades";
 "Score_Inquiry_Page_1_1_Message" = "Displays your final grades and class ranking. Rankings become available once all course grades have been submitted.";
+"Score_Inquiry_Page_2_1_Title" = "Academic Records";
+"Score_Inquiry_Page_2_1_Message" = "Easily view your academic records and class rankings from previous years, so you no longer need to dig through the acade system.";
 "Class_Schedule_" = "A more convenient way to check your schedule";
 "Class_Schedule_Page_0_1_Title" = "My Schedule";
 "Class_Schedule_Page_0_1_Message" = "Not sure which class is next? Check your schedule here.";
@@ -201,8 +203,9 @@
 "EUNI_Report" = "Report";
 "EUNI_More" = "More";
 // 成績查詢
-"scoreInquiry_tab_mid_term_results" = "Mid term results";
-"scoreInquiry_tab_final_term_results" = "Final term results";
+"scoreInquiry_tab_mid_term_results" = "Mid";
+"scoreInquiry_tab_final_term_results" = "Final";
+"scoreInquiry_tab_academic_records" = "Academic Records";
 "score" = "Score：";
 "Not_uploaded" = "Not uploaded";
 "Elective" = "Elective";

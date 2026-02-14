@@ -28,7 +28,8 @@ struct Drawer_Huh1View: View {
             isSystemIcon: false,
             pages: [
                 Huh2Page(title: "Score_Inquiry_Page_0_1_Title", imageName: "Huh_ScoreInquiry_image1", description: "Score_Inquiry_Page_0_1_Message"),
-                Huh2Page(title: "Score_Inquiry_Page_1_1_Title", imageName: "Huh_ScoreInquiry_image2", description: "Score_Inquiry_Page_1_1_Message")
+                Huh2Page(title: "Score_Inquiry_Page_1_1_Title", imageName: "Huh_ScoreInquiry_image2", description: "Score_Inquiry_Page_1_1_Message"),
+                Huh2Page(title: "Score_Inquiry_Page_2_1_Title", imageName: "Huh_ScoreInquiry_image3", description: "Score_Inquiry_Page_2_1_Message")
             ]
         ),
         HuhFeature(title: "Class_Schedule",

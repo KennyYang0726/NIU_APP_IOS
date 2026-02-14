@@ -166,7 +166,7 @@ final class EUNI1ViewModel: ObservableObject {
                 self.fetchCourseData()
                 return
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.waitForCoursesAndFetch(retry: retry + 1)
             }
         }
@@ -316,7 +316,6 @@ final class EUNI1ViewModel: ObservableObject {
             // 作業
             urlString = urlDomain + "course/overview.php?id=" + courseID + "&expand[]=assign"
             subItemKey = "EUNI_Sub_Item4"
-            print(urlString)
         case "EUNI_Sub_Item5": //
             // 課程首頁
             urlString = urlDomain + "course/view.php?id=" + courseID

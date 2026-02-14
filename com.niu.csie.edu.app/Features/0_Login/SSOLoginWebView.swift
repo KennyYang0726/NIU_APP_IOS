@@ -238,11 +238,15 @@ public struct SSOLoginWebView: UIViewRepresentable {
                     if message.contains("查無您的系統使用權限") {
                         done(.generic(title: "權限不足", message: message))
                     } else if message.contains("您的密碼即將到期") {
-                        done(.passwordExpiring(message: message))
+                        // 讓 SSO 去 StdMain 抓姓名，等個 0.1 秒
+                        if let url = URL(string: "https://ccsys.niu.edu.tw/SSO/StdMain.aspx") { webView.load(URLRequest(url: url)) }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            done(.passwordExpiring(message: message))
+                        }
                     } else if message.contains("密碼已滿180天") {
                         done(.passwordExpired(message: message))
                     } else if message.contains("驗證碼輸入錯誤") {
-                        // ✅ 驗證碼錯誤：不回報給 ViewModel，直接在這裡自動重試
+                        // 驗證碼錯誤：不回報給 ViewModel，直接在這裡自動重試
                         self.handleCaptchaErrorAndRetry(in: webView)
                         done(nil)
                     } else {

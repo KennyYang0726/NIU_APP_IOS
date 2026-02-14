@@ -10,6 +10,7 @@ struct ScoreInquiryTabView: View {
     // .onAppear 仍然不會觸發，需要真正滑到才會執行
     @StateObject private var tab1 = ScoreInquiry_Tab1_ViewModel()
     @StateObject private var tab2 = ScoreInquiry_Tab2_ViewModel()
+    @StateObject private var tab3 = ScoreInquiry_Tab3_ViewModel()
     @Namespace private var animation
     @GestureState private var dragTranslation: CGFloat = 0
     
@@ -65,7 +66,8 @@ struct ScoreInquiryTabView: View {
                     let width = geometry.size.width
                     let pages: [AnyView] = [
                         AnyView(ScoreInquiry_Tab1_View(vm: tab1)),
-                        AnyView(ScoreInquiry_Tab2_View(vm: tab2))
+                        AnyView(ScoreInquiry_Tab2_View(vm: tab2)),
+                        AnyView(ScoreInquiry_Tab3_View(vm: tab3))
                     ]
                     
                     HStack(spacing: 0) {

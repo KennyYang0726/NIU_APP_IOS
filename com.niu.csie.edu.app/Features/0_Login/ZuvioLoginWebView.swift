@@ -20,10 +20,8 @@ struct ZuvioLoginWebView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> WKWebView {
         // 初始化設定
-        let config = WKWebViewConfiguration()
-        config.defaultWebpagePreferences.allowsContentJavaScript = true  // iOS 14+ 啟用 JS
-        config.websiteDataStore = .default()   // 支援 cookie / localStorage
-                
+        let config = AppWebViewEnvironment.shared.makeConfiguration()
+        
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
         // webView.uiDelegate = context.coordinator

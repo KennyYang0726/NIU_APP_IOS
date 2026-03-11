@@ -144,7 +144,7 @@ final class ZuvioViewModel: ObservableObject {
                 self.handlePageFinished(url: url)
             }
         }
-        
+        /*
         webProvider.onProgressChanged = { [weak self] progress in
             guard let self = self else { return }
             Task { @MainActor in
@@ -155,7 +155,7 @@ final class ZuvioViewModel: ObservableObject {
                     self.isOverlayVisible = true
                 }
             }
-        }
+        }*/
     }
     
     // --- 初始化狀態 ---

@@ -181,6 +181,13 @@
 "DelUserDatabaseMessage_link" = "tap here to view";
 "DelUserDatabaseMessage2" = ". We only keep these usage details and do not store any personal or sensitive information.";
 "DelUserDatabaseSuccess" = "Delete Successfully!";
+"Sponsor" = "Sponsor";
+"Sponsor_Text" = "This app will always remain open source and free. However, keeping it on the App Store requires an annual fee of NTD 3,400, which is a significant cost for a student. If you find this app helpful and would like to support the project, you’re welcome to do so using the options below. All contributions go toward maintenance and the App Store fee.";
+"JKPay_Text" = "JKOPay";
+"EZWallet_Text" = "Easy Wallet";
+"Scan_QR_Text" = "Scan the QR code\nor tap to pay.";
+"Open_JKPay" = "Open JKOPay";
+"Open_EZWallet" = "Open Easy Wallet";
 "Logout" = "Logout";
 // 主畫面 登入階段逾時提示
 "SSO_LoginSessionInvalidHint" = "Login expired\nplease log in again.";

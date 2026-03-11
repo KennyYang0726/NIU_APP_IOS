@@ -4,7 +4,7 @@ import SwiftUI
 
 // 定義 Drawer case
 enum DrawerPageCase {
-    case home, announcements, calendar, questionnaire, achievements, huh, about, settings, logout
+    case home, announcements, calendar, questionnaire, achievements, huh, about, settings, sponsor, logout
 
     var title: LocalizedStringKey {
         switch self {
@@ -16,6 +16,7 @@ enum DrawerPageCase {
         case .huh: return "huh"
         case .about: return "About"
         case .settings: return "Settings"
+        case .sponsor: return "Sponsor"
         case .logout: return "Logout"
         }
     }

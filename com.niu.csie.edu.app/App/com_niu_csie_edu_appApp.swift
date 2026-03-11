@@ -14,6 +14,11 @@ struct com_niu_csie_edu_appApp: App {
     @StateObject private var session  = SessionManager()
     @StateObject private var drawerVM = DrawerManagerViewModel()   // 避免抽屜在切換主題是被重建，因為重建後的init頁面是主頁
     
+    // 關閉 ScrollView, Webview 的拉超過彈回
+    init() {
+        UIScrollView.appearance().bounces = false
+    }
+    
     var body: some Scene {
         let scheme = currentSwiftUIColorScheme()
         

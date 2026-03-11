@@ -63,6 +63,7 @@ struct DrawerManagerView: View {
         case .huh: Drawer_Huh1View()
         case .about: Drawer_AboutView()
         case .settings: Drawer_SettingsView()
+        case .sponsor: Drawer_SponsorView()
         case .logout: Drawer_LogoutView()
         }
     }

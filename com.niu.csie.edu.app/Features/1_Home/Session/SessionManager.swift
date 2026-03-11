@@ -17,6 +17,10 @@ final class SessionManager: ObservableObject {
         initialURL: "https://ccsys.niu.edu.tw/SSO/Std002.aspx",
         userAgent: .mobile
     )
+    let webMail = WebView_Provider(
+        initialURL: "https://mail.niu.edu.tw/NUMail/Mobile/Box/INBOX",
+        userAgent: .mobile
+    )
 
     // 可選：給 AppRoot 判斷登入/登出後該顯示哪個根畫面
     @Published var isAuthenticated: Bool = true
@@ -139,8 +143,20 @@ final class SessionManager: ObservableObject {
         })();
         """
         let Zuvio_Logout_JS = "setting_logout();"
+        let Mail_Logout_JS = """
+        (function() {
+          var spans = document.querySelectorAll('span.sc-pLxQr.dlxlap');
+          for (var i = 0; i < spans.length; i++) {
+            if (spans[i].innerText.trim() === '登出') {
+              spans[i].click();
+              return 'clicked';
+            }
+          }
+          return 'not found';
+        })();
+        """
 
-        // 1) 兩支 WebView 各自執行登出 JS → 清快取
+        // 1) 三支 WebView 各自執行登出 JS → 清快取
         let group = DispatchGroup()
 
         group.enter()
@@ -153,6 +169,13 @@ final class SessionManager: ObservableObject {
         group.enter()
         webSSO.evaluateJS(SSO_Logout_JS) { [weak self] _ in
             self?.webSSO.clearCache {
+                group.leave()
+            }
+        }
+        
+        group.enter()
+        webMail.evaluateJS(Mail_Logout_JS) { [weak self] _ in
+            self?.webMail.clearCache {
                 group.leave()
             }
         }

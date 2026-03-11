@@ -106,15 +106,7 @@ class WebView_Provider: ObservableObject {
 
     // MARK: - 預設 configuration
     private static func defaultConfiguration() -> WKWebViewConfiguration {
-        let config = WKWebViewConfiguration()
-        if #available(iOS 14.0, *) {
-            config.defaultWebpagePreferences.allowsContentJavaScript = true
-        } else {
-            config.preferences.javaScriptEnabled = true
-        }
-        config.preferences.javaScriptCanOpenWindowsAutomatically = true
-        config.websiteDataStore = .default()
-        return config
+        AppWebViewEnvironment.shared.makeConfiguration()
     }
     
     // 先同步 cookie 再 load
@@ -460,12 +452,6 @@ fileprivate class WebViewDelegate: NSObject, WKNavigationDelegate, WKUIDelegate,
             mime.contains("officedocument")
         if shouldDownload {
             decisionHandler(.cancel)
-            // 讓 WebView 回到上一頁，避免 loading 卡住
-            DispatchQueue.main.async {
-                if webView.canGoBack {
-                    webView.goBack()
-                }
-            }
             owner?.downloadFile(url: url)
         } else {
             decisionHandler(.allow)

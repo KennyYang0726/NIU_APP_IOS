@@ -103,7 +103,7 @@ struct Drawer_Huh1View: View {
             pages: [
                 Huh2Page(title: "Take_Leave_Page_0_1_Title", imageName: "Huh_TakeLeave_image1", description: "Take_Leave_Page_0_1_Message")
             ]
-        )/*,
+        ),
         HuhFeature(title: "Mail",
             subtitle: "Mail_",
             iconName: "\u{e808}",
@@ -111,7 +111,7 @@ struct Drawer_Huh1View: View {
             pages: [
                 Huh2Page(title: "Mail_Page_0_1_Title", imageName: "Huh_Mail_image1", description: "Mail_Page_0_1_Message")
             ]
-        )*/
+        )
     ]
     
     var body: some View {

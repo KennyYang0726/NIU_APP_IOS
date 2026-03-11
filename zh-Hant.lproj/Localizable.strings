@@ -181,6 +181,13 @@
 "DelUserDatabaseMessage_link" = "點此查看";
 "DelUserDatabaseMessage2" = "。我們僅儲存這些資料，不包含個資或敏感資訊。";
 "DelUserDatabaseSuccess" = "刪除成功";
+"Sponsor" = "支持我們";
+"Sponsor_Text" = "這個 app 將永遠保持開源且免費的，不過若要持續上架於 App Store，每年需要 3,400 元的年費，這對學生來說其實不算小數目。如果你覺得這個 app 對你有實際幫助，且也有能力支持的話，歡迎從以下方式支持這個專案，所有支持都會用在後續維護及續費上。";
+"JKPay_Text" = "街口支付";
+"EZWallet_Text" = "悠遊付";
+"Scan_QR_Text" = "掃描 QR code\n或點擊按鈕支付";
+"Open_JKPay" = "使用街口支付";
+"Open_EZWallet" = "使用悠遊付";
 "Logout" = "登出";
 // 主畫面 登入階段逾時提示
 "SSO_LoginSessionInvalidHint" = "登入階段逾時\n請重新登入";

@@ -17,10 +17,14 @@
 
 ### ⭐ 支持方式
  - 於右上角 Star 此專案
- - 使用 [**街口支付**](https://service.jkopay.com/r/transfer?j=Transfer:909029869) 小額贊助支持
+ - 使用 [**街口支付**](https://service.jkopay.com/r/transfer?j=Transfer:909029869) 或 [**悠遊付**](https://epkaw.easycard.com.tw/deepLink/receiver/0/2202007271390121) 小額贊助支持
 <p>
   <a href="https://service.jkopay.com/r/transfer?j=Transfer:909029869">
-    <img src="https://github.com/JamesYang0826/NIU_APP_Assets/releases/download/NIU_APP_Assets/QRCode_JKoPay.png" width="130" />
+    <img src="https://github.com/JamesYang0826/NIU_APP_Assets/releases/download/NIU_APP_Assets/QRCode_JKoPay.png" height="101" />
+  </a>
+  &nbsp;
+  <a href="https://epkaw.easycard.com.tw/deepLink/receiver/0/220200727139012">
+    <img src="https://github.com/JamesYang0826/NIU_APP_Assets/releases/download/NIU_APP_Assets/QRCode_EZWallet.png" height="101" />
   </a>
   <!--
   <a href="https://p.ecpay.com.tw/1A38519">
@@ -31,7 +35,7 @@
 
 ---
 
-這是一個給宜大學生使用的 iOS app，整合了大部分常使用到的功能，包含數位學習 M 園區、分數查詢、課表、活動報名、畢業門檻查詢、選課、請假，並提供公車動態查詢與 Zuvio。
+這是一個給宜大學生使用的 iOS app，整合了大部分常使用到的功能，包含數位學習 M 園區、分數查詢、課表、活動報名、畢業門檻查詢、選課、請假、校園信箱，並提供公車動態查詢與 Zuvio。
 
 
 ## 目錄
@@ -91,6 +95,7 @@ iOS 版本於 verCode21 正式發佈
 | **公車查詢** | 即時查詢公車動態 |
 | **Zuvio** | 保留作業與簽到等常用功能 |
 | **請假系統** | 進入校務行政請假頁面 |
+| **校園信箱** | 至校園信箱(NIU Mail)收發郵件 |
 | **校園公告** | 查看最新公告 |
 | **學校行事曆** | 查看校內行事曆 |
 | **成就系統** | 蒐集成就圖鑑 |

@@ -20,22 +20,24 @@ struct DrawerView: View {
                 .padding(.vertical, isPad ? 20 : 14)
             
             Divider().background(Color.white.opacity(0.8)) // 分隔線 白色半透明
-            
-            VStack(alignment: .leading, spacing: isPad ? 28 : 20) {
-                drawerItem(icon: "house", title: "HomePage", page: .home)
-                drawerItem(icon: "megaphone.fill", title: "Announcement", page: .announcements)
-                drawerItem(icon: "calendar", title: "Calendar", page: .calendar)
-                drawerItem(icon: "doc.text.fill", title: "Questionnaire", page: .questionnaire)
-                drawerItem(icon: "trophy.fill", title: "Achievements", page: .achievements)
-                drawerItem(icon: "questionmark.circle", title: "huh", page: .huh)
-                drawerItem(icon: "info.circle", title: "About", page: .about)
-                drawerItem(icon: "gearshape.fill", title: "Settings", page: .settings)
-                drawerItem(icon: "rectangle.portrait.and.arrow.forward", title: "Logout", page: .logout)
-                Spacer()
+            ScrollView {
+                VStack(alignment: .leading, spacing: isPad ? 28 : 20) {
+                    drawerItem(icon: "house", title: "HomePage", page: .home)
+                    drawerItem(icon: "megaphone.fill", title: "Announcement", page: .announcements)
+                    drawerItem(icon: "calendar", title: "Calendar", page: .calendar)
+                    drawerItem(icon: "doc.text.fill", title: "Questionnaire", page: .questionnaire)
+                    drawerItem(icon: "trophy.fill", title: "Achievements", page: .achievements)
+                    drawerItem(icon: "questionmark.circle", title: "huh", page: .huh)
+                    drawerItem(icon: "info.circle", title: "About", page: .about)
+                    drawerItem(icon: "gearshape.fill", title: "Settings", page: .settings)
+                    drawerItem(icon: "dollarsign.circle", title: "Sponsor", page: .sponsor)
+                    drawerItem(icon: "rectangle.portrait.and.arrow.forward", title: "Logout", page: .logout)
+                    Spacer()
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, isPad ? 24 : 16)
+                .padding(.top, isPad ? 28 : 20)
             }
-            .foregroundColor(.white)
-            .padding(.horizontal, isPad ? 24 : 16)
-            .padding(.top, isPad ? 28 : 20)
         }
         .frame(maxHeight: .infinity, alignment: .topLeading)
         .background(Color.accentColor)

@@ -12,7 +12,7 @@ struct LoginView: View {
         let metrics = LayoutMetrics.metrics(for: hSizeClass ?? .compact)
         // 登入流程 (WebView + Toast)
         // 包在 ZStack 懸浮才不會把上方 logo 擠出去
-        ZStack {
+        ZStack { // 整層被壓在下面，無需 .offset width*2 避免終止渲染網頁
             if vm.startSSOLoginProcess {
                 SSOLoginWebView(
                     account: vm.loginAccount,
@@ -21,7 +21,7 @@ struct LoginView: View {
                     vm.handleSSOLoginResult(result)
                 }
                 .frame(width: 300, height: 300)
-                .offset(x: UIScreen.main.bounds.width * 2)
+                //.offset(x: UIScreen.main.bounds.width * 2)
             }
             if vm.startZuvioLoginProcess {
                 ZuvioLoginWebView(
@@ -31,8 +31,17 @@ struct LoginView: View {
                     vm.handleZuvioLoginResult(success)
                 }
                 .frame(width: 300, height: 300)
-                .offset(x: UIScreen.main.bounds.width * 2)
-                //.frame(height: 300)
+                //.offset(x: UIScreen.main.bounds.width * 2)
+            }
+            if vm.startMailLoginProcess {
+                MailLoginWebView(
+                    account: vm.loginAccount,
+                    password: vm.password
+                ) { success in
+                    vm.handleMailLoginResult(success)
+                }
+                .frame(width: 300, height: 300)
+                //.offset(x: UIScreen.main.bounds.width * 2)
             }
         }
         VStack(spacing: metrics.mainSpacing) {

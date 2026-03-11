@@ -105,9 +105,12 @@ final class EUNI2ViewModel: ObservableObject {
             guard let self = self else { return }
             Task { @MainActor in
                 // self.overlayText = LocalizedStringKey("loading")
+                self.isWebVisible = false
                 if progress < 1.0 {
-                    self.isWebVisible = false
                     self.isOverlayVisible = true
+                }else{
+                    self.isWebVisible = true
+                    self.isOverlayVisible = false
                 }
             }
         }

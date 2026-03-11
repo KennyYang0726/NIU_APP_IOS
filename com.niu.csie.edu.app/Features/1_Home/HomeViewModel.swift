@@ -30,7 +30,7 @@ final class HomeViewModel: ObservableObject {
 
     private let loginRepo = LoginRepository()
     private let appSettings: AppSettings
-    
+    /*
     let SSO_Logout_JS = """
     (function() {
         var btn = document.querySelector('.btn-logout');
@@ -42,34 +42,13 @@ final class HomeViewModel: ObservableObject {
         }
     })();
     """
-    private let Zuvio_Logout_JS = "setting_logout();"
+    private let Zuvio_Logout_JS = "setting_logout();"*/
 
     init(appSettings: AppSettings) {
         self.appSettings = appSettings
         if Auth.auth().currentUser != nil { // 若匿名登入成功
             FirebaseDatabaseManager.shared.ensureUserNodeExists(for: loginRepo.loadCredentials()!.username, name: appSettings.name)
             }
-    }
-    
-    // 登出主流程
-    func logout(zuvioWeb: WebView_Provider, ssoWeb: WebView_Provider) {
-        // prog show
-        showOverlay = true
-
-        // 執行兩個 WebView 的登出 JS
-        zuvioWeb.evaluateJS(Zuvio_Logout_JS) { result in
-            zuvioWeb.clearCache()
-            self.Zuvio_Login = false
-        }
-        ssoWeb.evaluateJS(SSO_Logout_JS) { result in
-            ssoWeb.clearCache()
-            self.SSO_Login = false
-        }
-
-        // 清空帳密
-        loginRepo.clearCredentials()
-        // 清空姓名
-        appSettings.name = ""
     }
     
     func CheckIfInNightMarket() {

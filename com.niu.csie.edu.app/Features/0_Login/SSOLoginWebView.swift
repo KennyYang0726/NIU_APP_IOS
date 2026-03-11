@@ -67,12 +67,9 @@ public struct SSOLoginWebView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> WKWebView {
-        let config = WKWebViewConfiguration()
-        if #available(iOS 14.0, *) {
-            config.defaultWebpagePreferences.allowsContentJavaScript = true
-        }
-        config.websiteDataStore = .default()
-
+        // 初始化設定
+        let config = AppWebViewEnvironment.shared.makeConfiguration()
+        
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
 
@@ -130,7 +127,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
             if urlStr.contains("AccountLock.aspx") {
                 print("[SSO] Account locked")
                 // 擷取鎖定時間
-                eval(webView, "document.querySelector('#ContentPlaceHolder1_lbl_lockTime').textContent", "getLockTime") { val in
+                evaluateJS(webView, "document.querySelector('#ContentPlaceHolder1_lbl_lockTime').textContent", "getLockTime") { val in
                     let lockTime = val as? String
                     self.parent.onResult(.accountLocked(lockTime: lockTime))
                 }
@@ -163,7 +160,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
         }
 
         // MARK: - JS helpers
-        private func eval(_ webView: WKWebView, _ js: String, _ note: String, completion: @escaping (Any?) -> Void) {
+        private func evaluateJS(_ webView: WKWebView, _ js: String, _ note: String, completion: @escaping (Any?) -> Void) {
             webView.evaluateJavaScript(js) { result, error in
                 if let error = error {
                     print("[SSO][JS ERR][\(note)] \(error.localizedDescription)")
@@ -185,7 +182,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 return JSON.stringify({found:true,visible:visible,message:msg});
             })()
             """
-            eval(webView, js, "checkLoginError_SSO") { val in
+            evaluateJS(webView, js, "checkLoginError_SSO") { val in
                 guard let jsonStr = val as? String,
                       let data = jsonStr.data(using: .utf8),
                       let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
@@ -219,7 +216,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 return JSON.stringify({found:true,visible:visible,title:title,message:message,buttons:buttons});
             })()
             """
-            eval(webView, js, "checkLoginDialog_SSO") { val in
+            evaluateJS(webView, js, "checkLoginDialog_SSO") { val in
                 guard let jsonStr = val as? String,
                       let data = jsonStr.data(using: .utf8),
                       let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
@@ -277,7 +274,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
             })()
             """
 
-            eval(webView, jsGetCaptcha, "getCaptchaBase64") { [weak self] val in
+            evaluateJS(webView, jsGetCaptcha, "getCaptchaBase64") { [weak self] val in
                 guard let self = self else { return }
                 guard let dataURL = val as? String, dataURL.hasPrefix("data:image") else {
                     print("[SSO] Captcha dataURL not found – retry later")
@@ -329,7 +326,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
             })()
             """
 
-            eval(webView, jsHidden, "getHiddenFields") { [weak self] val in
+            evaluateJS(webView, jsHidden, "getHiddenFields") { [weak self] val in
                 guard let self = self else { return }
                 guard let jsonStr = val as? String,
                       let data = jsonStr.data(using: .utf8),
@@ -412,7 +409,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 if (btn) { btn.click(); }
             })();
             """
-            self.eval(webView, closeJS, "closeCaptchaErrorDialog") { _ in
+            self.evaluateJS(webView, closeJS, "closeCaptchaErrorDialog") { _ in
                 // 2) 重設狀態，允許再發一次 POST
                 self.isProcessingCaptcha = false
                 self.getSSOViewState = false

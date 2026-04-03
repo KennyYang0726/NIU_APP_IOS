@@ -16,9 +16,59 @@ final class EventRegistration_Tab1_ViewModel: ObservableObject {
     @Published var isPostHandled: Bool = false // 新增標誌位
     // 新增 toast 控制
     @Published var showToast: Bool = false
+    // 新增 FAB 狀態
+    @Published var isFabExpanded = false
+    // 新增 qrcode 狀態
+    @Published var showQRScanner = false
+    // 新增 qrcode 掃到的網址儲存
+    @Published var scannedEventURL: String = ""
+    // 新增 篩選列展開 狀態
+    @Published var isSearchPanelExpanded = false
+    // 篩選條件
+    @Published var searchText: String = ""
+    @Published var selectedHourType: HourType = .all
     // 選中的 EventData 資訊
     @Published var selectedEventForDetail: EventData?
     private var selectedEventID: String? // 儲存點擊的ID，否則無法傳到 setupCallbacks
+    
+    // 顯示的活動
+    var displayEvents: [EventData] {
+        // 初始狀態：完全不篩選
+        if searchText.isEmpty && selectedHourType == .all {
+            return events
+        }
+        return filteredEvents
+    }
+    
+    // 篩選出的活動
+    var filteredEvents: [EventData] {
+        events.filter { event in
+            // --- 搜尋條件 ---
+            let matchesText =
+                searchText.isEmpty ||
+                event.name.localizedCaseInsensitiveContains(searchText) ||
+                event.eventSerialID.localizedCaseInsensitiveContains(searchText)
+            // --- 類型條件 ---
+            let matchesType: Bool = {
+                switch selectedHourType {
+                case .all:
+                    return true
+                case .diversity:
+                    return event.Multi_factor_authentication.contains("多元")
+                case .major:
+                    return event.Multi_factor_authentication.contains("專業")
+                case .service:
+                    return event.Multi_factor_authentication.contains("服務")
+                }
+            }()
+            // --- 組合條件 ---
+            if searchText.isEmpty {
+                return matchesType
+            } else {
+                return matchesText && matchesType
+            }
+        }
+    }
     
     // --- WebView 相關 ---
     let webProvider: WebView_Provider
@@ -112,7 +162,7 @@ final class EventRegistration_Tab1_ViewModel: ObservableObject {
                                 let eventPeople = dict["eventPeople"] as? String
                                 
                             else { return nil }
-
+                            
                             return EventData(
                                 name: name,
                                 department: department,
@@ -227,6 +277,20 @@ final class EventRegistration_Tab1_ViewModel: ObservableObject {
         }
     }
     
+    // 掃描 qrcode 後的 handle
+    func handleScannedCCSYSURL(_ urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        
+        let eventID = url.lastPathComponent.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !eventID.isEmpty else { return }
+        
+        guard let matchedEvent = displayEvents.first(where: { $0.eventSerialID == eventID }) else {
+            return
+        }
+        
+        selectedEventForDetail = matchedEvent
+        showEventDetailDialog = true
+    }
     
     // --- 顯示畫面（模仿 Android 的 hideProgressOverlay + setVisibility） ---
     private func showPage() {

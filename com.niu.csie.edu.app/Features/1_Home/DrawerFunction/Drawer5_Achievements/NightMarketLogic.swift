@@ -22,7 +22,7 @@ final class NightMarketLogic {
     static let spots: [Spot] = [
         Spot(name: "東門夜市", latitude: 24.758140, longitude: 121.758050, radius: 160),
         Spot(name: "羅東夜市", latitude: 24.676150, longitude: 121.769659, radius: 250),
-        Spot(name: "員山夜市", latitude: 24.745119, longitude: 121.724427, radius: 190),
+        Spot(name: "尚好夜市", latitude: 24.729794, longitude: 121.720793, radius: 500),
         Spot(name: "冬山夜市", latitude: 24.634899, longitude: 121.792794, radius: 200),
         Spot(name: "礁溪溫泉夜市", latitude: 24.825148, longitude: 121.760581, radius: 320),
         Spot(name: "壯圍番社同安廟口夜市", latitude: 24.733745, longitude: 121.817740, radius: 150),
@@ -54,7 +54,7 @@ final class NightMarketLogic {
         switch index {
         case 0: return true         // 東門
         case 1: return true         // 羅東
-        case 2: return day == "4"   // 員山
+        case 2: return day == "4"   // 尚好(原員山)
         case 3: return day == "6"   // 冬山
         case 4: return day == "0"   // 礁溪
         case 5: return day == "6"   // 壯圍

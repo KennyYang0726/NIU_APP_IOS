@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "eventreg03.png",
+      "filename" : "eventreg05.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,7 +12,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "eventreg03_dark.png",
+      "filename" : "eventreg05_dark.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

@@ -48,7 +48,9 @@ struct Drawer_Huh1View: View {
                 Huh2Page(title: "Event_Registration_Page_0_1_Title", imageName: "Huh_EventRegistration_image1", description: "Event_Registration_Page_0_1_Message"),
                 Huh2Page(title: "Event_Registration_Page_1_1_Title", imageName: "Huh_EventRegistration_image2", description: "Event_Registration_Page_1_1_Message"),
                 Huh2Page(title: "Event_Registration_Page_2_1_Title", imageName: "Huh_EventRegistration_image3", description: "Event_Registration_Page_2_1_Message"),
-                Huh2Page(title: "Event_Registration_Page_3_1_Title", imageName: "Huh_EventRegistration_image4", description: "Event_Registration_Page_3_1_Message")
+                Huh2Page(title: "Event_Registration_Page_3_1_Title", imageName: "Huh_EventRegistration_image4", description: "Event_Registration_Page_3_1_Message"),
+                Huh2Page(title: "Event_Registration_Page_4_1_Title", imageName: "Huh_EventRegistration_image5", description: "Event_Registration_Page_4_1_Message"),
+                Huh2Page(title: "Event_Registration_Page_5_1_Title", imageName: "Huh_EventRegistration_image6", description: "Event_Registration_Page_5_1_Message")
             ]
         ),
         HuhFeature(title: "Contact_Us",

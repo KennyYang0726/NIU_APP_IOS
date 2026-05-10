@@ -14,10 +14,10 @@ final class TakeLeaveViewModel: ObservableObject {
     document.getElementById('QTable2').style.display = 'none';
     document.querySelector('a[href="JavaScript:showHideQtable();"]').closest('table').style.display = 'none';
     """
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     
     init() {
-        let fullURL = "https://ccsys.niu.edu.tw/SSO/" + sso.acade_main
+        let fullURL = "https://acade.niu.edu.tw/NIU/Login.aspx?GUID=\(ssoSession.guid1)"
         self.webProvider = WebView_Provider(
             initialURL: fullURL,
             userAgent: .desktop

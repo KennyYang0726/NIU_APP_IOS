@@ -14,7 +14,7 @@ final class ClassScheduleViewModel: ObservableObject {
     
     private var canContinueQuery = true // 篩選不開放時間，接收到 jsAlert -> false
     
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     
     // --- 用於處理全域狀態導向 ---
     weak var appState: AppState?
@@ -24,7 +24,7 @@ final class ClassScheduleViewModel: ObservableObject {
 
     
     init() {
-        let fullURL = "https://ccsys.niu.edu.tw/SSO/" + sso.acade_main
+        let fullURL = "https://acade.niu.edu.tw/NIU/Login.aspx?GUID=\(ssoSession.guid1)"
         self.webProvider = WebView_Provider(
             initialURL: fullURL,
             userAgent: .desktop

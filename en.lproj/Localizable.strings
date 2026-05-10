@@ -5,11 +5,11 @@
 "No_Network_Title" = "Network Error";
 "No_Network_Message" = "Unable to connect to the internet. Please try again later.";
 // LoginView
-"school_num" = "Student number";
-"pwd" = "password";
+"school_num" = "Student ID";
+"pwd" = "Password";
 "btn_login" = "Login";
-"logining" = "login...";
-"logouting" = "logout...";
+"logining" = "Login...";
+"logouting" = "Logout...";
 "login_success" = "Login successfully";
 "login_failed_title" = "Login failed";
 "logout_success" = "Logout successfully";
@@ -20,11 +20,11 @@
 "Dialog_SystemError_Message" = "Unknown error occurred, please try again later.";
 "Dialog_Timeout_Title" = "Connection Timeout";
 "Dialog_Zuvio_Timeout_Message" = "Zuvio is taking too long to respond. Please check your internet connection or try again later.";
-"Dialog_SSO_Timeout_Message" = "Campus single sign-on system is taking too long to respond. Please check your internet connection or try again later.";
+"Dialog_SSO_Timeout_Message" = "NIU SSO system is taking too long to respond. Please check your internet connection or try again later.";
 "Dialog_Mail_Timeout_Message" = "NIU mail system is taking too long to respond. Please check your internet connection or try again later.";
-"Dialog_PWD_almost_expired_Title" = "Password almost expire!";
+"Dialog_PWD_almost_expired_Title" = "Password about to expire!";
 "Dialog_PWD_expired_Title" = "Password Expired!";
-"Dialog_ChangePWD" = "Go Change";
+"Dialog_ChangePWD" = "Change password";
 "Dialog_ChangePWDLater" = "Later";
 "Dialog_AccountLocked_Title" = "Account Locked!";
 "Dialog_AccountLocked_Default_Message" = "\nFor Security\nYou can't login in 15 min";
@@ -36,13 +36,13 @@
 // HomeView
   // 主畫面 功能
 "EUNI" = "EUNI\n";
-"Score_Inquiry" = "Score\nInquiry";
+"Score_Inquiry" = "Grade\nInquiry";
 "Class_Schedule" = "Class\nSchedule";
 "Event_Registration" = "Event\nRegistration";
 "Contact_Us" = "Contact\nUs";
-"Graduation_Threshold" = "Graduation\nThreshold";
-"Subject_System" = "Subject\nSystem";
-"Bus" = "Bus\nTrend";
+"Graduation_Threshold" = "Graduation\nRequirements";
+"Subject_System" = "Course\nSelection";
+"Bus" = "Bus\nStatus";
 "Zuvio" = "ZUVIO\n";
 "Take_Leave" = "Take\nLeave";
 "Mail" = "NIU\nMail";
@@ -55,12 +55,12 @@
 "Calendar" = "Calendar";
 "Questionnaire" = "Questionnaire";
 "Satisfaction_Survey" = "Satisfaction Survey";
-"Satisfaction_Survey_Text" = "Hello:\n\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;This is a questionnaire satisfaction of this app. Please read it carefully and check the appropriate answers. This questionnaire is only for internal development and use of the app. The information you answer will never be public, please rest assured. Your valuable opinions will help us improve the quality of the app, thank you for your participation.\n";
+"Satisfaction_Survey_Text" = "Hello:\n\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;This is a satisfaction survey questionnaire for the Yilan University student app. Please read it carefully and check the appropriate answers. This questionnaire is for internal app development use only, and the information you provide will never be disclosed externally. Please feel assured when answering. Your valuable feedback will help us improve the quality of the app. Thank you for your participation.\n";
 "Start_Satisfaction_Survey" = "Start";
 "Achievements" = "Achievements";
 "Achievements_Get" = "New Achievements Get";
 "Achievements_01_Title" = "Welcome~~";
-"Achievements_01_Description" = "Log in for the very first time to unlock this.";
+"Achievements_01_Description" = "Log in for the first time to unlock this.";
 "Achievements_02_Title" = "Thx for Your Feedback";
 "Achievements_02_Description" = "Complete the feedback form to unlock this.";
 "Achievements_03_Title" = "Oh boy! 3 a.m.!";
@@ -101,7 +101,7 @@
 "NightMarket_12" = "Masai(Sat.)";
 "NightMarket_13" = "Nanfang Ao(Mon.)";
 "NightMarket_14" = "Nan'ao(Tue.)";
-"huh" = "Synopsis";
+"huh" = "Tutorial";
 "EUNI_" = "Browse courses on your phone";
 "EUNI_Page_0_1_Title" = "Course Overview";
 "EUNI_Page_0_1_Message" = "View all your courses at a glance. Tap a course to see more details, including Announcements, Grades, Resources, Assignments, and Enter Course. If something seems missing, try refreshing using the button in the top right.";

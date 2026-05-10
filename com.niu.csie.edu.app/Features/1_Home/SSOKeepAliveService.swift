@@ -1,6 +1,7 @@
 import SwiftUI
 
 
+
 @MainActor
 final class SSOKeepAliveService: ObservableObject {
     private var task: Task<Void, Never>?
@@ -8,18 +9,21 @@ final class SSOKeepAliveService: ObservableObject {
 
     func start(with session: SessionManager) {
         guard task == nil else { return }
+
         task = Task { [weak session] in
             guard let session else { return }
+
             while !Task.isCancelled {
                 do {
                     try await Task.sleep(nanoseconds: interval)
                 } catch {
-                    // 通常是被 cancel，直接跳出迴圈就好
                     break
                 }
-                // 再保險一次，避免剛 sleep 完就被 cancel
+
                 guard !Task.isCancelled else { break }
-                session.refreshSSOID()
+
+                // 只做檢查；距離 exp 小於 5 分鐘才會真的 refresh。
+                session.refreshSSOSessionIfNeeded()
             }
         }
     }

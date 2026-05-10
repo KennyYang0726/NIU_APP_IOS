@@ -44,13 +44,13 @@ struct LoginView: View {
                 //.offset(x: UIScreen.main.bounds.width * 2)
             }
         }
+        
         VStack(spacing: metrics.mainSpacing) {
             // Logo
             Image("niu_logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.horizontal, metrics.logoHorizontalPadding)
-            
             // App 名稱
             Text(LocalizedStringKey("app_name"))
                 .font(.system(size: metrics.titleFont))
@@ -138,11 +138,22 @@ struct LoginView: View {
         .padding(metrics.mainPadding)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color("BG_Color"))
+        // 跑馬燈
+        .overlay(alignment: .top) {
+            MarqueeBannerView(
+                announcement: vm.marqueeAnnouncement,
+                height: 30,
+                speed: 45
+            )
+        }
         // 登入中 prog (注意！放在這裡才是全版面)
         .overlay(
             ProgressOverlay(isVisible: $vm.showOverlay, text: vm.overlayText)
         )
         .onAppear {
+            // 讀取 Firebase 公告
+            vm.fetchMarqueeAnnouncement()
+            vm.fetchForceNotice()
             // 先把所有可能影響登入的狀態重置
             vm.resetForFreshAttempt()
             // 自動登入邏輯觸發
@@ -160,6 +171,16 @@ struct LoginView: View {
                 return Alert(title: Text(LocalizedStringKey("login_failed_title")),
                              message: Text(LocalizedStringKey("login_failed_message")),
                              dismissButton: .default(Text(LocalizedStringKey("Dialog_OK"))))
+            // === 強制提示 ===
+            case .forceNotice(let title, let message):
+                return Alert(
+                    title: Text(title),
+                    message: Text(message),
+                    dismissButton: .default(Text(LocalizedStringKey("Dialog_OK"))) {
+                        // 雖然 apple 官方明文禁止，但逼不得已
+                        exit(0)
+                    }
+                )
             // === 版本更新 ===
             case .newVersion(let message):
                 return Alert(title: Text(LocalizedStringKey("New_Version_Found")),

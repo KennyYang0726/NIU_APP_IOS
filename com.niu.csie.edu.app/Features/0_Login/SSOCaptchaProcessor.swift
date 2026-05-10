@@ -290,11 +290,13 @@ public final class SSOCaptchaProcessor {
                     buffer[i + 1] = replG
                     buffer[i + 2] = replB
                 }
-
+                
+                
                 // 灰階
                 let lum = (77 * Int(buffer[i + 0]) + 150 * Int(buffer[i + 1]) + 29 * Int(buffer[i + 2])) >> 8
                 let gray = UInt8(max(0, min(255, lum)))
 
+                
                 switch mode {
                 case .grayscaleOnly:
                     buffer[i + 0] = gray

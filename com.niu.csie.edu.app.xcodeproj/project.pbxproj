@@ -51,7 +51,6 @@
 		105119402F74439B00D8DA55 /* Drawer_LogoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118C52F74439B00D8DA55 /* Drawer_LogoutView.swift */; };
 		105119412F74439B00D8DA55 /* Drawer_ZDebugPushView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118C62F74439B00D8DA55 /* Drawer_ZDebugPushView.swift */; };
 		105119422F74439B00D8DA55 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118C82F74439B00D8DA55 /* SessionManager.swift */; };
-		105119432F74439B00D8DA55 /* SSOIDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118CA2F74439B00D8DA55 /* SSOIDSettings.swift */; };
 		105119442F74439B00D8DA55 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118CC2F74439B00D8DA55 /* HomeView.swift */; };
 		105119452F74439B00D8DA55 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118CD2F74439B00D8DA55 /* HomeViewModel.swift */; };
 		105119462F74439B00D8DA55 /* SSOKeepAliveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118CE2F74439B00D8DA55 /* SSOKeepAliveService.swift */; };
@@ -131,6 +130,7 @@
 		105119A72F74439B00D8DA55 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105119982F74439B00D8DA55 /* TimeService.swift */; };
 		105928182EB5DE0B00D5FA03 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 105928172EB5DE0B00D5FA03 /* SwiftSoup */; };
 		10702B2C2E9E010500136301 /* PDFViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 10702B2B2E9E010500136301 /* PDFViewer */; };
+		1077C2532FAC3B3D00F6E1E4 /* SSOSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1077C2522FAC3B2C00F6E1E4 /* SSOSession.swift */; };
 		108474CC2E9A8A2000CEB37C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 108474CB2E9A8A2000CEB37C /* FirebaseDatabase */; };
 		108474CE2E9A8A3600CEB37C /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 108474CD2E9A8A3600CEB37C /* FirebaseMessaging */; };
 		108474D02E9A8C7F00CEB37C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 108474CF2E9A8C7F00CEB37C /* FirebaseAuth */; };
@@ -139,9 +139,10 @@
 		1086267B2F7521E50058646E /* QRCodeScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086267A2F7521E40058646E /* QRCodeScanView.swift */; };
 		1086267D2F762E370058646E /* EventSearchPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086267C2F762E360058646E /* EventSearchPanel.swift */; };
 		108626802F76A5480058646E /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086267F2F76A5460058646E /* UIApplication.swift */; };
-		108626822F7A35580058646E /* SSOCaptchaProcessor old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108626812F7A35580058646E /* SSOCaptchaProcessor old.swift */; };
 		10B53FD82EE1DA980018BCE4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10B53FD62EE1DA980018BCE4 /* Localizable.strings */; };
 		10C1AC2D2EE905AF0031211B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */; };
+		10F5CC392FAE24DC00B505E1 /* MarqueeAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F5CC382FAE24DA00B505E1 /* MarqueeAnnouncement.swift */; };
+		10F5CC3B2FAE258F00B505E1 /* MarqueeBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F5CC3A2FAE258F00B505E1 /* MarqueeBannerView.swift */; };
 		1AA990812C8351D200819A69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AA990802C8351D200819A69 /* Assets.xcassets */; };
 		1AA990842C8351D200819A69 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AA990832C8351D200819A69 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -191,7 +192,6 @@
 		105118C52F74439B00D8DA55 /* Drawer_LogoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawer_LogoutView.swift; sourceTree = "<group>"; };
 		105118C62F74439B00D8DA55 /* Drawer_ZDebugPushView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawer_ZDebugPushView.swift; sourceTree = "<group>"; };
 		105118C82F74439B00D8DA55 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		105118CA2F74439B00D8DA55 /* SSOIDSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSOIDSettings.swift; sourceTree = "<group>"; };
 		105118CC2F74439B00D8DA55 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		105118CD2F74439B00D8DA55 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		105118CE2F74439B00D8DA55 /* SSOKeepAliveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSOKeepAliveService.swift; sourceTree = "<group>"; };
@@ -269,17 +269,19 @@
 		105119942F74439B00D8DA55 /* WebView_Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView_Provider.swift; sourceTree = "<group>"; };
 		105119972F74439B00D8DA55 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		105119982F74439B00D8DA55 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
+		1077C2522FAC3B2C00F6E1E4 /* SSOSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSOSession.swift; sourceTree = "<group>"; };
 		108626762F7521280058646E /* QRCodeScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanViewModel.swift; sourceTree = "<group>"; };
 		108626782F7521B80058646E /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
 		1086267A2F7521E40058646E /* QRCodeScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanView.swift; sourceTree = "<group>"; };
 		1086267C2F762E360058646E /* EventSearchPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSearchPanel.swift; sourceTree = "<group>"; };
 		1086267F2F76A5460058646E /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
-		108626812F7A35580058646E /* SSOCaptchaProcessor old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SSOCaptchaProcessor old.swift"; sourceTree = "<group>"; };
 		10A150EE2E8E560200A1592A /* com-niu-csie-edu-app-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "com-niu-csie-edu-app-Info.plist"; sourceTree = SOURCE_ROOT; };
 		10B53FD72EE1DA980018BCE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		10B53FD92EE1DB3A0018BCE4 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		10C1A8072EE810460031211B /* com.niu.csie.edu.app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = com.niu.csie.edu.app.entitlements; sourceTree = "<group>"; };
 		10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		10F5CC382FAE24DA00B505E1 /* MarqueeAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeAnnouncement.swift; sourceTree = "<group>"; };
+		10F5CC3A2FAE258F00B505E1 /* MarqueeBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeBannerView.swift; sourceTree = "<group>"; };
 		1AA990792C8351CD00819A69 /* com.niu.csie.edu.app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = com.niu.csie.edu.app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AA990802C8351D200819A69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AA990832C8351D200819A69 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 		105118A02F74439B00D8DA55 /* 0_Login */ = {
 			isa = PBXGroup;
 			children = (
+				10F5CC372FAE24D300B505E1 /* MarqueeAnnouncement */,
 				105118972F74439B00D8DA55 /* VersionManager */,
 				105118982F74439B00D8DA55 /* LoginRepository.swift */,
 				105118992F74439B00D8DA55 /* LoginView.swift */,
@@ -357,7 +360,6 @@
 				1051189B2F74439B00D8DA55 /* MailCaptchaProcessor.swift */,
 				1051189C2F74439B00D8DA55 /* MailLoginWebView.swift */,
 				1051189D2F74439B00D8DA55 /* SSOCaptchaProcessor.swift */,
-				108626812F7A35580058646E /* SSOCaptchaProcessor old.swift */,
 				1051189E2F74439B00D8DA55 /* SSOLoginWebView.swift */,
 				1051189F2F74439B00D8DA55 /* ZuvioLoginWebView.swift */,
 			);
@@ -492,20 +494,12 @@
 			path = DrawerFunction;
 			sourceTree = "<group>";
 		};
-		105118C92F74439B00D8DA55 /* Session */ = {
+		105118C92F74439B00D8DA55 /* SessionManager */ = {
 			isa = PBXGroup;
 			children = (
 				105118C82F74439B00D8DA55 /* SessionManager.swift */,
 			);
-			path = Session;
-			sourceTree = "<group>";
-		};
-		105118CB2F74439B00D8DA55 /* SSOIDSettings */ = {
-			isa = PBXGroup;
-			children = (
-				105118CA2F74439B00D8DA55 /* SSOIDSettings.swift */,
-			);
-			path = SSOIDSettings;
+			path = SessionManager;
 			sourceTree = "<group>";
 		};
 		105118CF2F74439B00D8DA55 /* 1_Home */ = {
@@ -513,8 +507,8 @@
 			children = (
 				105118A52F74439B00D8DA55 /* Drawer */,
 				105118C72F74439B00D8DA55 /* DrawerFunction */,
-				105118C92F74439B00D8DA55 /* Session */,
-				105118CB2F74439B00D8DA55 /* SSOIDSettings */,
+				105118C92F74439B00D8DA55 /* SessionManager */,
+				1077C2512FAC3AD500F6E1E4 /* SSOSession */,
 				105118CC2F74439B00D8DA55 /* HomeView.swift */,
 				105118CD2F74439B00D8DA55 /* HomeViewModel.swift */,
 				105118CE2F74439B00D8DA55 /* SSOKeepAliveService.swift */,
@@ -823,6 +817,14 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		1077C2512FAC3AD500F6E1E4 /* SSOSession */ = {
+			isa = PBXGroup;
+			children = (
+				1077C2522FAC3B2C00F6E1E4 /* SSOSession.swift */,
+			);
+			path = SSOSession;
+			sourceTree = "<group>";
+		};
 		108474CA2E9A8A2000CEB37C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -847,6 +849,15 @@
 				1086267F2F76A5460058646E /* UIApplication.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		10F5CC372FAE24D300B505E1 /* MarqueeAnnouncement */ = {
+			isa = PBXGroup;
+			children = (
+				10F5CC3A2FAE258F00B505E1 /* MarqueeBannerView.swift */,
+				10F5CC382FAE24DA00B505E1 /* MarqueeAnnouncement.swift */,
+			);
+			path = MarqueeAnnouncement;
 			sourceTree = "<group>";
 		};
 		1A66F72D2C88C29400C64130 /* Resources */ = {
@@ -1024,8 +1035,8 @@
 				1051193F2F74439B00D8DA55 /* Drawer_SponsorView.swift in Sources */,
 				105119402F74439B00D8DA55 /* Drawer_LogoutView.swift in Sources */,
 				105119412F74439B00D8DA55 /* Drawer_ZDebugPushView.swift in Sources */,
+				10F5CC392FAE24DC00B505E1 /* MarqueeAnnouncement.swift in Sources */,
 				105119422F74439B00D8DA55 /* SessionManager.swift in Sources */,
-				105119432F74439B00D8DA55 /* SSOIDSettings.swift in Sources */,
 				105119442F74439B00D8DA55 /* HomeView.swift in Sources */,
 				108626792F7521B80058646E /* QRScannerView.swift in Sources */,
 				105119452F74439B00D8DA55 /* HomeViewModel.swift in Sources */,
@@ -1081,6 +1092,8 @@
 				105119682F74439B00D8DA55 /* ContactUs_Tab1_View.swift in Sources */,
 				105119692F74439B00D8DA55 /* ContactUs_Tab1_ViewModel.swift in Sources */,
 				1086267B2F7521E50058646E /* QRCodeScanView.swift in Sources */,
+				10F5CC3B2FAE258F00B505E1 /* MarqueeBannerView.swift in Sources */,
+				1077C2532FAC3B3D00F6E1E4 /* SSOSession.swift in Sources */,
 				1051196A2F74439B00D8DA55 /* ContactUs_Tab2_View.swift in Sources */,
 				1051196B2F74439B00D8DA55 /* ContactUs_Tab2_ViewModel.swift in Sources */,
 				1051196C2F74439B00D8DA55 /* ContactUsTabView.swift in Sources */,
@@ -1100,7 +1113,6 @@
 				105119792F74439B00D8DA55 /* ZuvioViewModel.swift in Sources */,
 				1051197A2F74439B00D8DA55 /* TakeLeaveView.swift in Sources */,
 				1051197B2F74439B00D8DA55 /* TakeLeaveViewModel.swift in Sources */,
-				108626822F7A35580058646E /* SSOCaptchaProcessor old.swift in Sources */,
 				1051197C2F74439B00D8DA55 /* MailView.swift in Sources */,
 				1051197D2F74439B00D8DA55 /* MailViewModel.swift in Sources */,
 				1051197E2F74439B00D8DA55 /* AppBar_Framework.swift in Sources */,
@@ -1268,7 +1280,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1289,7 +1301,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 26.05.10;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niu.csie.edu.app;
@@ -1311,7 +1323,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = NO;
@@ -1333,7 +1345,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 26.05.10;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				ONLY_ACTIVE_ARCH = NO;

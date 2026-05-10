@@ -12,7 +12,7 @@ final class ScoreInquiry_Tab3_ViewModel: ObservableObject {
     
     // --- WebView 相關 ---
     let webProvider: WebView_Provider
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     
     // --- JS：暗黑模式樣式 ---
     let jsDarkMode = """
@@ -24,7 +24,7 @@ final class ScoreInquiry_Tab3_ViewModel: ObservableObject {
     
     
     init() {
-        let fullURL = "https://ccsys.niu.edu.tw/SSO/" + sso.ccsys
+        let fullURL = "https://ccsys.niu.edu.tw/MvcTeam/Act/Sso/\(ssoSession.guid3)"
         self.webProvider = WebView_Provider(
             initialURL: fullURL,
             userAgent: .desktop

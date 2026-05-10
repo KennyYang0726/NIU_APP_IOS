@@ -27,9 +27,7 @@ final class GraduationThresholdViewModel: ObservableObject {
     
     // --- WebView 管理 ---
     let webProvider: WebView_Provider
-    
-    // --- SSO 設定 ---
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     
     private let getInfoJS = """
         (function() {
@@ -88,7 +86,7 @@ final class GraduationThresholdViewModel: ObservableObject {
     
     
     init() {
-        let fullURL = "https://ccsys.niu.edu.tw/SSO/" + sso.acade_main
+        let fullURL = "https://acade.niu.edu.tw/NIU/Login.aspx?GUID=\(ssoSession.guid1)"
         self.webProvider = WebView_Provider(
             initialURL: fullURL,
             userAgent: .mobile

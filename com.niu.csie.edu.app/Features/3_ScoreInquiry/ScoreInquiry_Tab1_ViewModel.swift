@@ -13,7 +13,7 @@ final class ScoreInquiry_Tab1_ViewModel: ObservableObject {
     
     // --- WebView 相關 ---
     let webProvider: WebView_Provider
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     
     // --- JS：取得期中末成績 ---
     private let getScoreJS = """
@@ -41,7 +41,7 @@ final class ScoreInquiry_Tab1_ViewModel: ObservableObject {
 
     
     init() {
-        let fullURL = "https://ccsys.niu.edu.tw/SSO/" + sso.acade_main
+        let fullURL = "https://acade.niu.edu.tw/NIU/Login.aspx?GUID=\(ssoSession.guid1)"
         self.webProvider = WebView_Provider(
             initialURL: fullURL,
             userAgent: .desktop

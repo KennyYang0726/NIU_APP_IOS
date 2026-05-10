@@ -2,8 +2,8 @@
 "app_name" = "宜大學生app";
 "back" = "返回";
 "loading" = "載入中...";
-"No_Network_Title" = "網際連線錯誤";
-"No_Network_Message" = "目前網路不可用，請檢查是否連接了可用的網路";
+"No_Network_Title" = "網路連線錯誤";
+"No_Network_Message" = "目前網路無法使用，請檢查是否連接了可用的網路";
 // LoginView
 "school_num" = "學號(無需＠ms...)";
 "pwd" = "密碼";
@@ -19,9 +19,9 @@
 "Dialog_SystemError_Title" = "系統錯誤！";
 "Dialog_SystemError_Message" = "發生未知錯誤，請稍後再試";
 "Dialog_Timeout_Title" = "連線逾時！";
-"Dialog_Zuvio_Timeout_Message" = "Zuvio 響應超時，請檢查網路連線狀態，或稍後再進行嘗試。";
-"Dialog_SSO_Timeout_Message" = "校園整合登入系統響應超時，請檢查網路連線狀態，或稍後再進行嘗試。";
-"Dialog_Mail_Timeout_Message" = "校園信箱系統響應超時，請檢查網路連線狀態，或稍後再進行嘗試。";
+"Dialog_Zuvio_Timeout_Message" = "Zuvio 連線逾時，請檢查網路連線狀態，或稍後再進行嘗試。";
+"Dialog_SSO_Timeout_Message" = "校園整合登入系統連線逾時，請檢查網路連線狀態，或稍後再進行嘗試。";
+"Dialog_Mail_Timeout_Message" = "校園信箱系統連線逾時，請檢查網路連線狀態，或稍後再進行嘗試。";
 "Dialog_PWD_almost_expired_Title" = "密碼即將到期";
 "Dialog_PWD_expired_Title" = "密碼已到期";
 "Dialog_ChangePWD" = "修改密碼";

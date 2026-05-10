@@ -72,8 +72,7 @@ final class EventRegistration_Tab1_ViewModel: ObservableObject {
     
     // --- WebView 相關 ---
     let webProvider: WebView_Provider
-    // --- 全域注射 ---
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     // --- JS ---
     private let jsGetData: String = """
         (function() { 
@@ -112,10 +111,10 @@ final class EventRegistration_Tab1_ViewModel: ObservableObject {
     
     
     init() {
-        let ccsysURL = sso.ccsys
+        let ccsysURL = "https://ccsys.niu.edu.tw/MvcTeam/Act/Sso/\(ssoSession.guid1)"
         // 初始化 WebView
         self.webProvider = WebView_Provider(
-            initialURL: "https://ccsys.niu.edu.tw/SSO/" + ccsysURL,
+            initialURL: ccsysURL,
             userAgent: .desktop
         )
         // 註冊廣播監聽訊息，取消報名後重新載入網址，會觸發 refresh

@@ -27,7 +27,7 @@ final class EUNI1ViewModel: ObservableObject {
     let webProvider: WebView_Provider
     
     // --- SSO 設定 ---
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     // --- 取 semester ---
     private let appSettings: AppSettings
     // --- 儲存 EUNI Course Data ---
@@ -73,10 +73,10 @@ final class EUNI1ViewModel: ObservableObject {
     init() {
         // 初始化 AppSettings
         self.appSettings = AppSettings()
-        let euniURL = sso.EUNI
+        let euniURL = "https://euni.niu.edu.tw/auth/niu_sso/index.php?id=\(ssoSession.guid1)"
         // 初始化 WebView
         self.webProvider = WebView_Provider(
-            initialURL: "https://ccsys.niu.edu.tw/SSO/" + euniURL,
+            initialURL: euniURL,
             userAgent: .desktop
         )
         setupCallbacks()

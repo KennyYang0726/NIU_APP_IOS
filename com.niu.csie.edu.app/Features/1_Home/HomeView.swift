@@ -34,7 +34,7 @@ struct HomeView: View {
     
     @EnvironmentObject var appState: AppState // 注入狀態
     @EnvironmentObject var appSettings: AppSettings // 注入狀態
-    @EnvironmentObject var session: SessionManager // 執行 js 取得 ssoid
+    @EnvironmentObject var session: SessionManager // 執行 js 取得 sso guid 等
     @StateObject private var keepAlive = SSOKeepAliveService() // 當畫面在主頁時，keep-alive，他會呼叫 SessionManager
     
     @State private var didRunCheckOnce = false // 檢查 onReceive 匿名登入完成
@@ -117,8 +117,8 @@ struct HomeView: View {
             .offset(y: -59)
         )
         .onAppear {
-            // 先第一次取得，接下來若持續閒置，由 keepAlive 負責
-            session.refreshSSOID()
+            // token 依 exp 判斷；GUID 每次進 Home 強制刷新
+            session.refreshHomeSSOState()
             keepAlive.start(with: session)
             // 紀錄連續登入天數
             loginStreak.onLogin()
@@ -126,11 +126,11 @@ struct HomeView: View {
             // 取得定位(夜市星人)
             vm.CheckIfInNightMarket()
         }
-        // onResume，怕有人回前景但session過期
         .onReceive(NotificationCenter.default.publisher(
             for: UIApplication.willEnterForegroundNotification
         )) { _ in
-            session.refreshSSOID()
+            // 回前景也同步刷新 GUID，避免功能頁拿到舊 GUID
+            session.refreshHomeSSOState()
         }
         .onDisappear {
             keepAlive.stop()

@@ -13,15 +13,13 @@ final class SubjectSystemViewModel: ObservableObject {
     
     // --- WebView 管理 ---
     let webProvider: WebView_Provider
-    
-    // --- SSO 設定 ---
-    private let sso = SSOIDSettings.shared
+    private let ssoSession = SSOSession.shared
     
     // --- 用於處理全域狀態導向 ---
     weak var appState: AppState?
     
     init(appState: AppState? = nil) {
-        let fullURL = "https://ccsys.niu.edu.tw/SSO/" + sso.acade_subject_system
+        let fullURL = "https://acade.niu.edu.tw/NIU/outside.aspx?mainPage=QQBwAHAAbABpAGMAYQB0AGkAbwBuAC8AVABLAEUALwBUAEsARQAyADAALwBUAEsARQAyADAAMQAxAF8ALgBhAHMAcAB4AD8AUAByAG8AZwBjAGQAPQBUAEsARQAyADAAMQAxAA==&GUID=\(ssoSession.guid1)"
         self.webProvider = WebView_Provider(
             initialURL: fullURL,
             userAgent: .desktop
@@ -60,7 +58,7 @@ final class SubjectSystemViewModel: ObservableObject {
                 if url?.contains("mainframe_open.aspx?mainPage=") == true {
                     self.isAtSubjectHome = false
                     // 注射返回的 js 進去返回按鈕
-                    let bottomUrl = "https://ccsys.niu.edu.tw/SSO/" + SSOIDSettings.shared.acade_subject_system
+                    let bottomUrl = "https://acade.niu.edu.tw/NIU/outside.aspx?mainPage=QQBwAHAAbABpAGMAYQB0AGkAbwBuAC8AVABLAEUALwBUAEsARQAyADAALwBUAEsARQAyADAAMQAxAF8ALgBhAHMAcAB4AD8AUAByAG8AZwBjAGQAPQBUAEsARQAyADAAMQAxAA=="
                     let js = """
                              (function () {
                                  function tryBind() {
@@ -91,7 +89,7 @@ final class SubjectSystemViewModel: ObservableObject {
     
     // 回到選課系統頁面
     func reloadSubjectSystemHome() {
-        let url = "https://ccsys.niu.edu.tw/SSO/" + sso.acade_subject_system
+        let url = "https://acade.niu.edu.tw/NIU/outside.aspx?mainPage=QQBwAHAAbABpAGMAYQB0AGkAbwBuAC8AVABLAEUALwBUAEsARQAyADAALwBUAEsARQAyADAAMQAxAF8ALgBhAHMAcAB4AD8AUAByAG8AZwBjAGQAPQBUAEsARQAyADAAMQAxAA=="
         webProvider.load(url: url)
     }
     

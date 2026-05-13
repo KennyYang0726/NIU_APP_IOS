@@ -1,8 +1,6 @@
 import SwiftUI
 import PDFKit
 
-
-
 struct EmbeddedPDFView: UIViewRepresentable {
     let pdfURLString: String
     
@@ -11,31 +9,44 @@ struct EmbeddedPDFView: UIViewRepresentable {
         pdfView.autoScales = true
         pdfView.displayMode = .singlePageContinuous
         pdfView.displayDirection = .vertical
-        pdfView.usePageViewController(true, withViewOptions: nil)
+        pdfView.displaysPageBreaks = true
         pdfView.backgroundColor = .clear
         
-        // 關閉縮圖列
-        pdfView.displaysAsBook = false
-        pdfView.displaysPageBreaks = false
-        pdfView.subviews
-            .compactMap { $0 as? PDFThumbnailView }
-            .forEach { $0.removeFromSuperview() }
-        
-        // 嘗試從快取中載入 PDF
-        if let cachesDirectoryUrl = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first,
-           let lastPathComponent = URL(string: pdfURLString)?.lastPathComponent {
-            let url = cachesDirectoryUrl.appendingPathComponent(lastPathComponent)
-            if FileManager.default.fileExists(atPath: url.path),
-               let document = PDFDocument(url: url) {
-                pdfView.document = document
-            } else {
-                print("⚠️ PDF 不存在：\(url.path)")
-            }
-        }
+        // 重點：連續捲動時不要開 usePageViewController
+        // pdfView.usePageViewController(true, withViewOptions: nil)
+
+        loadPDF(into: pdfView)
         return pdfView
     }
 
     func updateUIView(_ uiView: PDFView, context: Context) {
-        // 不需要更新邏輯
+        loadPDF(into: uiView)
+    }
+    
+    private func loadPDF(into pdfView: PDFView) {
+        guard let cachesDirectoryUrl = FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask
+        ).first,
+        let lastPathComponent = URL(string: pdfURLString)?.lastPathComponent else {
+            return
+        }
+        
+        let url = cachesDirectoryUrl.appendingPathComponent(lastPathComponent)
+        
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            print("PDF不存在：\(url.path)")
+            return
+        }
+        
+        guard let document = PDFDocument(url: url) else {
+            print("PDFDocument建立失敗：\(url.path)")
+            return
+        }
+                
+        if pdfView.document !== document {
+            pdfView.document = document
+            pdfView.autoScales = true
+        }
     }
 }

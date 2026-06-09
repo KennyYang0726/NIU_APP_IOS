@@ -42,10 +42,16 @@ struct Drawer_Huh1_ListView: View {
                 Text(feature.title)
                     .font(.system(size: isPad ? 32 : 19, weight: .semibold))
                     .foregroundColor(.primary)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
                 Text(feature.subtitle)
                     .font(.system(size: isPad ? 26 : 14))
                     .foregroundColor(.secondary)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
             Image(systemName: "chevron.right")
                 .font(.system(size: isPad ? 26 : 18))

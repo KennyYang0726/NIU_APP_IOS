@@ -120,7 +120,7 @@ struct MailLoginWebView: UIViewRepresentable {
                   return;
                 }
 
-                var svg = document.querySelector('div.sc-pbMuv.dlAzQm svg');
+                var svg = document.querySelector('div.sc-pjtCf.jEELdN svg');
                 if (svg) {
                   window.webkit.messageHandlers.svgHandler.postMessage(svg.outerHTML);
                 }

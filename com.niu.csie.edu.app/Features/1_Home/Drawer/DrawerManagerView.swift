@@ -7,7 +7,7 @@ struct DrawerManagerView: View {
     @EnvironmentObject var appState: AppState // 注入狀態
     
     private let isPad = UIDevice.current.userInterfaceIdiom == .pad
-    private var drawerWidth: CGFloat { isPad ? 320 : 200 } // iPad 寬一點
+    private var drawerWidth: CGFloat { isPad ? 370 : 220 } // iPad 寬一點
 
     var body: some View {
         NavigationStack {

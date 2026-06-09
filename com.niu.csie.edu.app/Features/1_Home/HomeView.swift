@@ -4,24 +4,24 @@ import SwiftUI
 struct HomeFeature: Identifiable {
     let id = UUID()
     let KeyIndex: Int              // 用來程式判斷 (case 不能用 localize 字串)
-    let title: LocalizedStringKey  // UI 顯示 (可本地化)
+    let titleKey: String  // UI 顯示 (可本地化)
     let iconName: String
     let isSystemIcon: Bool
 }
 
 let defaultFeatures: [HomeFeature] = [
-    .init(KeyIndex: 0, title: "EUNI", iconName: "\u{e809}", isSystemIcon: false),
-    .init(KeyIndex: 1, title: "Score_Inquiry", iconName: "\u{e801}", isSystemIcon: false),
-    .init(KeyIndex: 2, title: "Class_Schedule", iconName: "\u{e803}", isSystemIcon: false),
-    .init(KeyIndex: 3, title: "Event_Registration", iconName: "\u{e80a}", isSystemIcon: false),
-    .init(KeyIndex: 4, title: "Contact_Us", iconName: "\u{e800}", isSystemIcon: false),
-    .init(KeyIndex: 5, title: "Graduation_Threshold", iconName: "\u{e802}", isSystemIcon: false),
-    .init(KeyIndex: 6, title: "Subject_System", iconName: "\u{e807}", isSystemIcon: false),
-    .init(KeyIndex: 7, title: "Bus", iconName: "\u{e806}", isSystemIcon: false),
-    .init(KeyIndex: 8, title: "Zuvio",  iconName: "\u{e804}", isSystemIcon: false),
+    .init(KeyIndex: 0, titleKey: "EUNI", iconName: "\u{e809}", isSystemIcon: false),
+    .init(KeyIndex: 1, titleKey: "Score_Inquiry", iconName: "\u{e801}", isSystemIcon: false),
+    .init(KeyIndex: 2, titleKey: "Class_Schedule", iconName: "\u{e803}", isSystemIcon: false),
+    .init(KeyIndex: 3, titleKey: "Event_Registration", iconName: "\u{e80a}", isSystemIcon: false),
+    .init(KeyIndex: 4, titleKey: "Contact_Us", iconName: "\u{e800}", isSystemIcon: false),
+    .init(KeyIndex: 5, titleKey: "Graduation_Threshold", iconName: "\u{e802}", isSystemIcon: false),
+    .init(KeyIndex: 6, titleKey: "Subject_System", iconName: "\u{e807}", isSystemIcon: false),
+    .init(KeyIndex: 7, titleKey: "Bus", iconName: "\u{e806}", isSystemIcon: false),
+    .init(KeyIndex: 8, titleKey: "Zuvio",  iconName: "\u{e804}", isSystemIcon: false),
     // 用 SF Symbols
-    .init(KeyIndex: 9, title: "Take_Leave", iconName: "person.fill.xmark", isSystemIcon: true),
-    .init(KeyIndex: 10, title: "Mail",  iconName: "\u{e808}", isSystemIcon: false)
+    .init(KeyIndex: 9, titleKey: "Take_Leave", iconName: "person.fill.xmark", isSystemIcon: true),
+    .init(KeyIndex: 10, titleKey: "Mail",  iconName: "\u{e808}", isSystemIcon: false)
 ]
 
 
@@ -45,6 +45,7 @@ struct HomeView: View {
     private let loginStreakBright = LoginStreakManagerBright()
     
     private let title = NSLocalizedString("HomePage", comment: "")
+    
     // 固定三欄
     private var columns: [GridItem] {
         [GridItem(.flexible(), spacing: 20),
@@ -170,6 +171,12 @@ struct HomeView: View {
 private struct FeatureItemView: View {
     let feature: HomeFeature
     let isPad: Bool
+    
+    // 將 空格 換成 \n
+    private var displayTitle: String {
+        let localized = NSLocalizedString(feature.titleKey, comment: "")
+        return localized.replacingOccurrences(of: " ", with: "\n")
+    }
 
     var body: some View {
         VStack(spacing: isPad ? 12 : 8) {
@@ -193,7 +200,7 @@ private struct FeatureItemView: View {
                 }
             }
 
-            Text(feature.title)
+            Text(displayTitle)
                 .font(.system(size: isPad ? 29 : 17, weight: .medium))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)

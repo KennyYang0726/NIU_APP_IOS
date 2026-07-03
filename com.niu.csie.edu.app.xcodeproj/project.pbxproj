@@ -1280,7 +1280,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				DEVELOPMENT_TEAM = BWSZ53MRGH;
 				ENABLE_PREVIEWS = YES;
@@ -1302,7 +1302,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.06.06;
+				MARKETING_VERSION = 26.07.06;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niu.csie.edu.app;
@@ -1324,7 +1324,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				DEVELOPMENT_TEAM = BWSZ53MRGH;
 				ENABLE_PREVIEWS = YES;
@@ -1347,7 +1347,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.06.06;
+				MARKETING_VERSION = 26.07.06;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				ONLY_ACTIVE_ARCH = NO;

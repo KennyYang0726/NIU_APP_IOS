@@ -7,9 +7,9 @@
 //  設計原則：
 //  - 保留 UIViewRepresentable / Coordinator / AppSettings / onResult 架構
 //  - 使用 JavaScript 攔截 fetch / XMLHttpRequest response
-//  - 擷取 /SSO/API/Captcha/Generate 回應中的 CaptchaId 與 ImageBase64
-//  - OCR 成功後，由 Swift 端 POST /SSO/API/Login
-//  - 登入 API 成功後先停止 captcha / reload / POST pipeline，並 print Login API 回傳 token
+//  - 等待 Cloudflare Turnstile 產生 cf-turnstile-response
+//  - 由 Swift 端 POST /SSO/API/Login，payload 改為 ACNT / Password / TurnstileToken
+//  - 登入 API 成功後先停止 Turnstile 輪詢 / POST pipeline，並 print Login API 回傳 token
 //  - 登入 API 成功不代表整體登入完成；需等 /SSO/API/Authorization/info 回應並擷取 chName 後才回報 success
 //  - 使用 activeAttemptID / isLoginCompleted / didReportResult 收斂非同步狀態
 //  - 不使用 SweetAlert 作為主要登入結果判斷
@@ -32,13 +32,6 @@ public enum SSOLoginResult {
     case generic(title: String, message: String)
 }
 
-// MARK: - Captcha Session
-
-private struct CaptchaSession {
-    let captchaId: String
-    let imageBase64: String
-}
-
 // MARK: - Network Response
 
 private struct CapturedWebResponse {
@@ -55,11 +48,6 @@ private struct CapturedWebResponse {
         status >= 200 && status < 300
     }
 
-    var isCaptchaGenerateResponse: Bool {
-        url.contains("/SSO/API/Captcha/Generate") ||
-        url.contains("SSO/API/Captcha/Generate") ||
-        url.contains("Captcha/Generate")
-    }
 
     var isLoginResponse: Bool {
         url.contains("/SSO/API/Login") ||
@@ -70,41 +58,6 @@ private struct CapturedWebResponse {
         url.contains("/SSO/API/Authorization/info") ||
         url.contains("SSO/API/Authorization/info") ||
         url.contains("Authorization/info")
-    }
-}
-
-// MARK: - Captcha Response Parser
-
-private enum CaptchaResponseParser {
-
-    static func parse(_ body: String) -> CaptchaSession? {
-        guard let data = body.data(using: .utf8) else {
-            print("[SSO] Captcha response is not UTF-8")
-            return nil
-        }
-
-        do {
-            guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-                print("[SSO] Captcha response is not JSON object")
-                return nil
-            }
-
-            guard let captchaId = json["CaptchaId"] as? String,
-                  let imageBase64 = json["ImageBase64"] as? String,
-                  !captchaId.isEmpty,
-                  !imageBase64.isEmpty else {
-                print("[SSO] CaptchaId or ImageBase64 missing")
-                return nil
-            }
-
-            return CaptchaSession(
-                captchaId: captchaId,
-                imageBase64: imageBase64
-            )
-        } catch {
-            print("[SSO] Captcha JSON parse error:", error.localizedDescription)
-            return nil
-        }
     }
 }
 
@@ -244,7 +197,11 @@ private enum SSOLoginAPIParser {
         let loweredMessage = message.lowercased()
         let loweredBody = body.lowercased()
 
-        if message.contains("驗證碼") || loweredMessage.contains("captcha") || loweredBody.contains("captcha") {
+        if message.contains("驗證碼") ||
+            loweredMessage.contains("captcha") ||
+            loweredBody.contains("captcha") ||
+            loweredMessage.contains("turnstile") ||
+            loweredBody.contains("turnstile") {
             return .captchaError(message: message)
         }
 
@@ -356,16 +313,13 @@ private enum SSOResponseInterceptorJS {
                 if (!url) return false;
 
                 return url.includes('/SSO/API/') &&
-                       !url.includes('/SSO/API/Captcha/Generate') &&
                        !url.includes('/SSO/API/Login');
             }
 
             function shouldCapture(url) {
                 if (!url) return false;
 
-                return url.includes('/SSO/API/Captcha/Generate') ||
-                       url.includes('Captcha/Generate') ||
-                       url.includes('/SSO/API/Login') ||
+                return url.includes('/SSO/API/Login') ||
                        url.includes('SSO/API/Login') ||
                        url.includes('/SSO/API/Authorization/info') ||
                        url.includes('SSO/API/Authorization/info') ||
@@ -572,15 +526,15 @@ public struct SSOLoginWebView: UIViewRepresentable {
         private let parent: SSOLoginWebView
         private weak var webView: WKWebView?
 
-        // 是否正在處理目前 captcha pipeline。
-        private var isProcessingCaptcha = false
+        // 是否正在等待 Turnstile token 或送出登入 API。
+        private var isProcessingTurnstileLogin = false
 
-        // 每次 captcha / login 嘗試都遞增。
+        // 每次 Turnstile / login 嘗試都遞增。
         // 所有非同步 callback 回來時都要比對 attemptID，避免舊 callback 汙染新流程。
         private var activeAttemptID: Int = 0
 
         // 已取得登入 API success/token，等待 Authorization/info 回應取得 chName。
-        // 這段期間不重新 OCR、不 reload、不重新 POST。
+        // 這段期間不重新輪詢 Turnstile、不 reload、不重新 POST。
         private var isWaitingForAuthorizationInfo = false
 
         // 登入成功或確定失敗後鎖定整個登入流程。
@@ -595,12 +549,9 @@ public struct SSOLoginWebView: UIViewRepresentable {
         // 同一輪 attempt 只允許 POST 一次。
         private var postedAttemptID: Int?
 
-        // 目前 captcha session。
-        private var captchaSession: CaptchaSession?
-
-        // 避免 OCR / captcha 錯誤時無限制重試。
-        private var captchaRetryCount = 0
-        private let maxCaptchaRetryCount = 8
+        // Turnstile token 輪詢上限，避免 Cloudflare 沒完成時無止盡等待。
+        private var turnstilePollCount = 0
+        private let maxTurnstilePollCount = 40
 
         // 等待 Authorization/info 的輪詢上限。
         // 正常情況會由網站自己發 GET 並被 JS 攔截；若沒有發出，Swift 端會補一個直接 GET。
@@ -676,14 +627,16 @@ public struct SSOLoginWebView: UIViewRepresentable {
             }
 
             if isLoginURL(urlStr) {
-                if isProcessingCaptcha {
-                    print("[SSO] didFinish on login page but captcha pipeline is running, skip re-entry")
+                if isProcessingTurnstileLogin {
+                    print("[SSO] didFinish on login page but Turnstile login pipeline is running, skip re-entry")
                     return
                 }
 
-                // 正常情況由網頁自己呼叫 Captcha/Generate，JS 攔截後會進入 handleCaptchaGenerateResponse。
-                // 若網頁沒有如預期送出 Captcha/Generate，Swift 端補打一個 POST 取得新 captcha。
-                scheduleFreshCaptchaRequest(delay: 0.8, reason: "login page didFinish fallback")
+                activeAttemptID += 1
+                let attemptID = activeAttemptID
+                postedAttemptID = nil
+                turnstilePollCount = 0
+                waitForTurnstileTokenAndPostLogin(attemptID: attemptID, delay: 0.5)
                 return
             }
         }
@@ -775,17 +728,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 return
             }
 
-            if response.isCaptchaGenerateResponse {
-                guard response.isSuccessStatus else {
-                    print("[SSO] Captcha Generate failed, status:", response.status)
-                    handleCaptchaRetry(reason: "captcha generate status \(response.status)", delay: 1.0)
-                    return
-                }
-
-                handleCaptchaGenerateResponse(response.body, source: "captured")
-                return
-            }
-
             // WebView 自己送出的 Login response 只做備援判斷。
             // 主要登入 response 由 Swift URLSession 的 postLoginIfNeeded 處理。
             if response.isLoginResponse {
@@ -800,114 +742,127 @@ public struct SSOLoginWebView: UIViewRepresentable {
             }
         }
 
-        // MARK: - Captcha Flow
+        // MARK: - Turnstile Flow
 
-        private func handleCaptchaGenerateResponse(_ body: String, source: String) {
+        private func waitForTurnstileTokenAndPostLogin(
+            attemptID: Int,
+            delay: TimeInterval
+        ) {
             guard !isLoginCompleted else {
-                print("[SSO] Ignore Captcha/Generate because login completed")
+                print("[SSO] Login completed, skip Turnstile polling #\(attemptID)")
                 return
             }
 
             guard !isWaitingForAuthorizationInfo else {
-                print("[SSO] Ignore Captcha/Generate because waiting Authorization/info")
-                return
-            }
-
-            guard let session = CaptchaResponseParser.parse(body) else {
-                handleCaptchaRetry(reason: "captcha parse failed from \(source)", delay: 1.0)
-                return
-            }
-
-            guard !isProcessingCaptcha else {
-                print("[SSO] Captcha response received but captcha pipeline is running, skip")
-                return
-            }
-
-            retryWorkItem?.cancel()
-            retryWorkItem = nil
-
-            activeAttemptID += 1
-            let attemptID = activeAttemptID
-
-            captchaSession = session
-            postedAttemptID = nil
-
-            print("[SSO] CaptchaSession updated #\(attemptID), source:", source)
-            print("[SSO] Internal CaptchaId:", session.captchaId)
-            print("[SSO] Internal Base64 length:", session.imageBase64.count)
-
-            continueLoginFlowIfReady(attemptID: attemptID)
-        }
-
-        private func continueLoginFlowIfReady(attemptID: Int) {
-            guard !isLoginCompleted else {
-                print("[SSO] Login completed, skip captcha flow #\(attemptID)")
-                return
-            }
-
-            guard !isWaitingForAuthorizationInfo else {
-                print("[SSO] Waiting Authorization/info, skip captcha flow #\(attemptID)")
-                return
-            }
-
-            guard !isProcessingCaptcha else {
-                print("[SSO] Captcha flow already running, skip #\(attemptID)")
+                print("[SSO] Waiting Authorization/info, skip Turnstile polling #\(attemptID)")
                 return
             }
 
             guard attemptID == activeAttemptID else {
-                print("[SSO] Ignore stale continueLoginFlow #\(attemptID)")
+                print("[SSO] Ignore stale Turnstile polling #\(attemptID)")
                 return
             }
 
-            guard let captchaSession else {
-                print("[SSO] CaptchaSession not ready #\(attemptID)")
+            guard postedAttemptID != attemptID else {
+                print("[SSO] Already posted login for attempt #\(attemptID), skip Turnstile polling")
                 return
             }
 
-            isProcessingCaptcha = true
-
-            print("[SSO] CaptchaSession ready #\(attemptID)")
-            print("[SSO] Ready to continue login flow #\(attemptID)")
-
-            let b64 = stripDataURLPrefix(captchaSession.imageBase64)
-
-            guard let imgData = Data(base64Encoded: b64),
-                  let image = UIImage(data: imgData) else {
-                print("[SSO] Base64 → UIImage failed #\(attemptID)")
-                isProcessingCaptcha = false
-                handleCaptchaRetry(reason: "captcha UIImage decode failed", delay: 1.0)
+            guard let webView else {
+                markLoginCompleted(reason: "webView missing before Turnstile polling")
+                reportFailureIfNeeded(.systemError(message: "登入元件初始化失敗"))
                 return
             }
 
-            SSOCaptchaProcessor.shared.recognize(from: image) { [weak self] digits in
+            isProcessingTurnstileLogin = true
+            retryWorkItem?.cancel()
+
+            let work = DispatchWorkItem { [weak self] in
                 guard let self = self else { return }
 
-                DispatchQueue.main.async {
+                guard attemptID == self.activeAttemptID else {
+                    print("[SSO] Ignore stale Turnstile work item #\(attemptID)")
+                    return
+                }
+
+                guard !self.isLoginCompleted else {
+                    print("[SSO] Login completed, ignore Turnstile work item #\(attemptID)")
+                    return
+                }
+
+                guard !self.isWaitingForAuthorizationInfo else {
+                    print("[SSO] Waiting Authorization/info, ignore Turnstile work item #\(attemptID)")
+                    return
+                }
+
+                self.readTurnstileToken(attemptID: attemptID) { token in
                     guard attemptID == self.activeAttemptID else {
-                        print("[SSO] Ignore stale OCR callback #\(attemptID)")
+                        print("[SSO] Ignore stale Turnstile token callback #\(attemptID)")
                         return
                     }
 
                     guard !self.isLoginCompleted else {
-                        print("[SSO] Login completed, ignore OCR callback #\(attemptID)")
+                        print("[SSO] Login completed, ignore Turnstile token callback #\(attemptID)")
                         return
                     }
 
                     guard !self.isWaitingForAuthorizationInfo else {
-                        print("[SSO] Waiting Authorization/info, ignore OCR callback #\(attemptID)")
+                        print("[SSO] Waiting Authorization/info, ignore Turnstile token callback #\(attemptID)")
                         return
                     }
 
-                    self.isProcessingCaptcha = false
-
-                    if let code = digits, code.count == 6 {
-                        print("[SSO] OCR OK → \(code) #\(attemptID)")
-                        self.postLoginIfNeeded(captchaInput: code, attemptID: attemptID)
-                    } else {
-                        print("[SSO] OCR FAIL or not 6 digits #\(attemptID)")
-                        self.handleCaptchaRetry(reason: "OCR failed", delay: 1.0)
+                    if let token,
+                       !token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        print("[SSO] Turnstile token ready #\(attemptID), length:", token.count)
+                        self.retryWorkItem?.cancel()
+                        self.retryWorkItem = nil
+                        self.postLoginIfNeeded(turnstileToken: token, attemptID: attemptID)
+                        return
                     }
+
+                    self.turnstilePollCount += 1
+                    print("[SSO] Waiting Turnstile token:", self.turnstilePollCount, "/", self.maxTurnstilePollCount)
+
+                    guard self.turnstilePollCount < self.maxTurnstilePollCount else {
+                        self.isProcessingTurnstileLogin = false
+                        self.markLoginCompleted(reason: "Turnstile token timeout")
+                        self.reportFailureIfNeeded(.generic(
+                            title: "登入失敗",
+                            message: "Cloudflare驗證逾時，請稍後再試"
+                        ))
+                        return
+                    }
+
+                    self.waitForTurnstileTokenAndPostLogin(attemptID: attemptID, delay: 0.5)
+                }
+            }
+
+            retryWorkItem = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
+        }
+
+        private func readTurnstileToken(
+            attemptID: Int,
+            completion: @escaping (String?) -> Void
+        ) {
+            guard let webView else {
+                completion(nil)
+                return
+            }
+
+            let js = """
+            (function() {
+                var el = document.querySelector('[name="cf-turnstile-response"]');
+                if (!el || !el.value) { return ''; }
+                return el.value;
+            })();
+            """
+
+            evaluateJS(webView, js, "readTurnstileToken") { value in
+                if let token = value as? String {
+                    completion(token)
+                } else {
+                    completion(nil)
                 }
             }
         }
@@ -915,7 +870,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
         // MARK: - Login POST
 
         private func postLoginIfNeeded(
-            captchaInput: String,
+            turnstileToken: String,
             attemptID: Int
         ) {
             guard !isLoginCompleted else {
@@ -938,12 +893,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 return
             }
 
-            guard let captchaSession else {
-                print("[SSO] CaptchaSession missing #\(attemptID)")
-                handleCaptchaRetry(reason: "captcha session missing", delay: 1.0)
-                return
-            }
-
             guard let webView else {
                 print("[SSO] WebView missing #\(attemptID)")
                 markLoginCompleted(reason: "webView missing")
@@ -963,8 +912,7 @@ public struct SSOLoginWebView: UIViewRepresentable {
             let payload: [String: Any] = [
                 "ACNT": parent.account,
                 "Password": parent.password,
-                "CaptchaId": captchaSession.captchaId,
-                "CaptchaInput": captchaInput
+                "TurnstileToken": turnstileToken
             ]
 
             guard let body = try? JSONSerialization.data(withJSONObject: payload) else {
@@ -1032,13 +980,16 @@ public struct SSOLoginWebView: UIViewRepresentable {
                             if let error = error {
                                 print("[SSO] Login API error:", error.localizedDescription)
                                 self.postedAttemptID = nil
-                                self.handleCaptchaRetry(reason: "login network error", delay: 1.0)
+                                self.isProcessingTurnstileLogin = false
+                                self.markLoginCompleted(reason: "login network error")
+                                self.reportFailureIfNeeded(.systemError(message: "登入連線失敗，請稍後再試"))
                                 return
                             }
 
                             guard let http = response as? HTTPURLResponse else {
                                 print("[SSO] Login API response is not HTTPURLResponse")
                                 self.postedAttemptID = nil
+                                self.isProcessingTurnstileLogin = false
                                 self.markLoginCompleted(reason: "login response not HTTP")
                                 self.reportFailureIfNeeded(.systemError(message: "登入回應異常"))
                                 return
@@ -1090,11 +1041,9 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 handleLoginAPISuccess(token: token, exp: exp, attemptID: attemptID)
 
             case .captchaError(let message):
-                print("[SSO] Captcha error detected from Login API → retry with fresh captcha #\(attemptID):", message)
-                postedAttemptID = nil
-                isProcessingCaptcha = false
-                captchaSession = nil
-                handleCaptchaRetry(reason: "captcha error after login", delay: 0.8)
+                print("[SSO] Turnstile/Captcha error detected from Login API #\(attemptID):", message)
+                markLoginCompleted(reason: "turnstile or captcha rejected")
+                reportFailureIfNeeded(.generic(title: "登入失敗", message: message))
 
             case .credentialsFailed(let message):
                 markLoginCompleted(reason: "credentials failed")
@@ -1151,13 +1100,12 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 print("[SSO] Login API token exp:", exp)
             }
 
-            // 登入 API 成功後，停止 captcha / reload / POST pipeline。
+            // 登入 API 成功後，停止 Turnstile 輪詢 / POST pipeline。
             // 注意：這裡尚未 report success，需等待 Authorization/info 的 chName。
             isWaitingForAuthorizationInfo = true
-            isProcessingCaptcha = false
+            isProcessingTurnstileLogin = false
             postedAttemptID = nil
-            captchaSession = nil
-            captchaRetryCount = 0
+            turnstilePollCount = 0
             retryWorkItem?.cancel()
             retryWorkItem = nil
             authorizationInfoCheckCount = 0
@@ -1389,203 +1337,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
             reportSuccessIfNeeded(name: name)
         }
 
-        // MARK: - Captcha Retry / Direct Generate
-
-        private func handleCaptchaRetry(reason: String, delay: TimeInterval) {
-            guard !isLoginCompleted else {
-                print("[SSO] Login completed, skip retry. reason:", reason)
-                return
-            }
-
-            guard !isWaitingForAuthorizationInfo else {
-                print("[SSO] Waiting Authorization/info, skip retry. reason:", reason)
-                return
-            }
-
-            captchaRetryCount += 1
-            print("[SSO] Captcha retry reason: \(reason), count: \(captchaRetryCount)/\(maxCaptchaRetryCount)")
-
-            guard captchaRetryCount <= maxCaptchaRetryCount else {
-                print("[SSO] Captcha retry limit reached")
-                markLoginCompleted(reason: "captcha retry limit reached")
-                reportFailureIfNeeded(.generic(title: "登入失敗", message: "驗證碼辨識失敗，請稍後再試"))
-                return
-            }
-
-            activeAttemptID += 1
-            isProcessingCaptcha = false
-            postedAttemptID = nil
-            captchaSession = nil
-
-            scheduleFreshCaptchaRequest(delay: delay, reason: reason)
-        }
-
-        private func scheduleFreshCaptchaRequest(delay: TimeInterval, reason: String) {
-            guard !isLoginCompleted else {
-                print("[SSO] Login completed, skip fresh captcha request scheduling")
-                return
-            }
-
-            guard !isWaitingForAuthorizationInfo else {
-                print("[SSO] Waiting Authorization/info, skip fresh captcha request scheduling")
-                return
-            }
-
-            retryWorkItem?.cancel()
-
-            let work = DispatchWorkItem { [weak self] in
-                guard let self = self else { return }
-
-                guard !self.isLoginCompleted else {
-                    print("[SSO] Login completed, skip fresh captcha request")
-                    return
-                }
-
-                guard !self.isWaitingForAuthorizationInfo else {
-                    print("[SSO] Waiting Authorization/info, skip fresh captcha request")
-                    return
-                }
-
-                guard !self.isProcessingCaptcha else {
-                    print("[SSO] Captcha pipeline running, skip direct generate")
-                    return
-                }
-
-                print("[SSO] Request fresh captcha. reason:", reason)
-                self.requestCaptchaGenerateByPOST()
-            }
-
-            retryWorkItem = work
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
-        }
-
-        private func requestCaptchaGenerateByPOST() {
-            guard !isLoginCompleted else {
-                print("[SSO] Login completed, skip Captcha/Generate POST")
-                return
-            }
-
-            guard !isWaitingForAuthorizationInfo else {
-                print("[SSO] Waiting Authorization/info, skip Captcha/Generate POST")
-                return
-            }
-
-            guard let url = URL(string: "https://ccsys1.niu.edu.tw/SSO/API/Captcha/Generate") else {
-                handleCaptchaRetry(reason: "captcha generate url invalid", delay: 1.0)
-                return
-            }
-
-            guard let webView else {
-                handleCaptchaRetry(reason: "webView missing for captcha generate", delay: 1.0)
-                return
-            }
-
-            let store = webView.configuration.websiteDataStore.httpCookieStore
-
-            store.getAllCookies { [weak self] cookies in
-                guard let self = self else { return }
-
-                DispatchQueue.main.async {
-                    guard !self.isLoginCompleted else {
-                        print("[SSO] Login completed, ignore Captcha/Generate cookie callback")
-                        return
-                    }
-
-                    guard !self.isWaitingForAuthorizationInfo else {
-                        print("[SSO] Waiting Authorization/info, ignore Captcha/Generate cookie callback")
-                        return
-                    }
-
-                    var request = URLRequest(url: url)
-                    request.httpMethod = "POST"
-                    request.setValue("application/json, text/plain, */*", forHTTPHeaderField: "Accept")
-                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                    request.setValue("https://ccsys1.niu.edu.tw", forHTTPHeaderField: "Origin")
-                    request.setValue("https://ccsys1.niu.edu.tw/SSO/login", forHTTPHeaderField: "Referer")
-
-                    let cookieHeader = HTTPCookie.requestHeaderFields(with: cookies)
-                    request.allHTTPHeaderFields?.merge(cookieHeader) { _, new in new }
-
-                    print("[SSO] POST /SSO/API/Captcha/Generate")
-
-                    URLSession.shared.dataTask(with: request) { data, response, error in
-                        DispatchQueue.main.async {
-                            guard !self.isLoginCompleted else {
-                                print("[SSO] Login completed, ignore Captcha/Generate response")
-                                return
-                            }
-
-                            guard !self.isWaitingForAuthorizationInfo else {
-                                print("[SSO] Waiting Authorization/info, ignore Captcha/Generate response")
-                                return
-                            }
-
-                            if let error = error {
-                                print("[SSO] Captcha/Generate API error:", error.localizedDescription)
-                                self.scheduleReloadLoginPage(delay: 1.0)
-                                return
-                            }
-
-                            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
-                            let responseBody = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
-
-                            print("[SSO] Captcha/Generate status:", statusCode)
-                            print("[SSO] Captcha/Generate body:", responseBody)
-
-                            guard statusCode >= 200 && statusCode < 300 else {
-                                self.scheduleReloadLoginPage(delay: 1.0)
-                                return
-                            }
-
-                            self.handleCaptchaGenerateResponse(responseBody, source: "swift-urlsession")
-                        }
-                    }.resume()
-                }
-            }
-        }
-
-        private func scheduleReloadLoginPage(delay: TimeInterval) {
-            guard !isLoginCompleted else {
-                print("[SSO] Login completed, skip reload scheduling")
-                return
-            }
-
-            guard !isWaitingForAuthorizationInfo else {
-                print("[SSO] Waiting Authorization/info, skip reload scheduling")
-                return
-            }
-
-            retryWorkItem?.cancel()
-
-            let work = DispatchWorkItem { [weak self] in
-                guard let self = self else { return }
-
-                guard !self.isLoginCompleted else {
-                    print("[SSO] Login completed, skip reload")
-                    return
-                }
-
-                guard !self.isWaitingForAuthorizationInfo else {
-                    print("[SSO] Waiting Authorization/info, skip reload")
-                    return
-                }
-
-                print("[SSO] Reload SSO login page for retry")
-
-                self.activeAttemptID += 1
-                self.isProcessingCaptcha = false
-                self.postedAttemptID = nil
-                self.captchaSession = nil
-
-                if let url = URL(string: "https://ccsys1.niu.edu.tw/SSO/login") {
-                    self.webView?.load(URLRequest(url: url))
-                }
-            }
-
-            retryWorkItem = work
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: work)
-        }
-
         // MARK: - Completion State
 
         private func markLoginCompleted(reason: String) {
@@ -1597,14 +1348,13 @@ public struct SSOLoginWebView: UIViewRepresentable {
 
             isLoginCompleted = true
             isWaitingForAuthorizationInfo = false
-            isProcessingCaptcha = false
+            isProcessingTurnstileLogin = false
             postedAttemptID = nil
-            captchaSession = nil
 
             retryWorkItem?.cancel()
             retryWorkItem = nil
 
-            captchaRetryCount = 0
+            turnstilePollCount = 0
             authorizationInfoCheckCount = 0
         }
 
@@ -1634,9 +1384,8 @@ public struct SSOLoginWebView: UIViewRepresentable {
 
             isLoginCompleted = true
             isWaitingForAuthorizationInfo = false
-            isProcessingCaptcha = false
+            isProcessingTurnstileLogin = false
             postedAttemptID = nil
-            captchaSession = nil
             activeAttemptID += 1
 
             webView?.stopLoading()
@@ -1679,18 +1428,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
         }
 
         // MARK: - Misc Helpers
-
-        private func stripDataURLPrefix(_ value: String) -> String {
-            if let range = value.range(of: "base64,") {
-                return String(value[range.upperBound...])
-            }
-
-            if let range = value.range(of: ",") {
-                return String(value[range.upperBound...])
-            }
-
-            return value
-        }
 
         private func escapeForJavaScriptString(_ value: String) -> String {
             value

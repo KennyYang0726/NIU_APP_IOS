@@ -1,2 +1,2 @@
 "CFBundleDisplayName" = "宜大學生App";
-"NSLocationWhenInUseUsageDescription" = "我們需要使用您的位置\n以提供 Zuvio GPS 點名\n 成就：夜市星人。";
+"NSLocationWhenInUseUsageDescription" = "我們需要取得您的位置，以記錄「夜市星人」成就的走訪進度。";

@@ -18,7 +18,7 @@ let defaultFeatures: [HomeFeature] = [
     .init(KeyIndex: 5, titleKey: "Graduation_Threshold", iconName: "\u{e802}", isSystemIcon: false),
     .init(KeyIndex: 6, titleKey: "Subject_System", iconName: "\u{e807}", isSystemIcon: false),
     .init(KeyIndex: 7, titleKey: "Bus", iconName: "\u{e806}", isSystemIcon: false),
-    .init(KeyIndex: 8, titleKey: "Zuvio",  iconName: "\u{e804}", isSystemIcon: false),
+    // .init(KeyIndex: 8, titleKey: "Zuvio",  iconName: "\u{e804}", isSystemIcon: false),
     // 用 SF Symbols
     .init(KeyIndex: 9, titleKey: "Take_Leave", iconName: "person.fill.xmark", isSystemIcon: true),
     .init(KeyIndex: 10, titleKey: "Mail",  iconName: "\u{e808}", isSystemIcon: false)

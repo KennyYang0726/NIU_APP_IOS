@@ -52,11 +52,9 @@ final class LoginViewModel: ObservableObject {
     @Published var LoginActiveAlert: LoginAlert?
 
     // MARK: - 登入狀態與流程
-    @Published var startZuvioLoginProcess = false
     @Published var startSSOLoginProcess = false
     @Published var startMailLoginProcess = false
 
-    @Published var zuvioLoginSuccess = false
     @Published var ssoLoginSuccess = false
     @Published var mailLoginSuccess = false
     // 這個代表「流程都結束了」
@@ -79,10 +77,11 @@ final class LoginViewModel: ObservableObject {
     private var loginTimeoutWorkItem: DispatchWorkItem?
     
     // MARK: - 衍生屬性
+    /*
     var zuvioLoginEmail: String {
         let idPart = account.split(separator: "@").first ?? ""
         return "\(idPart)@ms.niu.edu.tw"
-    }
+    }*/
 
     var loginAccount: String {
         return account.split(separator: "@").first.map(String.init) ?? ""
@@ -104,12 +103,10 @@ final class LoginViewModel: ObservableObject {
         }
         cancelLoginTimeout()
         showOverlay = true
-        zuvioLoginSuccess = false
         ssoLoginSuccess = false
         mailLoginSuccess = false
         waitingForPasswordExpiringDecision = false
         LoginActiveAlert = nil
-        startZuvioLoginProcess = true
         startSSOLoginProcess = true
         startMailLoginProcess = true
         // 超時檢測開始
@@ -130,23 +127,15 @@ final class LoginViewModel: ObservableObject {
             password = saved.password
             cancelLoginTimeout()
             showOverlay = true
-            zuvioLoginSuccess = false
             ssoLoginSuccess = false
             mailLoginSuccess = false
             waitingForPasswordExpiringDecision = false
             LoginActiveAlert = nil
-            startZuvioLoginProcess = true
             startSSOLoginProcess = true
             startMailLoginProcess = true
             // 超時檢測開始
             startLoginTimeout()
         }
-    }
-
-    func handleZuvioLoginResult(_ success: Bool) {
-        startZuvioLoginProcess = false
-        zuvioLoginSuccess = success
-        checkLoginResult()
     }
     
     func handleMailLoginResult(_ success: Bool) {
@@ -246,11 +235,9 @@ final class LoginViewModel: ObservableObject {
         // SSO 已明確失敗，整體登入不可能成功；立即終止本輪所有流程。
         cancelLoginTimeout()
 
-        startZuvioLoginProcess = false
         startMailLoginProcess = false
         startSSOLoginProcess = false
 
-        zuvioLoginSuccess = false
         mailLoginSuccess = false
         ssoLoginSuccess = false
 
@@ -271,7 +258,7 @@ final class LoginViewModel: ObservableObject {
 
     private func checkLoginResult() {
         // 當三邊都完成才收斂
-        guard !startZuvioLoginProcess, !startSSOLoginProcess, !startMailLoginProcess else { return }
+        guard !startSSOLoginProcess, !startMailLoginProcess else { return }
         // 超時檢測結束
         cancelLoginTimeout()
         // UI 收斂
@@ -279,7 +266,7 @@ final class LoginViewModel: ObservableObject {
         // 這裡代表「本次登入嘗試已完成」
         loginFinishedToken += 1
 
-        let allSuccess = (zuvioLoginSuccess && ssoLoginSuccess && mailLoginSuccess)
+        let allSuccess = (ssoLoginSuccess && mailLoginSuccess)
         if allSuccess {
             // 成功才存帳密
             repository.saveCredentials(username: account.uppercased(), password: password)
@@ -319,7 +306,7 @@ final class LoginViewModel: ObservableObject {
         waitingForPasswordExpiringDecision = false
 
         // 只有在三邊都已成功時，才觸發導頁
-        if zuvioLoginSuccess && ssoLoginSuccess && mailLoginSuccess {
+        if ssoLoginSuccess && mailLoginSuccess {
             proceedToHomeToken += 1
         }
     }
@@ -353,9 +340,8 @@ final class LoginViewModel: ObservableObject {
             guard let self = self else { return }
 
             // 若登入尚未完成，視為失敗
-            if self.startZuvioLoginProcess || self.startSSOLoginProcess || self.startMailLoginProcess {
+            if self.startSSOLoginProcess || self.startMailLoginProcess {
 
-                let zuvioPending = self.startZuvioLoginProcess
                 let ssoPending = self.startSSOLoginProcess
                 let mailPending = self.startMailLoginProcess
 
@@ -363,14 +349,7 @@ final class LoginViewModel: ObservableObject {
                 self.loginFinishedToken += 1
 
                 // 根據卡住的來源顯示不同訊息
-                if zuvioPending && ssoPending {
-                    self.LoginActiveAlert = .loginFailed
-                } else if zuvioPending {
-                    self.LoginActiveAlert = .ssoGeneric(
-                        title: NSLocalizedString("Dialog_Timeout_Title", comment: ""),
-                        message: NSLocalizedString("Dialog_Zuvio_Timeout_Message", comment: "")
-                    )
-                } else if ssoPending {
+                if ssoPending {
                     self.LoginActiveAlert = .ssoGeneric(
                         title: NSLocalizedString("Dialog_Timeout_Title", comment: ""),
                         message: NSLocalizedString("Dialog_SSO_Timeout_Message", comment: "")
@@ -390,13 +369,11 @@ final class LoginViewModel: ObservableObject {
 
     /// 超時時必須一次關閉所有 WebView 流程，避免 SSOLoginWebView 被 VM 判定超時後仍持續 reload。
     private func stopAllLoginProcessesForTimeout() {
-        startZuvioLoginProcess = false
         startSSOLoginProcess = false
         startMailLoginProcess = false
 
         showOverlay = false
 
-        zuvioLoginSuccess = false
         ssoLoginSuccess = false
         mailLoginSuccess = false
 
@@ -483,10 +460,8 @@ final class LoginViewModel: ObservableObject {
                 guard !cleanTitle.isEmpty || !cleanMessage.isEmpty else { return }
                 
                 // 觸發 forceNotice 前，先停止所有登入流程與成功狀態
-                self.startZuvioLoginProcess = false
                 self.startSSOLoginProcess = false
                 self.startMailLoginProcess = false
-                self.zuvioLoginSuccess = false
                 self.ssoLoginSuccess = false
                 self.mailLoginSuccess = false
 
@@ -507,13 +482,11 @@ extension LoginViewModel {
         cancelLoginTimeout()
 
         showOverlay = false
-        zuvioLoginSuccess = false
         ssoLoginSuccess = false
         mailLoginSuccess = false
         loginFinishedToken = 0
         proceedToHomeToken = 0
         waitingForPasswordExpiringDecision = false
-        startZuvioLoginProcess = false
         startSSOLoginProcess = false
         startMailLoginProcess = false
         LoginActiveAlert = nil

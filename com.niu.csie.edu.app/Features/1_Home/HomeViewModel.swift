@@ -17,7 +17,6 @@ final class HomeViewModel: ObservableObject {
     
     // 標誌位，判斷分別登出 js 是否執行完成
     @Published var SSO_Login = true
-    @Published var Zuvio_Login = true
     
     // progress overlay
     @Published var showOverlay: Bool = false
@@ -30,19 +29,7 @@ final class HomeViewModel: ObservableObject {
 
     private let loginRepo = LoginRepository()
     private let appSettings: AppSettings
-    /*
-    let SSO_Logout_JS = """
-    (function() {
-        var btn = document.querySelector('.btn-logout');
-        if (btn) { 
-            btn.click(); 
-            return 'clicked'; 
-        } else { 
-            return 'not found'; 
-        }
-    })();
-    """
-    private let Zuvio_Logout_JS = "setting_logout();"*/
+    
 
     init(appSettings: AppSettings) {
         self.appSettings = appSettings

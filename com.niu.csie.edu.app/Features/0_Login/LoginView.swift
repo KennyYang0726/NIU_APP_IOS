@@ -22,7 +22,7 @@ struct LoginView: View {
                 }
                 .frame(width: 300, height: 300)
                 //.offset(x: UIScreen.main.bounds.width * 2)
-            }
+            }/*
             if vm.startZuvioLoginProcess {
                 ZuvioLoginWebView(
                     account: vm.zuvioLoginEmail,
@@ -32,7 +32,7 @@ struct LoginView: View {
                 }
                 .frame(width: 300, height: 300)
                 //.offset(x: UIScreen.main.bounds.width * 2)
-            }
+            }*/
             if vm.startMailLoginProcess {
                 MailLoginWebView(
                     account: vm.loginAccount,
@@ -44,7 +44,6 @@ struct LoginView: View {
                 //.offset(x: UIScreen.main.bounds.width * 2)
             }
         }
-        
         VStack(spacing: metrics.mainSpacing) {
             // Logo
             Image("niu_logo")

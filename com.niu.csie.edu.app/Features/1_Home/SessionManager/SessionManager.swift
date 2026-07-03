@@ -9,10 +9,10 @@ final class SessionManager: ObservableObject {
 
     @Published var ssoDataInvalid: Bool = false // 通知 HomeView 是否登入過期，true 即過期
 
-    let webZuvio = WebView_Provider(
+    /*let webZuvio = WebView_Provider(
         initialURL: "https://irs.zuvio.com.tw/student5/setting/index",
         userAgent: .mobile
-    )
+    )*/
 
     let webMail = WebView_Provider(
         initialURL: "https://mail.niu.edu.tw/NUMail/Mobile/Box/INBOX",
@@ -421,7 +421,7 @@ final class SessionManager: ObservableObject {
     // MARK: - 登出流程（不依賴任何畫面是否在眼前）
 
     func logout(appState: AppState, appSettings: AppSettings, loginRepo: LoginRepository) {
-        let Zuvio_Logout_JS = "setting_logout();"
+        // let Zuvio_Logout_JS = "setting_logout();"
         let Mail_Logout_JS = """
         (function() {
           var spans = document.querySelectorAll('span.sc-pLxQr.dlxlap');
@@ -441,12 +441,12 @@ final class SessionManager: ObservableObject {
         // 1) Zuvio / Mail WebView 各自執行登出 JS → 清快取。
         let group = DispatchGroup()
 
-        group.enter()
+        /*group.enter()
         webZuvio.evaluateJS(Zuvio_Logout_JS) { [weak self] _ in
             self?.webZuvio.clearCache {
                 group.leave()
             }
-        }
+        }*/
 
         group.enter()
         webMail.evaluateJS(Mail_Logout_JS) { [weak self] _ in

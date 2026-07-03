@@ -88,7 +88,7 @@ struct Drawer_Huh1View: View {
                 Huh2Page(title: "Bus_Page_0_1_Title", imageName: "Huh_Bus_image1", description: "Bus_Page_0_1_Message"),
                 Huh2Page(title: "Bus_Page_1_1_Title", imageName: "Huh_Bus_image2", description: "Bus_Page_1_1_Message")
             ]
-        ),
+        )/*,
         HuhFeature(title: "Zuvio",
             subtitle: "Zuvio_",
             iconName: "\u{e804}",
@@ -97,7 +97,7 @@ struct Drawer_Huh1View: View {
                 Huh2Page(title: "Zuvio_Page_0_1_Title", imageName: "Huh_Zuvio_image1", description: "Zuvio_Page_0_1_Message"),
                 Huh2Page(title: "Zuvio_Page_1_1_Title", imageName: "Huh_Zuvio_image2", description: "Zuvio_Page_1_1_Message")
             ]
-        ),
+        )*/,
         HuhFeature(title: "Take_Leave",
             subtitle: "Take_Leave",
             iconName: "person.fill.xmark",

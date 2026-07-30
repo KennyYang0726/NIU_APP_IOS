@@ -2,7 +2,6 @@ import SwiftUI
 import Combine
 
 
-
 @MainActor
 final class BusViewModel: ObservableObject {
     // --- 狀態 ---
@@ -12,6 +11,8 @@ final class BusViewModel: ObservableObject {
     
     // --- WebView 管理 ---
     let webProvider: WebView_Provider
+    private let initialURL = "https://www.taiwanbus.tw/eBUSPage/Query/RouteQuery.aspx?key=%E5%AE%9C%E8%98%AD%E5%A4%A7%E5%AD%B8&lan=C"
+    private var hasLoaded = false
     
     // --- JS：隱藏多餘元素 ---
     let jsHideElements = """
@@ -64,10 +65,11 @@ final class BusViewModel: ObservableObject {
     var colorScheme: ColorScheme = .light
     
     init() {
-        self.webProvider = WebView_Provider(
-            initialURL: "https://www.taiwanbus.tw/eBUSPage/Query/RouteQuery.aspx?key=%E5%AE%9C%E8%98%AD%E5%A4%A7%E5%AD%B8&lan=C",
-            userAgent: .desktop
-        )
+        self.webProvider = WebView_Provider(userAgent: .desktop)
+        self.webProvider.webView.isOpaque = false
+        self.webProvider.webView.backgroundColor = .clear
+        self.webProvider.webView.scrollView.backgroundColor = .clear
+        self.webProvider.webView.underPageBackgroundColor = .clear
         setupCallbacks()
     }
     
@@ -84,8 +86,8 @@ final class BusViewModel: ObservableObject {
             guard let self = self else { return }
             Task { @MainActor in
                 // self.overlayText = LocalizedStringKey("loading")
-                self.webProvider.setVisible(false)
                 if progress < 1.0 {
+                    self.isWebVisible = false
                     self.isOverlayVisible = true
                 }
             }
@@ -94,7 +96,9 @@ final class BusViewModel: ObservableObject {
     
     // --- 初始化狀態 ---
     func initializeState() {
-        webProvider.setVisible(false)
+        guard !hasLoaded else { return }
+        hasLoaded = true
+        webProvider.load(url: initialURL)
     }
     
     // --- 頁面載入完成時的邏輯 ---
@@ -122,13 +126,36 @@ final class BusViewModel: ObservableObject {
         if url.contains("www.taiwanbus.tw/eBUSPage/") {
             webProvider.evaluateJS(jsHideElements) { [weak self] _ in
                 guard let self = self else { return }
-                if self.colorScheme == .dark {
-                    self.webProvider.evaluateJS(self.jsDarkMode) { _ in
-                        self.showPage()
-                    }
-                } else {
-                    self.showPage()
-                }
+                self.preparePageForDisplay()
+            }
+        }
+    }
+    
+    // --- 等待樣式完成並繪製到畫面 ---
+    private func preparePageForDisplay() {
+        let jsPreparePage = colorScheme == .dark ? """
+        \(jsDarkMode)
+        await new Promise(resolve => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(resolve);
+            });
+        });
+        """ : """
+        await new Promise(resolve => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(resolve);
+            });
+        });
+        """
+        
+        webProvider.webView.callAsyncJavaScript(
+            jsPreparePage,
+            arguments: [:],
+            in: nil,
+            in: .page
+        ) { [weak self] _ in
+            Task { @MainActor in
+                self?.showPage()
             }
         }
     }

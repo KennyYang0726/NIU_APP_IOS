@@ -77,12 +77,6 @@ final class LoginViewModel: ObservableObject {
     private var loginTimeoutWorkItem: DispatchWorkItem?
     
     // MARK: - 衍生屬性
-    /*
-    var zuvioLoginEmail: String {
-        let idPart = account.split(separator: "@").first ?? ""
-        return "\(idPart)@ms.niu.edu.tw"
-    }*/
-
     var loginAccount: String {
         return account.split(separator: "@").first.map(String.init) ?? ""
     }

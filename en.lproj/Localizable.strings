@@ -20,7 +20,7 @@
 "Dialog_SystemError_Message" = "Unknown error occurred, please try again later.";
 "Dialog_Timeout_Title" = "Connection Timeout";
 "Dialog_Zuvio_Timeout_Message" = "Zuvio is taking too long to respond. Please check your internet connection or try again later.";
-"Dialog_SSO_Timeout_Message" = "NIU SSO system is taking too long to respond. Please check your internet connection or try again later.";
+"Dialog_SSO_Timeout_Message" = "NIU SSO timed out. Check your connection and make sure VPN, proxy, and virtual environments are turned off. Please try again later.";
 "Dialog_Mail_Timeout_Message" = "NIU mail system is taking too long to respond. Please check your internet connection or try again later.";
 "Dialog_PWD_almost_expired_Title" = "Password Is About to Expire!";
 "Dialog_PWD_expired_Title" = "Password Expired!";
@@ -38,7 +38,7 @@
 "EUNI" = "EUNI ";
 "Score_Inquiry" = "Grade Inquiry";
 "Class_Schedule" = "Class Schedule";
-"Event_Registration" = "Event Registration";
+"Event_Registration" = "Events Registration";
 "Contact_Us" = "Contact Us";
 "Graduation_Threshold" = "Graduation Requirements";
 "Subject_System" = "Course Selection";
@@ -115,7 +115,7 @@
 "EUNI_Page_4_1_Message" = "Access the full content of this course from here.";
 "Score_Inquiry_" = "Check your grades at a glance";
 "Score_Inquiry_Page_0_1_Title" = "Midterm Grades";
-"Score_Inquiry_Page_0_1_Message" = "Once instructors upload grades to the academic system, your midterm results will appear here.\nUse the tabs above to switch between Midterm and Final Grades.";
+"Score_Inquiry_Page_0_1_Message" = "Once instructors upload grades to the academic system, your midterm results will appear here.\nUse the tabs above to switch between Midterm, Final Grades, and Academic Records.";
 "Score_Inquiry_Page_1_1_Title" = "Final Grades";
 "Score_Inquiry_Page_1_1_Message" = "Displays your final grades and class ranking. Rankings become available once all course grades have been submitted.";
 "Score_Inquiry_Page_2_1_Title" = "Academic Records";
@@ -214,9 +214,9 @@
 "EUNI_Report" = "Report";
 "EUNI_More" = "More";
 // 成績查詢
-"scoreInquiry_tab_mid_term_results" = "Mid\nTerm";
-"scoreInquiry_tab_final_term_results" = "Final\nTerm";
-"scoreInquiry_tab_academic_records" = "Academic Records";
+"scoreInquiry_tab_mid_term_results" = "Midterm";
+"scoreInquiry_tab_final_term_results" = "Final\nGrade";
+"scoreInquiry_tab_academic_records" = "Academic\nRecords";
 "score" = "Score:";
 "Not_uploaded" = "Not uploaded";
 "Elective" = "Elective";
@@ -225,6 +225,8 @@
 "Ranking_Text" = "Class Rank:";
 "Ranking %@" = "No. %@";
 "CanNotCalc" = "Unable to calculate";
+// 我的課表
+"ClassScheduleShareTitle" = "%@ %@'s Class Schedule";
 // 活動報名
 "eventReg_tab_eventsList" = "Events List";
 "Event_Detail_Title" = "Details";

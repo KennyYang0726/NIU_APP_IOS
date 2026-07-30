@@ -19,6 +19,18 @@ struct ClassScheduleView: View {
                 
                 ProgressOverlay(isVisible: $vm.isOverlayVisible, text: vm.overlayText)
             }
+            // 分享課表按鈕
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        vm.shareSchedule()
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                            .foregroundStyle(.white) // simulator 17.x, 18.x 不加入會不顯示圖標文字
+                    }
+                    .disabled(!vm.canShareSchedule)
+                }
+            }
             // 返回手勢攔截
             .background(
                 NavigationSwipeHijacker(

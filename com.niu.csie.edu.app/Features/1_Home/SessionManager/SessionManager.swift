@@ -212,7 +212,7 @@ final class SessionManager: ObservableObject {
         }
 
         if remainingSeconds <= refreshThresholdSeconds {
-            print("[SSO][HOME] token expires within 5 minutes, refresh needed")
+            print("[SSO][HOME] token expires within 10 minutes, refresh needed")
             return true
         }
 

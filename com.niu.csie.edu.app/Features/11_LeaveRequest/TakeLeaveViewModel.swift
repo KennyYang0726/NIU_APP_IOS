@@ -10,14 +10,13 @@ final class TakeLeaveViewModel: ObservableObject {
     @Published var isWebVisible = false
     
     let webProvider: WebView_Provider
-    private let jsHideElements = """
-    document.getElementById('QTable2').style.display = 'none';
-    document.querySelector('a[href="JavaScript:showHideQtable();"]').closest('table').style.display = 'none';
-    """
     private let ssoSession = SSOSession.shared
     
     init() {
-        let fullURL = "https://acade.niu.edu.tw/NIU/Login.aspx?GUID=\(ssoSession.guid1)"
+        let fullURL = try! AcadeUrlUtil.buildUrl(
+            code: "SEC2010",
+            guid: ssoSession.guid1
+        )
         self.webProvider = WebView_Provider(
             initialURL: fullURL,
             userAgent: .desktop
@@ -52,21 +51,11 @@ final class TakeLeaveViewModel: ObservableObject {
     }
     
     private func handlePageFinished(url: String?) {
-        switch url {
-        case "https://acade.niu.edu.tw/NIU/MainFrame.aspx":
-            let headers = [
-                "Referer": "https://acade.niu.edu.tw/NIU/Application/SEC/SEC20/SEC2010_02.aspx"
-            ]
-            webProvider.load(
-                url: "https://acade.niu.edu.tw/NIU/Application/SEC/SEC20/SEC2010_01.aspx",
-                headers: headers
-            )
-        case "https://acade.niu.edu.tw/NIU/Application/SEC/SEC20/SEC2010_01.aspx":
-            webProvider.evaluateJS(jsHideElements) { [weak self] _ in
-                self?.showPage()
-            }
-        default:
-            break
+        guard let url else {
+            return
+        }
+        if url.contains("GUID=") {
+            showPage()
         }
     }
     

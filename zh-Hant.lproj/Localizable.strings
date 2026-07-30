@@ -20,7 +20,7 @@
 "Dialog_SystemError_Message" = "發生未知錯誤，請稍後再試";
 "Dialog_Timeout_Title" = "連線逾時！";
 "Dialog_Zuvio_Timeout_Message" = "Zuvio 連線逾時，請檢查網路連線狀態，或稍後再試。";
-"Dialog_SSO_Timeout_Message" = "校園整合登入系統連線逾時，請檢查網路連線狀態，或稍後再試。";
+"Dialog_SSO_Timeout_Message" = "校園整合登入系統登入逾時，請確認網路連線穩定，並使用真實裝置登入，且未啟用VPN、代理伺服器或虛擬環境，或稍後再試。";
 "Dialog_Mail_Timeout_Message" = "校園信箱系統連線逾時，請檢查網路連線狀態，或稍後再試。";
 "Dialog_PWD_almost_expired_Title" = "密碼即將到期";
 "Dialog_PWD_expired_Title" = "密碼已到期";
@@ -115,9 +115,9 @@
 "EUNI_Page_4_1_Message" = "該選項可直接瀏覽課程全部內容";
 "Score_Inquiry_" = "對自己的成績一目了然";
 "Score_Inquiry_Page_0_1_Title" = "期中成績";
-"Score_Inquiry_Page_0_1_Message" = "成績查詢系統，待教師上傳成績至校務系統後，顯示課程期中成績。\n點選上方功能條，可切換「期中成績」、「期末成績」";
-"Score_Inquiry_Page_1_1_Title" = "期末成績";
-"Score_Inquiry_Page_1_1_Message" = "顯示期末成績與班排名，班排名需要等所有課程皆有成績資訊才能計算！";
+"Score_Inquiry_Page_0_1_Message" = "成績查詢系統，待教師上傳成績至校務系統後，顯示課程期中成績。\n點選上方功能條，可切換「期中成績」、「學期成績」、「歷年成績」";
+"Score_Inquiry_Page_1_1_Title" = "學期成績";
+"Score_Inquiry_Page_1_1_Message" = "顯示學期成績與班排名，班排名需要等所有課程皆有成績資訊才能計算！";
 "Score_Inquiry_Page_2_1_Title" = "歷年成績";
 "Score_Inquiry_Page_2_1_Message" = "顯示歷年成績與班排名，不用再到校務行政系統找得眼花撩亂！";
 "Class_Schedule_" = "更方便的查看課表";
@@ -215,7 +215,7 @@
 "EUNI_More" = "更多";
 // 成績查詢
 "scoreInquiry_tab_mid_term_results" = "期中成績";
-"scoreInquiry_tab_final_term_results" = "期末成績";
+"scoreInquiry_tab_final_term_results" = "學期成績";
 "scoreInquiry_tab_academic_records" = "歷年成績";
 "score" = "分數：";
 "Not_uploaded" = "未上傳";
@@ -225,6 +225,8 @@
 "Ranking_Text" = "班級排名：";
 "Ranking %@" = "第 %@ 名";
 "CanNotCalc" = "無法計算";
+// 我的課表
+"ClassScheduleShareTitle" = "%@ %@ 的課表";
 // 活動報名
 "eventReg_tab_eventsList" = "≡活動報名";
 "Event_Detail_Title" = "詳細資料";

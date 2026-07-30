@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1024D2B92FF99970004E4A73 /* AcadeUrlUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1024D2B82FF9996E004E4A73 /* AcadeUrlUtil.swift */; };
+		1024D2BD2FFA7A10004E4A73 /* WebViewJSWaitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1024D2BA2FFA77F1004E4A73 /* WebViewJSWaitHelper.swift */; };
+		1024D2BF2FFAB7FE004E4A73 /* ClassScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1024D2BE2FFAB7FE004E4A73 /* ClassScheduleViewModel.swift */; };
 		104F326C2EACB90000C1B28D /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 104F326B2EACB90000C1B28D /* DeviceKit */; };
 		1050E1852EA240AF00120A06 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1050E1832EA240AF00120A06 /* InfoPlist.strings */; };
 		1051188D2F74439B00D8DA55 /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118872F74439B00D8DA55 /* FirebaseAuthManager.swift */; };
@@ -71,7 +74,6 @@
 		105119552F74439B00D8DA55 /* ScoreInquiryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118E12F74439B00D8DA55 /* ScoreInquiryTabView.swift */; };
 		105119562F74439B00D8DA55 /* ScoreInquiryTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118E22F74439B00D8DA55 /* ScoreInquiryTabViewModel.swift */; };
 		105119572F74439B00D8DA55 /* ClassScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118E42F74439B00D8DA55 /* ClassScheduleView.swift */; };
-		105119582F74439B00D8DA55 /* ClassScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118E52F74439B00D8DA55 /* ClassScheduleViewModel.swift */; };
 		105119592F74439B00D8DA55 /* customalertdialog_eventDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118E72F74439B00D8DA55 /* customalertdialog_eventDetail.swift */; };
 		1051195A2F74439B00D8DA55 /* customalertdialog_eventModdingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118E82F74439B00D8DA55 /* customalertdialog_eventModdingInfo.swift */; };
 		1051195B2F74439B00D8DA55 /* CustomAlertDialogShared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105118E92F74439B00D8DA55 /* CustomAlertDialogShared.swift */; };
@@ -141,6 +143,7 @@
 		108626802F76A5480058646E /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086267F2F76A5460058646E /* UIApplication.swift */; };
 		10B53FD82EE1DA980018BCE4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10B53FD62EE1DA980018BCE4 /* Localizable.strings */; };
 		10C1AC2D2EE905AF0031211B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */; };
+		10D6890F2FFBEBD400C248E3 /* ClassScheduleSnapshotSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D6890E2FFBEBD300C248E3 /* ClassScheduleSnapshotSharer.swift */; };
 		10F5CC392FAE24DC00B505E1 /* MarqueeAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F5CC382FAE24DA00B505E1 /* MarqueeAnnouncement.swift */; };
 		10F5CC3B2FAE258F00B505E1 /* MarqueeBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F5CC3A2FAE258F00B505E1 /* MarqueeBannerView.swift */; };
 		1AA990812C8351D200819A69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AA990802C8351D200819A69 /* Assets.xcassets */; };
@@ -148,6 +151,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1024D2B82FF9996E004E4A73 /* AcadeUrlUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcadeUrlUtil.swift; sourceTree = "<group>"; };
+		1024D2BA2FFA77F1004E4A73 /* WebViewJSWaitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewJSWaitHelper.swift; sourceTree = "<group>"; };
+		1024D2BE2FFAB7FE004E4A73 /* ClassScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewModel.swift; sourceTree = "<group>"; };
 		1050E1842EA240AF00120A06 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
 		1050E1862EA240C600120A06 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
 		105118872F74439B00D8DA55 /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
@@ -212,7 +218,6 @@
 		105118E12F74439B00D8DA55 /* ScoreInquiryTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInquiryTabView.swift; sourceTree = "<group>"; };
 		105118E22F74439B00D8DA55 /* ScoreInquiryTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreInquiryTabViewModel.swift; sourceTree = "<group>"; };
 		105118E42F74439B00D8DA55 /* ClassScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassScheduleView.swift; sourceTree = "<group>"; };
-		105118E52F74439B00D8DA55 /* ClassScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewModel.swift; sourceTree = "<group>"; };
 		105118E72F74439B00D8DA55 /* customalertdialog_eventDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalertdialog_eventDetail.swift; sourceTree = "<group>"; };
 		105118E82F74439B00D8DA55 /* customalertdialog_eventModdingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalertdialog_eventModdingInfo.swift; sourceTree = "<group>"; };
 		105118E92F74439B00D8DA55 /* CustomAlertDialogShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertDialogShared.swift; sourceTree = "<group>"; };
@@ -280,6 +285,7 @@
 		10B53FD92EE1DB3A0018BCE4 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		10C1A8072EE810460031211B /* com.niu.csie.edu.app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = com.niu.csie.edu.app.entitlements; sourceTree = "<group>"; };
 		10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		10D6890E2FFBEBD300C248E3 /* ClassScheduleSnapshotSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassScheduleSnapshotSharer.swift; sourceTree = "<group>"; };
 		10F5CC382FAE24DA00B505E1 /* MarqueeAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeAnnouncement.swift; sourceTree = "<group>"; };
 		10F5CC3A2FAE258F00B505E1 /* MarqueeBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeBannerView.swift; sourceTree = "<group>"; };
 		1AA990792C8351CD00819A69 /* com.niu.csie.edu.app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = com.niu.csie.edu.app.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -545,7 +551,7 @@
 			path = 2_EUNI;
 			sourceTree = "<group>";
 		};
-		105118E32F74439B00D8DA55 /* 3_ScoreInquiry */ = {
+		105118E32F74439B00D8DA55 /* 3_GradeInquiry */ = {
 			isa = PBXGroup;
 			children = (
 				105118D92F74439B00D8DA55 /* ScoreInquiry_Tab_ListView.swift */,
@@ -559,14 +565,15 @@
 				105118E12F74439B00D8DA55 /* ScoreInquiryTabView.swift */,
 				105118E22F74439B00D8DA55 /* ScoreInquiryTabViewModel.swift */,
 			);
-			path = 3_ScoreInquiry;
+			path = 3_GradeInquiry;
 			sourceTree = "<group>";
 		};
 		105118E62F74439B00D8DA55 /* 4_ClassSchedule */ = {
 			isa = PBXGroup;
 			children = (
+				10D6890E2FFBEBD300C248E3 /* ClassScheduleSnapshotSharer.swift */,
 				105118E42F74439B00D8DA55 /* ClassScheduleView.swift */,
-				105118E52F74439B00D8DA55 /* ClassScheduleViewModel.swift */,
+				1024D2BE2FFAB7FE004E4A73 /* ClassScheduleViewModel.swift */,
 			);
 			path = 4_ClassSchedule;
 			sourceTree = "<group>";
@@ -589,7 +596,7 @@
 			path = EventInfoRow;
 			sourceTree = "<group>";
 		};
-		105118F72F74439B00D8DA55 /* 5_EventRegistration */ = {
+		105118F72F74439B00D8DA55 /* 5_EventsRegistration */ = {
 			isa = PBXGroup;
 			children = (
 				108626752F7520F40058646E /* QrcodeScanner */,
@@ -607,7 +614,7 @@
 				105118F52F74439B00D8DA55 /* EventRegistrationTabView.swift */,
 				105118F62F74439B00D8DA55 /* EventRegistrationTabViewModel.swift */,
 			);
-			path = 5_EventRegistration;
+			path = 5_EventsRegistration;
 			sourceTree = "<group>";
 		};
 		105118FF2F74439B00D8DA55 /* 6_ContactUs */ = {
@@ -624,7 +631,7 @@
 			path = 6_ContactUs;
 			sourceTree = "<group>";
 		};
-		105119042F74439B00D8DA55 /* 7_GraduationThreshold */ = {
+		105119042F74439B00D8DA55 /* 7_GraduationRequirements */ = {
 			isa = PBXGroup;
 			children = (
 				105119002F74439B00D8DA55 /* DiverseHoursProgressBarFilled.swift */,
@@ -632,16 +639,16 @@
 				105119022F74439B00D8DA55 /* GraduationThresholdView.swift */,
 				105119032F74439B00D8DA55 /* GraduationThresholdViewModel.swift */,
 			);
-			path = 7_GraduationThreshold;
+			path = 7_GraduationRequirements;
 			sourceTree = "<group>";
 		};
-		105119072F74439B00D8DA55 /* 8_SubjectSystem */ = {
+		105119072F74439B00D8DA55 /* 8_CourseSelection */ = {
 			isa = PBXGroup;
 			children = (
 				105119052F74439B00D8DA55 /* SubjectSystemView.swift */,
 				105119062F74439B00D8DA55 /* SubjectSystemViewModel.swift */,
 			);
-			path = 8_SubjectSystem;
+			path = 8_CourseSelection;
 			sourceTree = "<group>";
 		};
 		1051190A2F74439B00D8DA55 /* 9_Bus */ = {
@@ -672,13 +679,13 @@
 			path = 10_Zuvio;
 			sourceTree = "<group>";
 		};
-		105119132F74439B00D8DA55 /* 11_TakeLeave */ = {
+		105119132F74439B00D8DA55 /* 11_LeaveRequest */ = {
 			isa = PBXGroup;
 			children = (
 				105119112F74439B00D8DA55 /* TakeLeaveView.swift */,
 				105119122F74439B00D8DA55 /* TakeLeaveViewModel.swift */,
 			);
-			path = 11_TakeLeave;
+			path = 11_LeaveRequest;
 			sourceTree = "<group>";
 		};
 		105119162F74439B00D8DA55 /* 12_Mail */ = {
@@ -704,15 +711,15 @@
 				105118A02F74439B00D8DA55 /* 0_Login */,
 				105118CF2F74439B00D8DA55 /* 1_Home */,
 				105118D82F74439B00D8DA55 /* 2_EUNI */,
-				105118E32F74439B00D8DA55 /* 3_ScoreInquiry */,
+				105118E32F74439B00D8DA55 /* 3_GradeInquiry */,
 				105118E62F74439B00D8DA55 /* 4_ClassSchedule */,
-				105118F72F74439B00D8DA55 /* 5_EventRegistration */,
+				105118F72F74439B00D8DA55 /* 5_EventsRegistration */,
 				105118FF2F74439B00D8DA55 /* 6_ContactUs */,
-				105119042F74439B00D8DA55 /* 7_GraduationThreshold */,
-				105119072F74439B00D8DA55 /* 8_SubjectSystem */,
+				105119042F74439B00D8DA55 /* 7_GraduationRequirements */,
+				105119072F74439B00D8DA55 /* 8_CourseSelection */,
 				1051190A2F74439B00D8DA55 /* 9_Bus */,
 				105119102F74439B00D8DA55 /* 10_Zuvio */,
-				105119132F74439B00D8DA55 /* 11_TakeLeave */,
+				105119132F74439B00D8DA55 /* 11_LeaveRequest */,
 				105119162F74439B00D8DA55 /* 12_Mail */,
 				105119182F74439B00D8DA55 /* AppBar_Framework */,
 				105119192F74439B00D8DA55 /* AppSettings.swift */,
@@ -778,6 +785,7 @@
 		105119952F74439B00D8DA55 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
+				1024D2BA2FFA77F1004E4A73 /* WebViewJSWaitHelper.swift */,
 				105119932F74439B00D8DA55 /* AppWebViewEnvironment.swift */,
 				105119942F74439B00D8DA55 /* WebView_Provider.swift */,
 			);
@@ -802,6 +810,7 @@
 		105119992F74439B00D8DA55 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1024D2B82FF9996E004E4A73 /* AcadeUrlUtil.swift */,
 				105119972F74439B00D8DA55 /* NetworkMonitor.swift */,
 				105119982F74439B00D8DA55 /* TimeService.swift */,
 			);
@@ -1006,6 +1015,7 @@
 				105119222F74439B00D8DA55 /* LoginViewModel.swift in Sources */,
 				105119232F74439B00D8DA55 /* MailCaptchaProcessor.swift in Sources */,
 				105119242F74439B00D8DA55 /* MailLoginWebView.swift in Sources */,
+				1024D2B92FF99970004E4A73 /* AcadeUrlUtil.swift in Sources */,
 				105119252F74439B00D8DA55 /* SSOCaptchaProcessor.swift in Sources */,
 				105119262F74439B00D8DA55 /* SSOLoginWebView.swift in Sources */,
 				105119272F74439B00D8DA55 /* ZuvioLoginWebView.swift in Sources */,
@@ -1035,6 +1045,7 @@
 				1051193F2F74439B00D8DA55 /* Drawer_SponsorView.swift in Sources */,
 				105119402F74439B00D8DA55 /* Drawer_LogoutView.swift in Sources */,
 				105119412F74439B00D8DA55 /* Drawer_ZDebugPushView.swift in Sources */,
+				1024D2BF2FFAB7FE004E4A73 /* ClassScheduleViewModel.swift in Sources */,
 				10F5CC392FAE24DC00B505E1 /* MarqueeAnnouncement.swift in Sources */,
 				105119422F74439B00D8DA55 /* SessionManager.swift in Sources */,
 				105119442F74439B00D8DA55 /* HomeView.swift in Sources */,
@@ -1047,6 +1058,7 @@
 				1051194A2F74439B00D8DA55 /* EUNI1ViewModel.swift in Sources */,
 				1051194B2F74439B00D8DA55 /* EUNI2View.swift in Sources */,
 				1051194C2F74439B00D8DA55 /* EUNI2ViewModel.swift in Sources */,
+				1024D2BD2FFA7A10004E4A73 /* WebViewJSWaitHelper.swift in Sources */,
 				1051194D2F74439B00D8DA55 /* ScoreInquiry_Tab_ListView.swift in Sources */,
 				1051194E2F74439B00D8DA55 /* ScoreInquiry_Tab_ListViewModel.swift in Sources */,
 				1051194F2F74439B00D8DA55 /* ScoreInquiry_Tab1_View.swift in Sources */,
@@ -1058,7 +1070,6 @@
 				105119552F74439B00D8DA55 /* ScoreInquiryTabView.swift in Sources */,
 				105119562F74439B00D8DA55 /* ScoreInquiryTabViewModel.swift in Sources */,
 				105119572F74439B00D8DA55 /* ClassScheduleView.swift in Sources */,
-				105119582F74439B00D8DA55 /* ClassScheduleViewModel.swift in Sources */,
 				1086267D2F762E370058646E /* EventSearchPanel.swift in Sources */,
 				105119592F74439B00D8DA55 /* customalertdialog_eventDetail.swift in Sources */,
 				1051195A2F74439B00D8DA55 /* customalertdialog_eventModdingInfo.swift in Sources */,
@@ -1096,6 +1107,7 @@
 				1077C2532FAC3B3D00F6E1E4 /* SSOSession.swift in Sources */,
 				1051196A2F74439B00D8DA55 /* ContactUs_Tab2_View.swift in Sources */,
 				1051196B2F74439B00D8DA55 /* ContactUs_Tab2_ViewModel.swift in Sources */,
+				10D6890F2FFBEBD400C248E3 /* ClassScheduleSnapshotSharer.swift in Sources */,
 				1051196C2F74439B00D8DA55 /* ContactUsTabView.swift in Sources */,
 				1051196D2F74439B00D8DA55 /* ContactUsTabViewModel.swift in Sources */,
 				1051196E2F74439B00D8DA55 /* DiverseHoursProgressBarFilled.swift in Sources */,
@@ -1280,7 +1292,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				DEVELOPMENT_TEAM = BWSZ53MRGH;
 				ENABLE_PREVIEWS = YES;
@@ -1302,7 +1314,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.07.06;
+				MARKETING_VERSION = 26.08.03;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niu.csie.edu.app;
@@ -1324,7 +1336,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				DEVELOPMENT_TEAM = BWSZ53MRGH;
 				ENABLE_PREVIEWS = YES;
@@ -1347,7 +1359,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.07.06;
+				MARKETING_VERSION = 26.08.03;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				ONLY_ACTIVE_ARCH = NO;

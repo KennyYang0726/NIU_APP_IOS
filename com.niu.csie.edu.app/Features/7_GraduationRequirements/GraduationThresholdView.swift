@@ -173,6 +173,7 @@ struct GraduationThresholdView: View {
                             .padding(.horizontal, isPad ? 19 : 5)
                             .foregroundStyle(.white) // simulator 17.x, 18.x 不加入會不顯示圖標文字
                     }
+                    .disabled(!vm.canShowWeb)
                 }
             }
         }

@@ -13,7 +13,7 @@
 //  - 登入 API 成功不代表整體登入完成；需等 /SSO/API/Authorization/info 回應並擷取 chName 後才回報 success
 //  - 使用 activeAttemptID / isLoginCompleted / didReportResult 收斂非同步狀態
 //  - 不使用 SweetAlert 作為主要登入結果判斷
-//
+//  - 有防止 教職員 或 非學生端 登入邏輯，請搜尋 guard AuthorizationInfoParser.isStudent 之實作
 
 import SwiftUI
 import WebKit
@@ -254,7 +254,6 @@ private enum SSOLoginAPIParser {
 }
 
 // MARK: - Authorization Info Parser
-
 private enum AuthorizationInfoParser {
 
     static func chName(from body: String) -> String? {
@@ -275,6 +274,10 @@ private enum AuthorizationInfoParser {
         }
 
         return nil
+    }
+    
+    static func isStudent(from body: String) -> Bool {
+        body.lowercased().contains("student")
     }
 }
 
@@ -1332,13 +1335,23 @@ public struct SSOLoginWebView: UIViewRepresentable {
 
             print("[SSO] Authorization/info chName:", name)
             settings.name = name
+            
+            // 排除非學生端登入 (若未來你想做，移除該判斷即可)
+            guard AuthorizationInfoParser.isStudent(from: body) else {
+                print("[SSO] Not student account")
+                markLoginCompleted(reason: "not student account")
+                reportFailureIfNeeded(.generic(
+                    title: "無法使用",
+                    message: "很抱歉，您的身份並非學生\n無法使用此系統"
+                ))
+                return
+            }
 
             markLoginCompleted(reason: "Authorization/info chName received")
             reportSuccessIfNeeded(name: name)
         }
 
         // MARK: - Completion State
-
         private func markLoginCompleted(reason: String) {
             if isLoginCompleted {
                 return
@@ -1397,7 +1410,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
         }
 
         // MARK: - JS helpers
-
         private func evaluateJS(
             _ webView: WKWebView,
             _ js: String,
@@ -1417,7 +1429,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
         }
 
         // MARK: - URL Helpers
-
         private func isLoginURL(_ url: String) -> Bool {
             url.contains("ccsys1.niu.edu.tw/SSO/login") ||
             url.contains("/SSO/login")
@@ -1428,7 +1439,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
         }
 
         // MARK: - Misc Helpers
-
         private func escapeForJavaScriptString(_ value: String) -> String {
             value
                 .replacingOccurrences(of: "\\", with: "\\\\")

@@ -201,23 +201,17 @@ struct LoginView: View {
                                 dismissButton: .default(Text(LocalizedStringKey("Dialog_OK"))) {
                                     vm.startSSOLoginProcess = false
                                 })
-            case .ssoPasswordExpiring(let message):
-                return Alert(title: Text(LocalizedStringKey("Dialog_PWD_almost_expired_Title")),
-                                message: Text(message),
-                                primaryButton: .default(Text(LocalizedStringKey("Dialog_ChangePWD"))) {
-                                    vm.openSSOPasswordChange()
-                                },
-                                secondaryButton: .cancel(Text(LocalizedStringKey("Dialog_ChangePWDLater"))) {
-                                    vm.userChoseLaterForPasswordExpiring()
-                                })
-            case .ssoPasswordExpired(let message):
-                return Alert(title: Text(LocalizedStringKey("Dialog_PWD_expired_Title")),
-                                message: Text(message),
-                                dismissButton: .default(Text(LocalizedStringKey("Dialog_ChangePWD"))) {
-                                    vm.openSSOPasswordChange()
+            case .ssoPasswordExpired(_):
+                return Alert(title: Text(verbatim: AppLocalization.localized("Dialog_PWD_expired_Title", comment: "")),
+                                message: Text(verbatim: AppLocalization.localized("Dialog_PWD_expired_Message", comment: "")),
+                                dismissButton: .default(Text(verbatim: AppLocalization.localized("Dialog_OK", comment: ""))) {
+                                    vm.openSSOPasswordChange {
+                                        // 雖然 apple 官方明文禁止，但逼不得已
+                                        exit(0)
+                                    }
                                 })
             case .ssoAccountLocked(let lockTime):
-                let messageText: String = lockTime ?? NSLocalizedString(
+                let messageText: String = lockTime ?? AppLocalization.localized(
                         "Dialog_AccountLocked_Default_Message",
                         comment: "\n安全起見\n15分鐘內不得登入"
                     )

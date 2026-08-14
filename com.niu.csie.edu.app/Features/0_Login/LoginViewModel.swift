@@ -15,7 +15,6 @@ enum LoginAlert: Identifiable {
     case newVersion(message: String)
     // === SSO 專用 ===
     case ssoCredentialsFailed(message: String)          // 帳密錯誤
-    case ssoPasswordExpiring(message: String)           // 密碼即將到期（SweetAlert）
     case ssoPasswordExpired(message: String)            // 密碼已到期（SweetAlert）
     case ssoAccountLocked(lockTime: String?)            // 帳號鎖定；新版直接傳 SweetAlert 文字
     case ssoSystemError                                 // 系統錯誤
@@ -28,7 +27,6 @@ enum LoginAlert: Identifiable {
         case .forceNotice(let title, let message): return "forceNotice:\(title)|\(message)"
         case .newVersion(let m): return m
         case .ssoCredentialsFailed(let m): return "ssoCredentialsFailed:\(m)"
-        case .ssoPasswordExpiring(let m): return "ssoPasswordExpiring:\(m)"
         case .ssoPasswordExpired(let m): return "ssoPasswordExpired:\(m)"
         case .ssoAccountLocked(let t): return "ssoAccountLocked:\(t ?? "")"
         case .ssoSystemError: return "ssoSystemError"
@@ -69,9 +67,6 @@ final class LoginViewModel: ObservableObject {
     // MARK: - 跑馬燈公告
     @Published var marqueeAnnouncement: MarqueeAnnouncement = .empty
     
-    // 密碼即將到期：需要使用者按「稍後再說」才可導頁
-    private var waitingForPasswordExpiringDecision: Bool = false
-    
     // MARK: - Network & Timeout
     private let loginTimeoutInterval: TimeInterval = 17
     private var loginTimeoutWorkItem: DispatchWorkItem?
@@ -86,8 +81,8 @@ final class LoginViewModel: ObservableObject {
         // 無網際網路
         guard NetworkMonitor.shared.isConnected else {
             LoginActiveAlert = .ssoGeneric(
-                title: NSLocalizedString("No_Network_Title", comment: ""),
-                message: NSLocalizedString("No_Network_Message", comment: "")
+                title: AppLocalization.localized("No_Network_Title", comment: ""),
+                message: AppLocalization.localized("No_Network_Message", comment: "")
             )
             return
         }
@@ -99,7 +94,6 @@ final class LoginViewModel: ObservableObject {
         showOverlay = true
         ssoLoginSuccess = false
         mailLoginSuccess = false
-        waitingForPasswordExpiringDecision = false
         LoginActiveAlert = nil
         startSSOLoginProcess = true
         startMailLoginProcess = true
@@ -111,8 +105,8 @@ final class LoginViewModel: ObservableObject {
         // 無網際網路
         guard NetworkMonitor.shared.isConnected else {
             LoginActiveAlert = .ssoGeneric(
-                title: NSLocalizedString("No_Network_Title", comment: ""),
-                message: NSLocalizedString("No_Network_Message", comment: "")
+                title: AppLocalization.localized("No_Network_Title", comment: ""),
+                message: AppLocalization.localized("No_Network_Message", comment: "")
             )
             return
         }
@@ -123,7 +117,6 @@ final class LoginViewModel: ObservableObject {
             showOverlay = true
             ssoLoginSuccess = false
             mailLoginSuccess = false
-            waitingForPasswordExpiringDecision = false
             LoginActiveAlert = nil
             startSSOLoginProcess = true
             startMailLoginProcess = true
@@ -158,14 +151,6 @@ final class LoginViewModel: ObservableObject {
                 alert: .ssoAccountLocked(lockTime: message)
             )
 
-        case .passwordExpiring(let message):
-            // 密碼即將到期仍視為 SSO 成功，但需要等使用者選擇「稍後再說」才導頁。
-            waitingForPasswordExpiringDecision = true
-            finishSSOLogin(
-                success: true,
-                alert: .ssoPasswordExpiring(message: message)
-            )
-
         case .passwordExpired(let message):
             finishSSOLogin(
                 success: false,
@@ -176,7 +161,7 @@ final class LoginViewModel: ObservableObject {
             finishSSOLogin(
                 success: false,
                 alert: .ssoGeneric(
-                    title: NSLocalizedString("login_failed_title", comment: ""),
+                    title: AppLocalization.localized("login_failed_title", comment: ""),
                     message: message
                 )
             )
@@ -191,7 +176,7 @@ final class LoginViewModel: ObservableObject {
                 finishSSOLogin(
                     success: false,
                     alert: .ssoGeneric(
-                        title: NSLocalizedString("Dialog_SystemError_Title", comment: ""),
+                        title: AppLocalization.localized("Dialog_SystemError_Title", comment: ""),
                         message: message
                     )
                 )
@@ -235,7 +220,6 @@ final class LoginViewModel: ObservableObject {
         mailLoginSuccess = false
         ssoLoginSuccess = false
 
-        waitingForPasswordExpiringDecision = false
         showOverlay = false
 
         loginFinishedToken += 1
@@ -264,10 +248,7 @@ final class LoginViewModel: ObservableObject {
         if allSuccess {
             // 成功才存帳密
             repository.saveCredentials(username: account.uppercased(), password: password)
-            // 如果正在等「密碼即將到期」使用者選擇，就先不要導頁
-            if !waitingForPasswordExpiringDecision {
-                proceedToHomeToken += 1
-            }
+            proceedToHomeToken += 1
         } else {
             // 只有「帳密錯誤」、「密碼已到期」或「新版 SSO Unauthorized」才清帳密
             if shouldClearCredentialsForThisFailure() {
@@ -295,20 +276,15 @@ final class LoginViewModel: ObservableObject {
         isPasswordVisible.toggle()
     }
     
-    // MARK: - 密碼即將到期-稍後再說
-    func userChoseLaterForPasswordExpiring() {
-        waitingForPasswordExpiringDecision = false
-
-        // 只有在三邊都已成功時，才觸發導頁
-        if ssoLoginSuccess && mailLoginSuccess {
-            proceedToHomeToken += 1
-        }
-    }
-
     // MARK: - 開啟修改密碼頁
-    func openSSOPasswordChange() {
-        guard let url = URL(string: "https://ccsys1.niu.edu.tw/SSO/dashboard/change-password") else { return }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    func openSSOPasswordChange(completion: @escaping () -> Void) {
+        guard let url = URL(string: "https://ccsys1.niu.edu.tw/SSO/force-change-password") else {
+            completion()
+            return
+        }
+        UIApplication.shared.open(url, options: [:]) { _ in
+            completion()
+        }
         startSSOLoginProcess = false
     }
     
@@ -345,13 +321,13 @@ final class LoginViewModel: ObservableObject {
                 // 根據卡住的來源顯示不同訊息
                 if ssoPending {
                     self.LoginActiveAlert = .ssoGeneric(
-                        title: NSLocalizedString("Dialog_Timeout_Title", comment: ""),
-                        message: NSLocalizedString("Dialog_SSO_Timeout_Message", comment: "")
+                        title: AppLocalization.localized("Dialog_Timeout_Title", comment: ""),
+                        message: AppLocalization.localized("Dialog_SSO_Timeout_Message", comment: "")
                     )
                 } else if mailPending {
                     self.LoginActiveAlert = .ssoGeneric(
-                        title: NSLocalizedString("Dialog_Timeout_Title", comment: ""),
-                        message: NSLocalizedString("Dialog_Mail_Timeout_Message", comment: "")
+                        title: AppLocalization.localized("Dialog_Timeout_Title", comment: ""),
+                        message: AppLocalization.localized("Dialog_Mail_Timeout_Message", comment: "")
                     )
                 }
             }
@@ -371,7 +347,6 @@ final class LoginViewModel: ObservableObject {
         ssoLoginSuccess = false
         mailLoginSuccess = false
 
-        waitingForPasswordExpiringDecision = false
     }
     
     // MARK: - 版本資訊讀取
@@ -425,6 +400,15 @@ final class LoginViewModel: ObservableObject {
     
     // MARK: - 強制提示讀取
     func fetchForceNotice() {
+        versionManager.shouldIgnoreForceNotice { [weak self] shouldIgnore in
+            guard let self else { return }
+            guard !shouldIgnore else { return }
+
+            self.loadForceNotice()
+        }
+    }
+
+    private func loadForceNotice() {
         FirebaseDatabaseManager.shared.readData(from: "system/公告/強制提示") { [weak self] value in
             guard let self else { return }
 
@@ -480,7 +464,6 @@ extension LoginViewModel {
         mailLoginSuccess = false
         loginFinishedToken = 0
         proceedToHomeToken = 0
-        waitingForPasswordExpiringDecision = false
         startSSOLoginProcess = false
         startMailLoginProcess = false
         LoginActiveAlert = nil

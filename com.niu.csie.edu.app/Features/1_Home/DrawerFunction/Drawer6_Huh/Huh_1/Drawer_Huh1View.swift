@@ -37,7 +37,8 @@ struct Drawer_Huh1View: View {
             iconName: "\u{e803}",
             isSystemIcon: false,
             pages: [
-                Huh2Page(title: "Class_Schedule_Page_0_1_Title", imageName: "Huh_ClassSchedule_image1", description: "Class_Schedule_Page_0_1_Message")
+                Huh2Page(title: "Class_Schedule_Page_0_1_Title", imageName: "Huh_ClassSchedule_image1", description: "Class_Schedule_Page_0_1_Message")/*,
+                Huh2Page(title: "Class_Schedule_Page_1_1_Title", imageName: "Huh_ClassSchedule_image2", description: "Class_Schedule_Page_1_1_Message")*/
             ]
         ),
         HuhFeature(title: "Event_Registration",

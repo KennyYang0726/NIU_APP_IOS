@@ -25,7 +25,6 @@ public enum SSOLoginResult {
     case success(name: String?)
     case credentialsFailed(message: String)
     case accountLocked(message: String)
-    case passwordExpiring(message: String)
     case passwordExpired(message: String)
     case ssoUnauthorized(message: String)
     case systemError(message: String)
@@ -71,7 +70,6 @@ private enum SSOLoginAPIParser {
         case credentialsFailed(message: String)
         case accountLocked(message: String)
         case ssoUnauthorized(message: String)
-        case passwordExpiring(message: String)
         case passwordExpired(message: String)
         case generic(title: String, message: String)
         case systemError(message: String)
@@ -211,7 +209,7 @@ private enum SSOLoginAPIParser {
                 return .success(token: token, exp: exp)
             }
 
-            return .systemError(message: "登入成功但未取得token")
+            return .passwordExpired(message: "")
         }
 
         if message.contains("Unauthorized") ||
@@ -233,10 +231,6 @@ private enum SSOLoginAPIParser {
             message.contains("密碼錯誤") ||
             loweredMessage.contains("credential") {
             return .credentialsFailed(message: message)
-        }
-
-        if message.contains("您的密碼即將到期") {
-            return .passwordExpiring(message: message)
         }
 
         if message.contains("密碼已滿180天") ||
@@ -1060,10 +1054,6 @@ public struct SSOLoginWebView: UIViewRepresentable {
                 markLoginCompleted(reason: "sso unauthorized")
                 reportFailureIfNeeded(.ssoUnauthorized(message: message))
 
-            case .passwordExpiring(let message):
-                markLoginCompleted(reason: "password expiring")
-                reportFailureIfNeeded(.passwordExpiring(message: message))
-
             case .passwordExpired(let message):
                 markLoginCompleted(reason: "password expired")
                 reportFailureIfNeeded(.passwordExpired(message: message))
@@ -1450,4 +1440,3 @@ public struct SSOLoginWebView: UIViewRepresentable {
         }
     }
 }
-

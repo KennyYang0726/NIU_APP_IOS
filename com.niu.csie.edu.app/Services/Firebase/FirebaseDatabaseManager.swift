@@ -72,7 +72,7 @@ final class FirebaseDatabaseManager {
                 print("建立使用者節點失敗：\(error)")
             } else {
                 print("使用者節點建立成功：users/\(studentId)")
-                self.achievement.sendNotification(title: NSLocalizedString("Achievements_Get", comment: ""), body: NSLocalizedString("Achievements_01_Title", comment: ""))
+                self.achievement.sendNotification(title: AppLocalization.localized("Achievements_Get", comment: ""), body: AppLocalization.localized("Achievements_01_Title", comment: ""))
                 // 順帶檢查是否同時完成其他成就如 日期成就, 3:00 a.m.
                 self.achievement.checkTimeBasedAchievements()
             }

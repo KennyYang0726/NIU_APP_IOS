@@ -505,7 +505,7 @@ fileprivate class WebViewDelegate: NSObject, WKNavigationDelegate, WKUIDelegate,
             preferredStyle: .alert
         )
         alert.addAction(
-            UIAlertAction(title: NSLocalizedString("Dialog_OK", comment: ""), style: .default) { _ in
+            UIAlertAction(title: AppLocalization.localized("Dialog_OK", comment: ""), style: .default) { _ in
                 completionHandler()
             }
         )
@@ -537,13 +537,13 @@ fileprivate class WebViewDelegate: NSObject, WKNavigationDelegate, WKUIDelegate,
         )
         // 取消 → JS 收到 false
         alert.addAction(
-            UIAlertAction(title: NSLocalizedString("Dialog_Cancel", comment: ""), style: .cancel) { _ in
+            UIAlertAction(title: AppLocalization.localized("Dialog_Cancel", comment: ""), style: .cancel) { _ in
                 completionHandler(false)
             }
         )
         // 確定 → JS 收到 true
         alert.addAction(
-            UIAlertAction(title: NSLocalizedString("Dialog_OK", comment: ""), style: .default) { _ in
+            UIAlertAction(title: AppLocalization.localized("Dialog_OK", comment: ""), style: .default) { _ in
                 completionHandler(true)
             }
         )

@@ -71,7 +71,7 @@ final class AchievementsMethod {
                         to: "users/\(userID)/Achievements/\(index)",
                         value: true
                     ) { _ in
-                        self.sendNotification(title: NSLocalizedString("Achievements_Get", comment: ""), body: NSLocalizedString("Achievements_\(index)_Title", comment: ""))
+                        self.sendNotification(title: AppLocalization.localized("Achievements_Get", comment: ""), body: AppLocalization.localized("Achievements_\(index)_Title", comment: ""))
                     }
                 }
             }

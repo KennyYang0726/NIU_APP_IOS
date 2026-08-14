@@ -130,7 +130,7 @@ final class ZuvioViewModel: ObservableObject {
             // 無座標 → 預設行為（取消 / 清除定位）
             self.toastMessage = String.localized(
                 "Toast_Choosed_Location_MenuItem",
-                NSLocalizedString("Cancel_Mock", comment: "")
+                AppLocalization.localized("Cancel_Mock", comment: "")
             )
         }
         showToast = true
@@ -204,7 +204,7 @@ extension String {
         _ args: CVarArg...
     ) -> String {
         String(
-            format: NSLocalizedString(key, comment: ""),
+            format: AppLocalization.localized(key, comment: ""),
             arguments: args
         )
     }

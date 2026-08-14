@@ -86,7 +86,7 @@ final class HomeViewModel: ObservableObject {
                     ) { _ in
                         // 寫入完成，檢查是否全滿，發送通知
                         if value == "11111111111111" {
-                            AchievementsMethod().sendNotification(title: NSLocalizedString("Achievements_Get", comment: ""), body: NSLocalizedString("Achievements_11_Title", comment: ""))
+                            AchievementsMethod().sendNotification(title: AppLocalization.localized("Achievements_Get", comment: ""), body: AppLocalization.localized("Achievements_11_Title", comment: ""))
                         }
                     }
                 }

@@ -8,14 +8,13 @@ struct Drawer_SettingsView: View {
     @EnvironmentObject var appState: AppState
     @State var showDialog = false
     private let isPad = UIDevice.current.userInterfaceIdiom == .pad
-    
+
     var body: some View {
-        // 自訂「主題選擇區塊」
         ZStack {
             // 全域底色
             Color("Linear").ignoresSafeArea()
             VStack {
-                // Picker
+                // 主題選擇
                 if (isPad) {
                     HStack {
                         Text(LocalizedStringKey("Theme"))
@@ -29,12 +28,14 @@ struct Drawer_SettingsView: View {
                         }
                         .pickerStyle(.segmented)
                         .fontWidth(.expanded)
-                    }.padding(17)
+                    }
+                    .padding(17)
                     .background(Color("Linear_Inside").opacity(0.5))
                     .clipShape(RoundedRectangle(cornerRadius: 19))
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 37)
-                    .padding(.vertical, 19)
+                    .padding(.top, 19)
+                    .padding(.bottom, 9)
                 } else {
                     HStack {
                         Text(LocalizedStringKey("Theme"))
@@ -46,19 +47,52 @@ struct Drawer_SettingsView: View {
                                 Text(LocalizedStringKey(theme.rawValue))
                             }
                         }
-                        .pickerStyle(.menu) // 類似 Android Spinner
+                        .pickerStyle(.menu)
                         .fontWidth(.expanded)
-                        .tint(.blue) // 選中顏色
+                        .tint(.blue)
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 17)
-                    .background(
-                        Color("Linear_Inside"))
+                    .background(Color("Linear_Inside"))
                     .clipShape(RoundedRectangle(cornerRadius: 37))
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 37)
-                    .padding(.vertical, 19)
+                    .padding(.top, 19)
+                    .padding(.bottom, 9)
                 }
+
+                // 語言選擇：外觀沿用主題的圓角 Linear 區塊。
+                // 語言名稱較長，因此 iPhone / iPad 都使用 menu，避免 segmented 擠壓文字。
+                HStack {
+                    Text(LocalizedStringKey("Language"))
+                        .font(.system(size: isPad ? 31 : 17))
+                    Spacer()
+                    Picker(
+                        LocalizedStringKey("Language"),
+                        selection: $settings.language
+                    ) {
+                        ForEach(AppLanguage.allCases) { language in
+                            Text(LocalizedStringKey(language.titleKey))
+                                .tag(language)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .fontWidth(.expanded)
+                    .tint(.blue)
+                }
+                .padding(.vertical, isPad ? 17 : 8)
+                .padding(.horizontal, 17)
+                .background(
+                    isPad
+                        ? Color("Linear_Inside").opacity(0.5)
+                        : Color("Linear_Inside")
+                )
+                .clipShape(RoundedRectangle(cornerRadius: isPad ? 19 : 37))
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 37)
+                .padding(.top, 9)
+                .padding(.bottom, 19)
+
                 // 刪除使用者資料
                 Button {
                     showDialog = true

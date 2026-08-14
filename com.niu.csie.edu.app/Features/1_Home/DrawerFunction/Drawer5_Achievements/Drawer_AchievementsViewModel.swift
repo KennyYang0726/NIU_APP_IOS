@@ -3,7 +3,6 @@ import Combine
 import CoreLocation
 
 
-
 @MainActor
 final class Drawer_AchievementsViewModel: ObservableObject {
     
@@ -33,8 +32,10 @@ final class Drawer_AchievementsViewModel: ObservableObject {
 
     
     func loadAchievements(from dict: [String: Any]) {
-        let lang = Locale.current.languageCode ?? "en"
-        let langSuffix = (lang == "zh") ? "zh_tw" : "en"
+        let appLanguage = AppLocalization.resolvedLanguage(
+            for: AppLocalization.savedLanguage
+        )
+        let langSuffix = appLanguage == .traditionalChinese ? "zh_tw" : "en"
 
         var newFeatures: [AchievementsFeature] = []
 
@@ -52,17 +53,17 @@ final class Drawer_AchievementsViewModel: ObservableObject {
                 isCompleted = (intVal == 1)
             }
             
-            var subtitle = NSLocalizedString("Achievements_\(key)_Description", comment: "")
+            var subtitle = AppLocalization.localized("Achievements_\(key)_Description", comment: "")
             // 只有 index 9、10 需要加進度
             if index == 9 {
-                subtitle += "\n\(NSLocalizedString("Achievements_Prog_Description", comment: ""))\(loginStreak.getLoginCount())/30"
+                subtitle += "\n\(AppLocalization.localized("Achievements_Prog_Description", comment: ""))\(loginStreak.getLoginCount())/30"
             } else if index == 10 {
-                subtitle += "\n\(NSLocalizedString("Achievements_Prog_Description", comment: ""))\(loginStreakBright.getBrightLoginCount())/74"
+                subtitle += "\n\(AppLocalization.localized("Achievements_Prog_Description", comment: ""))\(loginStreakBright.getBrightLoginCount())/74"
             }
             newFeatures.append(
                 AchievementsFeature(
                     iconName: "Achievement_\(key)_Icon",
-                    title: NSLocalizedString("Achievements_\(key)_Title", comment: ""),
+                    title: AppLocalization.localized("Achievements_\(key)_Title", comment: ""),
                     subtitle: subtitle,
                     status: isCompleted ? "completed_\(langSuffix)" : "uncompleted_\(langSuffix)"
                 )
@@ -75,8 +76,8 @@ final class Drawer_AchievementsViewModel: ObservableObject {
             newFeatures.append(
                 AchievementsFeature(
                     iconName: "Achievement_11_Icon",
-                    title: NSLocalizedString("Achievements_11_Title", comment: ""),
-                    subtitle: NSLocalizedString("Achievements_11_Description", comment: ""),
+                    title: AppLocalization.localized("Achievements_11_Title", comment: ""),
+                    subtitle: AppLocalization.localized("Achievements_11_Description", comment: ""),
                     status: isDone ? "completed_\(langSuffix)" : "uncompleted_\(langSuffix)"
                 )
             )

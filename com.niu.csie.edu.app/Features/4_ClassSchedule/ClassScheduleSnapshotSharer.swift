@@ -19,7 +19,7 @@ enum ClassScheduleSnapshotSharer {
             }
 
             let title = String(
-                format: NSLocalizedString("ClassScheduleShareTitle", comment: ""),
+                format: AppLocalization.localized("ClassScheduleShareTitle", comment: ""),
                 studentID,
                 name
             )

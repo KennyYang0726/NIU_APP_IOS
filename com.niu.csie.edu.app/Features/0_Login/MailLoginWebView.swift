@@ -111,31 +111,36 @@ struct MailLoginWebView: UIViewRepresentable {
 
             print("[Mail] Login_Mail: begin state observer")
 
+            // 改為使用 XPath 尋找 Captcha svg
             let js = """
             (function() {
-              function check() {
-
-                if (location.href.includes('INBOX')) {
-                  window.webkit.messageHandlers.svgHandler.postMessage('__LOGGED_IN__');
-                  return;
+                function findCaptchaSvg() {
+                    return document.evaluate(
+                        "/html/body/div[1]/div/form/div/div[4]/div[2]/div/*[local-name()='svg']",
+                        document,
+                        null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE,
+                        null
+                    ).singleNodeValue;
                 }
-
-                var svg = document.querySelector('div.sc-pjtCf.jEELdN svg');
-                if (svg) {
-                  window.webkit.messageHandlers.svgHandler.postMessage(svg.outerHTML);
+                function check() {
+                    if (location.href.includes('INBOX')) {
+                        window.webkit.messageHandlers.svgHandler.postMessage('__LOGGED_IN__');
+                        return;
+                    }
+                    var svg = findCaptchaSvg();
+                    if (svg) {
+                        window.webkit.messageHandlers.svgHandler.postMessage(svg.outerHTML);
+                    }
                 }
-              }
-
-              check();
-
-              var obs = new MutationObserver(function() {
                 check();
-              });
-
-              obs.observe(document.documentElement, {
-                childList: true,
-                subtree: true
-              });
+                var obs = new MutationObserver(function() {
+                    check();
+                });
+                obs.observe(document.documentElement, {
+                    childList: true,
+                    subtree: true
+                });
             })();
             """
 
@@ -372,20 +377,36 @@ struct MailLoginWebView: UIViewRepresentable {
         }
 
         // MARK: - DOM 是否為 Inbox
-        private func verifyInboxDOMReady(in webView: WKWebView, completion: @escaping (Bool) -> Void) {
-
+        private func verifyInboxDOMReady(
+            in webView: WKWebView,
+            completion: @escaping (Bool) -> Void
+        ) {
             let js = """
             (function() {
                 try {
                     var allTexts = Array.from(document.querySelectorAll('span, li span'))
-                        .map(function(el) { return (el.innerText || '').trim(); })
+                        .map(function(el) {
+                            return (el.innerText || '').trim();
+                        })
                         .join('|');
 
                     var hasLogout = allTexts.includes('登出');
                     var hasReturnDesktop = allTexts.includes('返回電腦版');
-                    var hasCaptcha = !!document.querySelector('div.sc-pbMuv.dlAzQm svg');
+
+                    var captchaNode = document.evaluate(
+                        "/html/body/div[1]/div/form/div/div[4]/div[2]/div/*[local-name()='svg']",
+                        document,
+                        null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE,
+                        null
+                    ).singleNodeValue;
+
+                    var hasCaptcha = !!captchaNode;
                     var hasPasswordInput = !!document.querySelector('input[type="password"]');
-                    var isLoginPage = hasCaptcha || hasPasswordInput || location.href.includes('NUMail/Login');
+                    var isLoginPage =
+                        hasCaptcha ||
+                        hasPasswordInput ||
+                        location.href.includes('NUMail/Login');
 
                     return (!isLoginPage) && (hasLogout || hasReturnDesktop);
                 } catch (e) {

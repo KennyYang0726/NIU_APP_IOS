@@ -107,7 +107,12 @@ final class BusViewModel: ObservableObject {
         
         // --- 語系自動切換 ---
         if url.contains("rno=") { // 僅在詳細頁才切換
-            if Locale.current.language.languageCode?.identifier.contains("zh") == true {
+            let appLanguage = AppLocalization.resolvedLanguage(
+                for: AppLocalization.savedLanguage
+            )
+            let useChinese = appLanguage == .traditionalChinese
+
+            if useChinese {
                 if url.contains("&lan=E") {
                     url = url.replacingOccurrences(of: "&lan=E", with: "&lan=C")
                     webProvider.load(url: url)

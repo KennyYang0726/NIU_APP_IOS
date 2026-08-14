@@ -143,6 +143,8 @@
 		108626802F76A5480058646E /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1086267F2F76A5460058646E /* UIApplication.swift */; };
 		10B53FD82EE1DA980018BCE4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10B53FD62EE1DA980018BCE4 /* Localizable.strings */; };
 		10C1AC2D2EE905AF0031211B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */; };
+		10C2C0F6302B5E3C00820AFA /* Drawer_FAQsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C2C0F5302B5E3C00820AFA /* Drawer_FAQsView.swift */; };
+		10C2C0FA302B701200820AFA /* Drawer_FAQsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C2C0F9302B700E00820AFA /* Drawer_FAQsModel.swift */; };
 		10D6890F2FFBEBD400C248E3 /* ClassScheduleSnapshotSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D6890E2FFBEBD300C248E3 /* ClassScheduleSnapshotSharer.swift */; };
 		10F5CC392FAE24DC00B505E1 /* MarqueeAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F5CC382FAE24DA00B505E1 /* MarqueeAnnouncement.swift */; };
 		10F5CC3B2FAE258F00B505E1 /* MarqueeBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F5CC3A2FAE258F00B505E1 /* MarqueeBannerView.swift */; };
@@ -285,6 +287,10 @@
 		10B53FD92EE1DB3A0018BCE4 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
 		10C1A8072EE810460031211B /* com.niu.csie.edu.app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = com.niu.csie.edu.app.entitlements; sourceTree = "<group>"; };
 		10C1AC2C2EE905AF0031211B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		10C2C0F5302B5E3C00820AFA /* Drawer_FAQsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawer_FAQsView.swift; sourceTree = "<group>"; };
+		10C2C0F9302B700E00820AFA /* Drawer_FAQsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawer_FAQsModel.swift; sourceTree = "<group>"; };
+		10C2C0FD302D9EB400820AFA /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		10C2C0FE302D9EB400820AFA /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		10D6890E2FFBEBD300C248E3 /* ClassScheduleSnapshotSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassScheduleSnapshotSharer.swift; sourceTree = "<group>"; };
 		10F5CC382FAE24DA00B505E1 /* MarqueeAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeAnnouncement.swift; sourceTree = "<group>"; };
 		10F5CC3A2FAE258F00B505E1 /* MarqueeBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarqueeBannerView.swift; sourceTree = "<group>"; };
@@ -494,6 +500,7 @@
 				105118C02F74439B00D8DA55 /* Drawer7_About */,
 				105118C22F74439B00D8DA55 /* Drawer8_Settings */,
 				105118C42F74439B00D8DA55 /* Drawer9_Sponsor */,
+				10C2C0F4302B5E2100820AFA /* Drawer10_FAQs */,
 				105118C52F74439B00D8DA55 /* Drawer_LogoutView.swift */,
 				105118C62F74439B00D8DA55 /* Drawer_ZDebugPushView.swift */,
 			);
@@ -860,6 +867,15 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		10C2C0F4302B5E2100820AFA /* Drawer10_FAQs */ = {
+			isa = PBXGroup;
+			children = (
+				10C2C0F9302B700E00820AFA /* Drawer_FAQsModel.swift */,
+				10C2C0F5302B5E3C00820AFA /* Drawer_FAQsView.swift */,
+			);
+			path = Drawer10_FAQs;
+			sourceTree = "<group>";
+		};
 		10F5CC372FAE24D300B505E1 /* MarqueeAnnouncement */ = {
 			isa = PBXGroup;
 			children = (
@@ -965,6 +981,7 @@
 			knownRegions = (
 				en,
 				"zh-Hant",
+				ja,
 			);
 			mainGroup = 1AA990702C8351CD00819A69;
 			packageReferences = (
@@ -1060,6 +1077,8 @@
 				1051194C2F74439B00D8DA55 /* EUNI2ViewModel.swift in Sources */,
 				1024D2BD2FFA7A10004E4A73 /* WebViewJSWaitHelper.swift in Sources */,
 				1051194D2F74439B00D8DA55 /* ScoreInquiry_Tab_ListView.swift in Sources */,
+				10C2C0FA302B701200820AFA /* Drawer_FAQsModel.swift in Sources */,
+				10C2C0F6302B5E3C00820AFA /* Drawer_FAQsView.swift in Sources */,
 				1051194E2F74439B00D8DA55 /* ScoreInquiry_Tab_ListViewModel.swift in Sources */,
 				1051194F2F74439B00D8DA55 /* ScoreInquiry_Tab1_View.swift in Sources */,
 				105119502F74439B00D8DA55 /* ScoreInquiry_Tab1_ViewModel.swift in Sources */,
@@ -1144,6 +1163,7 @@
 			children = (
 				1050E1842EA240AF00120A06 /* en */,
 				1050E1862EA240C600120A06 /* zh-Hant */,
+				10C2C0FD302D9EB400820AFA /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1153,6 +1173,7 @@
 			children = (
 				10B53FD72EE1DA980018BCE4 /* en */,
 				10B53FD92EE1DB3A0018BCE4 /* zh-Hant */,
+				10C2C0FE302D9EB400820AFA /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1292,7 +1313,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				DEVELOPMENT_TEAM = BWSZ53MRGH;
 				ENABLE_PREVIEWS = YES;
@@ -1302,7 +1323,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "用於拍攝照片或錄影以上傳資料或完成系統功能。";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我們需要使用您的位置，以提供 Zuvio GPS 點名與成就功能。";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我們需要使用您的位置，以提供成就功能。";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用於選取照片或影片以上傳資料或完成系統功能。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1314,7 +1335,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.08.03;
+				MARKETING_VERSION = 26.08.16;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niu.csie.edu.app;
@@ -1336,7 +1357,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = com.niu.csie.edu.app/com.niu.csie.edu.app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 33;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"com.niu.csie.edu.app/Preview Content\"";
 				DEVELOPMENT_TEAM = BWSZ53MRGH;
 				ENABLE_PREVIEWS = YES;
@@ -1347,7 +1368,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCameraUsageDescription = "用於拍攝照片或錄影以上傳資料或完成系統功能。";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我們需要使用您的位置，以提供 Zuvio GPS 點名與成就功能。";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我們需要使用您的位置，以提供成就功能。";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用於選取照片或影片以上傳資料或完成系統功能。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1359,7 +1380,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.08.03;
+				MARKETING_VERSION = 26.08.16;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				ONLY_ACTIVE_ARCH = NO;

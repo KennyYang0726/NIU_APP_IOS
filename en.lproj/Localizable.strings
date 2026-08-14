@@ -22,10 +22,8 @@
 "Dialog_Zuvio_Timeout_Message" = "Zuvio is taking too long to respond. Please check your internet connection or try again later.";
 "Dialog_SSO_Timeout_Message" = "NIU SSO timed out. Check your connection and make sure VPN, proxy, and virtual environments are turned off. Please try again later.";
 "Dialog_Mail_Timeout_Message" = "NIU mail system is taking too long to respond. Please check your internet connection or try again later.";
-"Dialog_PWD_almost_expired_Title" = "Password Is About to Expire!";
 "Dialog_PWD_expired_Title" = "Password Expired!";
-"Dialog_ChangePWD" = "Change password";
-"Dialog_ChangePWDLater" = "Later";
+"Dialog_PWD_expired_Message" = "Your NIU SSO password has expired. Please change your password before signing in again. Tap OK to open the password change page.";
 "Dialog_AccountLocked_Title" = "Account Locked!";
 "Dialog_AccountLocked_Default_Message" = "\nFor security reasons,\nyou cannot log in for 15 minutes";
 "Dialog_Cancel" = "Cancel";
@@ -123,6 +121,8 @@
 "Class_Schedule_" = "A more convenient way to check your schedule";
 "Class_Schedule_Page_0_1_Title" = "My Schedule";
 "Class_Schedule_Page_0_1_Message" = "Not sure which class is next? Check your schedule here.";
+"Class_Schedule_Page_1_1_Title" = "Share Schedule";
+"Class_Schedule_Page_1_1_Message" = "Tap the button in the top-right corner to save your schedule as an image and share it with friends.";
 "Event_Registration_" = "Register for events anytime";
 "Event_Registration_Page_0_1_Title" = "Event Registration";
 "Event_Registration_Page_0_1_Message" = "There are two tabs: Event List and Registered Events. Tap the tabs or swipe to switch between them.";
@@ -179,6 +179,11 @@
 "bright" = "Bright Theme";
 "dark" = "Dark Theme";
 "default" = "Follow System";
+"Language" = "Language:  ";
+"language_default" = "Follow System";
+"language_zh_tw" = "Traditional Chinese (Taiwan)";
+"language_jp" = "Japanese";
+"language_english" = "English";
 "delete_user_data" = "Delete User Data";
 "DelUserDatabase" = "Confirm Deletion?";
 "DelUserDatabaseMessage1" = "Deleting your data will permanently remove your achievement progress and related records. If you have any concerns about what we store, you can ";
@@ -192,6 +197,13 @@
 "Scan_QR_Text" = "Scan the QR code\nor tap to pay.";
 "Open_JKPay" = "Open";
 "Open_EZWallet" = "Open";
+"FAQs" = "FAQs";
+"FAQ_Question_01" = "Is it normal for some features to take a while to load?";
+"FAQ_Answer_01" = "Some features retrieve data through university system pages. Loading time depends on your network connection and the response speed of those systems, so please allow a moment for the data to load.";
+"FAQ_Question_02" = "Can the campus VPN be integrated into the app?";
+"FAQ_Answer_02" = "This is currently not feasible because the campus VPN is provided through a collaboration between the university and Ivanti, and there is no API available for the app to use.";
+"FAQ_Question_03" = "Can more features be integrated, such as a digital student ID or email services?";
+"FAQ_Answer_03" = "More features can be integrated gradually in future updates.";
 "Logout" = "Logout";
 // 主畫面 登入階段逾時提示
 "SSO_LoginSessionInvalidHint" = "Login expired\nplease log in again.";

@@ -162,7 +162,7 @@ final class ScoreInquiry_Tab2_ViewModel: ObservableObject {
                     let rawAvg = avgValue?.replacingOccurrences(of: "\"", with: "") ?? ""
                     if Double(rawAvg) == nil {
                         // 無法轉 Double → 尚未計算
-                        self.avgText = NSLocalizedString("CanNotCalc", comment: "")
+                        self.avgText = AppLocalization.localized("CanNotCalc", comment: "")
                     } else {
                         self.avgText = rawAvg
                     }
@@ -184,16 +184,15 @@ final class ScoreInquiry_Tab2_ViewModel: ObservableObject {
                                 options: .regularExpression
                             )
                             guard let num = Int(rankNumber) else {
-                                self.rankText = NSLocalizedString("CanNotCalc", comment: "")
+                                self.rankText = AppLocalization.localized("CanNotCalc", comment: "")
                                 return
                             }
-                            let lang = Locale.current.identifier.lowercased()
-                            let isChinese = lang.contains("zh")
-                            // 若為中文 直接顯示數字
-                            if isChinese {
-                                self.rankText = "\(num)"
-                            } else {
-                                // 若為英文 → st / nd / rd / th
+                            let appLanguage = AppLocalization.resolvedLanguage(
+                                for: AppLocalization.savedLanguage
+                            )
+
+                            // English 使用 st / nd / rd / th；繁中與日本語交由 localized format 顯示。
+                            if appLanguage == .english {
                                 if num % 10 == 1 && num % 100 != 11 {
                                     self.rankText = "\(num)st"
                                 } else if num % 10 == 2 && num % 100 != 12 {
@@ -203,6 +202,8 @@ final class ScoreInquiry_Tab2_ViewModel: ObservableObject {
                                 } else {
                                     self.rankText = "\(num)th"
                                 }
+                            } else {
+                                self.rankText = "\(num)"
                             }
                         }
                     }

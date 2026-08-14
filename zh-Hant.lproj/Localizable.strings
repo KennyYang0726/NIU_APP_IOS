@@ -22,10 +22,8 @@
 "Dialog_Zuvio_Timeout_Message" = "Zuvio 連線逾時，請檢查網路連線狀態，或稍後再試。";
 "Dialog_SSO_Timeout_Message" = "校園整合登入系統登入逾時，請確認網路連線穩定，並使用真實裝置登入，且未啟用VPN、代理伺服器或虛擬環境，或稍後再試。";
 "Dialog_Mail_Timeout_Message" = "校園信箱系統連線逾時，請檢查網路連線狀態，或稍後再試。";
-"Dialog_PWD_almost_expired_Title" = "密碼即將到期";
 "Dialog_PWD_expired_Title" = "密碼已到期";
-"Dialog_ChangePWD" = "修改密碼";
-"Dialog_ChangePWDLater" = "稍後再說";
+"Dialog_PWD_expired_Message" = "您的校園整合登入系統密碼已到期，請先完成密碼變更後再重新登入。按下「OK」後將前往密碼變更頁面。";
 "Dialog_AccountLocked_Title" = "帳號鎖定！";
 "Dialog_AccountLocked_Default_Message" = "\n為了帳號安全\n15分鐘內無法登入";
 "Dialog_Cancel" = "取消";
@@ -123,6 +121,8 @@
 "Class_Schedule_" = "更方便的查看課表";
 "Class_Schedule_Page_0_1_Title" = "我的課表";
 "Class_Schedule_Page_0_1_Message" = "老是忘記要上什麼課？進來看看吧~";
+"Class_Schedule_Page_1_1_Title" = "分享課表";
+"Class_Schedule_Page_1_1_Message" = "點擊右上角按鈕可將課表存成照片，分享給好友";
 "Event_Registration_" = "隨時隨地報名參與活動";
 "Event_Registration_Page_0_1_Title" = "活動報名";
 "Event_Registration_Page_0_1_Message" = "「活動報名」有2個分頁，左邊是活動列表，右邊是已報名的活動，點擊上方分頁按鈕或是滑動螢幕即可切換頁面";
@@ -179,6 +179,11 @@
 "bright" = "亮色主題";
 "dark" = "深色主題";
 "default" = "跟隨系統";
+"Language" = "語言：  ";
+"language_default" = "跟隨系統";
+"language_zh_tw" = "繁體中文（台灣）";
+"language_jp" = "日文";
+"language_english" = "英文";
 "delete_user_data" = "刪除使用者資料";
 "DelUserDatabase" = "確認刪除您的資料嗎？";
 "DelUserDatabaseMessage1" = "刪除後成就進度及相關紀錄都會一併移除且無法恢復。若您對資料內容有所疑慮，您可以先";
@@ -192,6 +197,13 @@
 "Scan_QR_Text" = "掃描 QR code\n或點擊按鈕支付";
 "Open_JKPay" = "使用街口支付";
 "Open_EZWallet" = "使用悠遊付";
+"FAQs" = "常見問答";
+"FAQ_Question_01" = "載入時間很長是正常的嗎？";
+"FAQ_Answer_01" = "部分功能需要透過校務系統頁面取得資料，載入時間會受到網路與校務系統回應速度影響，請耐心稍候片刻。";
+"FAQ_Question_02" = "可以整合校園VPN功能嗎？";
+"FAQ_Answer_02" = "此功能目前無法實現，由於校園VPN是由學校與Ivanti公司合作提供，並沒有可供App呼叫的API。";
+"FAQ_Question_03" = "可以整合更多功能嗎？像是數位學生證、郵件收發系統…等？";
+"FAQ_Answer_03" = "未來可以慢慢整合更多功能進來。";
 "Logout" = "登出";
 // 主畫面 登入階段逾時提示
 "SSO_LoginSessionInvalidHint" = "登入階段逾時\n請重新登入";

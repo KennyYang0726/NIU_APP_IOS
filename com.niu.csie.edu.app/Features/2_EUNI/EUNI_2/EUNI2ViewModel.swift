@@ -10,7 +10,7 @@ struct EUNI2LaunchConfig {
     static var url: URL = URL(string: "https://1.1.1.1")!
 
     static var fullTitle: String {
-        let subTitle = NSLocalizedString(subItemKey, comment: "")
+        let subTitle = AppLocalization.localized(subItemKey, comment: "")
         return "\(courseName)-\(subTitle)"
     }
 }

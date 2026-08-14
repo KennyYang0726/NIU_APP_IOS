@@ -24,6 +24,9 @@ struct com_niu_csie_edu_appApp: App {
         
         WindowGroup {
             RootView()
+                // 語言切換時重建目前 SwiftUI 畫面；AppState / Session / Drawer VM 本身不重建。
+                .id(settings.language)
+                .environment(\.locale, AppLocalization.locale(for: settings.language))
                 .environmentObject(settings)
                 .environmentObject(appState)
                 .environmentObject(session)

@@ -15,7 +15,7 @@ struct ZuvioView: View {
     private func menuButton(for item: LocationMenuItem) -> some View {
         Button {
             vm.updateCoordinate(
-                item.coordinate, toastMessage: String.localized("Toast_Choosed_Location_MenuItem", NSLocalizedString(item.titleKey, comment: ""))
+                item.coordinate, toastMessage: String.localized("Toast_Choosed_Location_MenuItem", AppLocalization.localized(item.titleKey, comment: ""))
             )
         } label: {
             Text(LocalizedStringKey(item.titleKey))

@@ -67,7 +67,7 @@ struct RichTextMessageView: View {
     private func localized(_ key: LocalizedStringKey) -> String {
         let mirror = Mirror(reflecting: key)
         if let raw = mirror.children.first(where: { $0.label == "key" })?.value as? String {
-            return NSLocalizedString(raw, comment: "")
+            return AppLocalization.localized(raw, comment: "")
         }
         return ""
     }

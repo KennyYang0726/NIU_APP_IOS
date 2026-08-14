@@ -23,7 +23,7 @@ final class MailViewModel: ObservableObject {
             el.closest('ul').style.display = 'none';
             found = true;
           }
-          document.querySelector('.sc-pAali.fYmYuD')
+          document.querySelector('.mobile-primary-tab')
             ?.style.setProperty('display', 'none', 'important');
         });
         if (!found) setTimeout(hideElements, 200);

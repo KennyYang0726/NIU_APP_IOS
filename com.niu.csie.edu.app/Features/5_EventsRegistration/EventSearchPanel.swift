@@ -15,13 +15,13 @@ extension HourType {
     var localizedTitle: String {
         switch self {
         case .all:
-            return NSLocalizedString("Event_search_panel_type_all", comment: "")
+            return AppLocalization.localized("Event_search_panel_type_all", comment: "")
         case .diversity:
-            return NSLocalizedString("Event_search_panel_type_diversity", comment: "")
+            return AppLocalization.localized("Event_search_panel_type_diversity", comment: "")
         case .major:
-            return NSLocalizedString("Event_search_panel_type_major", comment: "")
+            return AppLocalization.localized("Event_search_panel_type_major", comment: "")
         case .service:
-            return NSLocalizedString("Event_search_panel_type_service", comment: "")
+            return AppLocalization.localized("Event_search_panel_type_service", comment: "")
         }
     }
 }

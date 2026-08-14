@@ -108,12 +108,6 @@ struct ContactUs_Tab1_View: View {
                 }
                 // HStack 左右內距
                 .padding(.horizontal, isPad ? 59 : 19)
-                // 移出畫面外的 Webview
-                ZStack {
-                    WebViewContainer(webView: vm.webProvider.webView)
-                        .frame(width: 50, height: 50)
-                        .offset(x: UIScreen.main.bounds.width * 2)
-                }
                 
             }
             .padding(isPad ? 40 : 20)
@@ -127,6 +121,13 @@ struct ContactUs_Tab1_View: View {
         .background(Color("Linear").ignoresSafeArea()) // 全域底色
         .toast(isPresented: $vm.showToast) {
             Text(LocalizedStringKey("EmptyContent"))
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.black.opacity(0.8))
+                .cornerRadius(12)
+        }
+        .toast(isPresented: $vm.showSubmissionFailedToast) {
+            Text(LocalizedStringKey("Dialog_SystemError_Message"))
                 .foregroundColor(.white)
                 .padding()
                 .background(Color.black.opacity(0.8))

@@ -44,7 +44,7 @@ struct HomeView: View {
     private let loginStreak = LoginStreakManager()
     private let loginStreakBright = LoginStreakManagerBright()
     
-    private let title = NSLocalizedString("HomePage", comment: "")
+    private let title = AppLocalization.localized("HomePage", comment: "")
     
     // 固定三欄
     private var columns: [GridItem] {
@@ -174,7 +174,7 @@ private struct FeatureItemView: View {
     
     // 將 空格 換成 \n
     private var displayTitle: String {
-        let localized = NSLocalizedString(feature.titleKey, comment: "")
+        let localized = AppLocalization.localized(feature.titleKey, comment: "")
         return localized.replacingOccurrences(of: " ", with: "\n")
     }
 

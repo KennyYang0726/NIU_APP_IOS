@@ -31,6 +31,7 @@ struct DrawerView: View {
                     drawerItem(icon: "info.circle", title: "About", page: .about)
                     drawerItem(icon: "gearshape.fill", title: "Settings", page: .settings)
                     drawerItem(icon: "dollarsign.circle", title: "Sponsor", page: .sponsor)
+                    drawerItem(icon: "bubble.left.and.text.bubble.right", title: "FAQs", page: .faqs)
                     drawerItem(icon: "rectangle.portrait.and.arrow.forward", title: "Logout", page: .logout)
                     Spacer()
                 }
